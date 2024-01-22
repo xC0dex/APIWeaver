@@ -30,7 +30,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Analyze solution 
-      - uses: highbyte/sonarscan-dotnet@v2.3.1
+        uses: highbyte/sonarscan-dotnet@v2.3.1
         with:
           sonarProjectKey: xC0dex_APIWeaver
           sonarProjectName:  APIWeaver
