@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CC045423-814B-40D9-B087-5AC3C8848B09}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver", "src\APIWeaver\APIWeaver.csproj", "{184B6D75-E412-4F4C-9E98-6128320636C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Tests", "tests\APIWeaver.Tests\APIWeaver.Tests.csproj", "{05883931-C88D-4196-AAE9-4EA55EF00829}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{BBD49ECA-CB62-4820-B425-296EFCFE7EC2}"
+	ProjectSection(SolutionItems) = preProject
+		demo\Directory.Build.props = demo\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.MinimalApi.Demo", "demo\APIWeaver.MinimalApi.Demo\APIWeaver.MinimalApi.Demo.csproj", "{6688140D-3DBB-422E-B199-4F1FCAB00059}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Swagger", "src\APIWeaver.Swagger\APIWeaver.Swagger.csproj", "{8BA6D753-69C7-4E08-9659-28563A2FBBFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{184B6D75-E412-4F4C-9E98-6128320636C8} = {CC045423-814B-40D9-B087-5AC3C8848B09}
+		{05883931-C88D-4196-AAE9-4EA55EF00829} = {9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}
+		{6688140D-3DBB-422E-B199-4F1FCAB00059} = {BBD49ECA-CB62-4820-B425-296EFCFE7EC2}
+		{8BA6D753-69C7-4E08-9659-28563A2FBBFB} = {CC045423-814B-40D9-B087-5AC3C8848B09}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{184B6D75-E412-4F4C-9E98-6128320636C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{184B6D75-E412-4F4C-9E98-6128320636C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{184B6D75-E412-4F4C-9E98-6128320636C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{184B6D75-E412-4F4C-9E98-6128320636C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05883931-C88D-4196-AAE9-4EA55EF00829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05883931-C88D-4196-AAE9-4EA55EF00829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05883931-C88D-4196-AAE9-4EA55EF00829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05883931-C88D-4196-AAE9-4EA55EF00829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6688140D-3DBB-422E-B199-4F1FCAB00059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6688140D-3DBB-422E-B199-4F1FCAB00059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6688140D-3DBB-422E-B199-4F1FCAB00059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6688140D-3DBB-422E-B199-4F1FCAB00059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
