@@ -39,14 +39,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Analyze solution 
+      - name: Analyze and test solution 
         uses: highbyte/sonarscan-dotnet@v2.3.1
         with:
           sonarProjectKey: xC0dex_APIWeaver
           sonarProjectName:  APIWeaver
           sonarOrganization: apiweaver
-          dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+          dotnetTestArguments: -c Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnetBuildArguments: -c Release
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
