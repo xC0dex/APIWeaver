@@ -34,7 +34,7 @@ jobs:
         with:
           sonarProjectKey: xC0dex_APIWeaver
           sonarProjectName:  APIWeaver
-          sonarOrganization: APIWeaver
+          sonarOrganization: apiweaver
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
