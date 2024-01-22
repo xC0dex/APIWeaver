@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <ItemGroup>
         <PackageReference Include="Microsoft.OpenApi" Version="1.6.12"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+    </ItemGroup>
+    
 </Project>
