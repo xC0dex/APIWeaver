@@ -10,12 +10,11 @@ public class ServiceCollectionExtensionsTest
     {
         // Arrange
         var services = new ServiceCollection();
-        
+
         // Act
         var result = services.AddApiWeaver();
 
         // Assert
         result.Should().BeSameAs(services);
-
     }
 }

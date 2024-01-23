@@ -1,5 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\APIWeaver\APIWeaver.csproj" />
-  </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\APIWeaver\APIWeaver.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+
+        <EmbeddedResource Include="**/swagger-ui-dist/swagger-ui-bundle.js;**/swagger-ui-dist/swagger-ui-standalone-preset.js;**/swagger-ui-dist/*.css;**/swagger-ui-dist/*.html;**/swagger-ui-dist/*.png;swagger-initializer.js">
+            <LogicalName>SwaggerUiAssets.%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
+    </ItemGroup>
+
 </Project>
