@@ -4,4 +4,4 @@
 APIWeaver is a full-featured, lightweight and fast library for OpenAPI support in .NET.
 
 ## Work in progress
-This project is currently under active development. Any kind of contribution is highly welcome!
+This project is currently under active development. Any kind of contribution is highly appreciated!
