@@ -12,7 +12,7 @@ public static class SwaggerUiConfigurationExtensions
     /// <param name="authOptions">An action to configure the OAuth2 options.</param>
     public static SwaggerUiConfiguration WithOAuth2Options(this SwaggerUiConfiguration swaggerUiConfiguration, Action<OAuth2Options> authOptions)
     {
-        authOptions.Invoke(swaggerUiConfiguration.OAuth2Options ??= new OAuth2Options());
+        authOptions.Invoke(swaggerUiConfiguration.OAuth2Options ?? new OAuth2Options());
         return swaggerUiConfiguration;
     }
 
