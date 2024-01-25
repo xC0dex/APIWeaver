@@ -26,6 +26,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.MinimalApi.Demo",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Swagger", "src\APIWeaver.Swagger\APIWeaver.Swagger.csproj", "{8BA6D753-69C7-4E08-9659-28563A2FBBFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Swagger.Tests", "tests\APIWeaver.Swagger.Tests\APIWeaver.Swagger.Tests.csproj", "{75846F2E-D298-4175-BFB7-1C44C241F4E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apis", "apis", "{DDE3C770-5DDB-4650-8B68-D753730D3B1B}"
+	ProjectSection(SolutionItems) = preProject
+		tests\apis\Directory.Build.props = tests\apis\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Swagger.Api", "tests\apis\APIWeaver.Swagger.Api\APIWeaver.Swagger.Api.csproj", "{B95DF0A8-54E8-44B8-8416-9D62C3C3E954}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +48,9 @@ Global
 		{05883931-C88D-4196-AAE9-4EA55EF00829} = {9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}
 		{6688140D-3DBB-422E-B199-4F1FCAB00059} = {BBD49ECA-CB62-4820-B425-296EFCFE7EC2}
 		{8BA6D753-69C7-4E08-9659-28563A2FBBFB} = {CC045423-814B-40D9-B087-5AC3C8848B09}
+		{75846F2E-D298-4175-BFB7-1C44C241F4E9} = {9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}
+		{DDE3C770-5DDB-4650-8B68-D753730D3B1B} = {9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}
+		{B95DF0A8-54E8-44B8-8416-9D62C3C3E954} = {DDE3C770-5DDB-4650-8B68-D753730D3B1B}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{184B6D75-E412-4F4C-9E98-6128320636C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -57,5 +69,13 @@ Global
 		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BA6D753-69C7-4E08-9659-28563A2FBBFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75846F2E-D298-4175-BFB7-1C44C241F4E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75846F2E-D298-4175-BFB7-1C44C241F4E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75846F2E-D298-4175-BFB7-1C44C241F4E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75846F2E-D298-4175-BFB7-1C44C241F4E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B95DF0A8-54E8-44B8-8416-9D62C3C3E954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B95DF0A8-54E8-44B8-8416-9D62C3C3E954}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B95DF0A8-54E8-44B8-8416-9D62C3C3E954}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B95DF0A8-54E8-44B8-8416-9D62C3C3E954}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

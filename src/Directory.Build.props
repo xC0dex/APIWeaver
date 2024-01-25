@@ -8,7 +8,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <RepositoryType>git</RepositoryType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -18,7 +18,7 @@
         <LicenseUrl>https://github.com/xC0dex/APIWeaver/blob/main/LICENSE</LicenseUrl>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
-    
+
     <PropertyGroup>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -26,6 +26,10 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
     </ItemGroup>
 
 </Project>
