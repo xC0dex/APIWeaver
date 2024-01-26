@@ -9,7 +9,6 @@ namespace APIWeaver.Swagger.Middleware;
 
 internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
 {
-
     public async Task InvokeAsync(HttpContext context)
     {
         if (context.Request.Method == HttpMethods.Get && context.Request.Path.EndsWith("configuration.json"))

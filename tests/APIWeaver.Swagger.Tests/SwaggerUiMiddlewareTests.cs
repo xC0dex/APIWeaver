@@ -4,7 +4,6 @@ namespace APIWeaver.Swagger.Tests;
 
 public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFactory<Program>>
 {
-
     private readonly HttpClient _client;
     private readonly WebApplicationFactory<Program> _factory;
 

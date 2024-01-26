@@ -9,7 +9,7 @@ indent_style = space
 indent_size = 4
 
 # XML project files
-[*.{csproj,props,targets}]
+[*.{csproj,props,targets,json}]
 indent_size = 2
 
 

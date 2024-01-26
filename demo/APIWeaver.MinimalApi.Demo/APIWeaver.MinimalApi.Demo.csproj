@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
-    <ProjectReference Include="..\..\src\APIWeaver.Swagger\APIWeaver.Swagger.csproj" />
-    <ProjectReference Include="..\..\src\APIWeaver\APIWeaver.csproj" />
+    <ProjectReference Include="..\..\src\APIWeaver.Swagger\APIWeaver.Swagger.csproj"/>
+    <ProjectReference Include="..\..\src\APIWeaver\APIWeaver.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
   </ItemGroup>
 </Project>

@@ -10,5 +10,5 @@
   <PropertyGroup Condition="$(CI) == true">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-    
+
 </Project>

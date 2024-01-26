@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\APIWeaver.Swagger\APIWeaver.Swagger.csproj" />
+    <ProjectReference Include="..\..\..\src\APIWeaver.Swagger\APIWeaver.Swagger.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="APIWeaver.Swagger.Tests" />
+    <InternalsVisibleTo Include="APIWeaver.Swagger.Tests"/>
   </ItemGroup>
 
 </Project>
