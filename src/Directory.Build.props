@@ -4,8 +4,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="$(CI) == true">
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
     </PropertyGroup>
 
