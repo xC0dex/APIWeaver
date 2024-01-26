@@ -9,7 +9,6 @@
     
     <PropertyGroup Condition="$(CI) == true">
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
     </PropertyGroup>
 
     <PropertyGroup>
