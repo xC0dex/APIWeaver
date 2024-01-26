@@ -19,7 +19,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/hello-world/{id:guid}", (Guid id) => id)
-    .Produces(200);
+    .Produces<Guid>()
+    .WithDescription("My minimal api endpoint")
+    .WithOpenApi();
 
 
 app.Run();

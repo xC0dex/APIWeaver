@@ -26,8 +26,7 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
         if (configuration.SwaggerOptions.Urls.Count == 0)
         {
             var applicationName = context.RequestServices.GetRequiredService<IWebHostEnvironment>().ApplicationName;
-            const string initialDocumentName = "version 1";
-            configuration.SwaggerOptions.WithOpenApiEndpoint($"{applicationName} - {initialDocumentName}", $"/{configuration.RoutePrefix}/{initialDocumentName}-openapi.json");
+            configuration.SwaggerOptions.WithOpenApiEndpoint($"{applicationName} - {DocumentConstants.InitialDocumentName}", $"/{configuration.RoutePrefix}/{DocumentConstants.InitialDocumentName}-openapi.json");
         }
 
         return context.Response.WriteAsJsonAsync(configuration, JsonSerializerHelper.SerializerOptions, cancellationToken);

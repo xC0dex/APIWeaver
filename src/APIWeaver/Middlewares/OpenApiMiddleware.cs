@@ -1,13 +1,13 @@
 using System.Net.Mime;
 using System.Text;
-using APIWeaver.Generator;
+using APIWeaver.Providers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
 
 namespace APIWeaver.Middlewares;
 
-internal sealed class OpenApiMiddleware(IOpenApiDocumentGenerator documentGenerator) : IMiddleware
+internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvider) : IMiddleware
 {
     private const string OpenApiJsonSuffix = "-openapi.json";
     private const string OpenApiYamlSuffix = "-openapi.yaml";
@@ -31,7 +31,7 @@ internal sealed class OpenApiMiddleware(IOpenApiDocumentGenerator documentGenera
     {
         var path = context.Request.Path.Value!;
         var documentName = GetDocumentName(path).ToString();
-        var document = await documentGenerator.GenerateDocumentAsync(documentName, cancellationToken);
+        var document = await documentProvider.GetOpenApiDocumentAsync(documentName, cancellationToken);
         var response = context.Response;
         response.Headers.ContentType = isJson ? MediaTypeNames.Application.Json : "application/x-yaml";
         var documentContent = isJson ? document.SerializeAsJson(OpenApiSpecVersion.OpenApi3_0) : document.SerializeAsYaml(OpenApiSpecVersion.OpenApi3_0);
