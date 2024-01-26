@@ -20,16 +20,16 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
         await next(context);
     }
 
-    private static async Task HandleRequestAsync(HttpContext context, CancellationToken cancellationToken)
+    private static Task HandleRequestAsync(HttpContext context, CancellationToken cancellationToken)
     {
         var configuration = context.RequestServices.GetRequiredService<IOptions<SwaggerUiConfiguration>>().Value;
         if (configuration.SwaggerOptions.Urls.Count == 0)
         {
             var applicationName = context.RequestServices.GetRequiredService<IWebHostEnvironment>().ApplicationName;
-            configuration.SwaggerOptions.WithOpenApiEndpoint(applicationName, $"/{configuration.RoutePrefix}/v1-openapi.json");
+            const string initialDocumentName = "version 1";
+            configuration.SwaggerOptions.WithOpenApiEndpoint($"{applicationName} - {initialDocumentName}", $"/{configuration.RoutePrefix}/{initialDocumentName}-openapi.json");
         }
 
-        var response = context.Response;
-        await response.WriteAsJsonAsync(configuration, JsonSerializerHelper.SerializerOptions, cancellationToken);
+        return context.Response.WriteAsJsonAsync(configuration, JsonSerializerHelper.SerializerOptions, cancellationToken);
     }
 }
