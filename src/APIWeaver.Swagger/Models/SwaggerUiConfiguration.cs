@@ -5,12 +5,18 @@ namespace APIWeaver.Swagger.Models;
 /// </summary>
 public sealed class SwaggerUiConfiguration
 {
+    private string _routePrefix = "swagger";
+
     /// <summary>
     /// Gets or sets the route prefix for the Swagger UI.
     /// Default value is "swagger".
     /// </summary>
     [JsonIgnore]
-    public string RoutePrefix { get; set; } = "swagger";
+    public string RoutePrefix
+    {
+        get => _routePrefix;
+        set => _routePrefix = value.Trim('/');
+    }
 
     /// <summary>
     /// Gets or sets the title for the Swagger UI.

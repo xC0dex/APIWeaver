@@ -1,11 +1,11 @@
-using System.Net.Mime;
+using APIWeaver.Extensions;
 using APIWeaver.Swagger.Helper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace APIWeaver.Swagger.Middleware;
+namespace APIWeaver.Swagger.Middlewares;
 
 internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
 {
@@ -26,11 +26,10 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
         if (configuration.SwaggerOptions.Urls.Count == 0)
         {
             var applicationName = context.RequestServices.GetRequiredService<IWebHostEnvironment>().ApplicationName;
-            configuration.SwaggerOptions.WithOpenApiEndpoint(applicationName, "https://petstore.swagger.io/v2/swagger.json");
+            configuration.SwaggerOptions.WithOpenApiEndpoint(applicationName, $"/{configuration.RoutePrefix}/v1-openapi.json");
         }
 
         var response = context.Response;
-        response.Headers.ContentType = MediaTypeNames.Application.Json;
         await response.WriteAsJsonAsync(configuration, JsonSerializerHelper.SerializerOptions, cancellationToken);
     }
 }

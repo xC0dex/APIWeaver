@@ -4,11 +4,11 @@ namespace APIWeaver.Generator;
 
 internal sealed class OpenApiDocumentGenerator : IOpenApiDocumentGenerator
 {
-    public Task<OpenApiDocument> GenerateDocumentAsync() => Task.FromResult(new OpenApiDocument
+    public Task<OpenApiDocument> GenerateDocumentAsync(string documentName, CancellationToken cancellationToken = default) => Task.FromResult(new OpenApiDocument
     {
         Info = new OpenApiInfo
         {
-            Title = "APIWeaver",
+            Title = documentName,
             Version = "1.0.0"
         },
         Paths = new OpenApiPaths

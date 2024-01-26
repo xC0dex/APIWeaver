@@ -1,4 +1,5 @@
-using APIWeaver.Swagger.Middleware;
+using APIWeaver.Middlewares;
+using APIWeaver.Swagger.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -20,10 +21,11 @@ public static class ApplicationBuilderExtensions
     {
         var configuredOptions = appBuilder.ApplicationServices.GetRequiredService<IOptions<SwaggerUiConfiguration>>().Value;
         options?.Invoke(configuredOptions);
-        var requestPath = $"/{configuredOptions.RoutePrefix.TrimEnd('/')}";
+        var requestPath = $"/{configuredOptions.RoutePrefix}";
 
         appBuilder.MapWhen(context => context.Request.Path.StartsWithSegments(requestPath), builder =>
         {
+            builder.UseMiddleware<OpenApiMiddleware>();
             builder.UseMiddleware<SwaggerConfigurationMiddleware>();
 
             builder.UseStaticFiles(new StaticFileOptions
@@ -40,7 +42,7 @@ public static class ApplicationBuilderExtensions
                     return Task.CompletedTask;
                 }
 
-                return next();
+                return next(context);
             });
         });
 

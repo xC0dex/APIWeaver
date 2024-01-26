@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace APIWeaver.Swagger.Extensions;
+namespace APIWeaver.Extensions;
 
 internal static class PathStringExtensions
 {
