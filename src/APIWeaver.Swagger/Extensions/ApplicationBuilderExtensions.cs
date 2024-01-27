@@ -21,7 +21,7 @@ public static class ApplicationBuilderExtensions
     {
         var configuredOptions = appBuilder.ApplicationServices.GetRequiredService<IOptions<SwaggerUiConfiguration>>().Value;
         options?.Invoke(configuredOptions);
-        var requestPath = $"/{configuredOptions.RoutePrefix}";
+        var requestPath = $"/{configuredOptions.EndpointPrefix}";
 
         appBuilder.MapWhen(context => context.Request.Path.StartsWithSegments(requestPath), builder =>
         {

@@ -1,9 +1,15 @@
 using System.Net.Mime;
 using System.Text;
+using APIWeaver.Extensions;
+using APIWeaver.Models;
 using APIWeaver.Providers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
+using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Middlewares;
 
@@ -29,6 +35,18 @@ internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvide
 
     private async Task HandleRequestAsync(HttpContext context, bool isJson, CancellationToken cancellationToken)
     {
+        var options = context.RequestServices.GetRequiredService<IOptions<OpenApiOptions>>().Value;
+        if (options.OpenApiDocuments.Count == 0)
+        {
+            var applicationName = context.RequestServices.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+            var initialApiInfo = new OpenApiInfo
+            {
+                Title = applicationName,
+                Version = "1.0.0"
+            };
+            options.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, initialApiInfo);
+        }
+
         var path = context.Request.Path.Value!;
         var documentName = GetDocumentName(path).ToString();
         var document = await documentProvider.GetOpenApiDocumentAsync(documentName, cancellationToken);

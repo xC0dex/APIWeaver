@@ -142,7 +142,7 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         configuration.Title.Should().Be("My Swagger UI");
-        configuration.RoutePrefix.Should().Be("swagger");
+        configuration.EndpointPrefix.Should().Be("swagger");
 
         configuration.SwaggerOptions.DeepLinking.Should().BeTrue();
         configuration.SwaggerOptions.DisplayOperationId.Should().BeTrue();

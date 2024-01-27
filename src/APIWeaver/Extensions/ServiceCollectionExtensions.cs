@@ -4,7 +4,6 @@ using APIWeaver.Models;
 using APIWeaver.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Extensions;
 
@@ -16,19 +15,18 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds the APIWeaver services to the specified <see cref="IServiceCollection" />.
     /// </summary>
-    public static IServiceCollection AddApiWeaver(this IServiceCollection services)
+    public static IServiceCollection AddApiWeaver(this IServiceCollection services, Action<OpenApiOptions>? options = null)
     {
         services.AddEndpointsApiExplorer();
 
         services.TryAddSingleton<IOpenApiDocumentGenerator, OpenApiDocumentGenerator>();
         services.TryAddSingleton<IOpenApiDocumentProvider, OpenApiDocumentProvider>();
         services.TryAddSingleton<OpenApiMiddleware>();
-
-        services.Configure<OpenApiOptions>(x => x.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, new OpenApiInfo
+        if (options is not null)
         {
-            Title = "TODO",
-            Version = "1.0.0"
-        }));
+            services.Configure<OpenApiOptions>(options.Invoke);
+        }
+
         return services;
     }
 }
