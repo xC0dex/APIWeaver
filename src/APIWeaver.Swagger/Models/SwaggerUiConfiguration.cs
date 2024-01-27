@@ -8,7 +8,7 @@ public sealed class SwaggerUiConfiguration
     private string _endpointPrefix = "swagger";
 
     /// <summary>
-    /// Gets or sets the route prefix for the Swagger UI.
+    /// Gets or sets the endpoint prefix for the Swagger UI.
     /// Default value is "swagger".
     /// </summary>
     [JsonIgnore]

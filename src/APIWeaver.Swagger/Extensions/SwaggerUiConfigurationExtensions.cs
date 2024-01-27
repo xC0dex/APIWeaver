@@ -48,8 +48,8 @@ public static class SwaggerUiConfigurationExtensions
     /// <param name="isJson">Whether the OpenAPI document is in JSON format. False if the format is YAML.</param>
     public static SwaggerUiConfiguration WithOpenApiDocument(this SwaggerUiConfiguration configuration, string documentName, bool isJson = true)
     {
-        var route = $"/{configuration.EndpointPrefix}/{documentName}-openapi.{(isJson ? "json" : "yaml")}";
-        configuration.SwaggerOptions.Urls.Add(new Url(documentName, route));
+        var endpoint = $"/{configuration.EndpointPrefix}/{documentName}-openapi.{(isJson ? "json" : "yaml")}";
+        configuration.SwaggerOptions.Urls.Add(new Url(documentName, endpoint));
         return configuration;
     }
 }

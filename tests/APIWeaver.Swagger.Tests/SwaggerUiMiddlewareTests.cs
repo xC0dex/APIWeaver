@@ -44,7 +44,7 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
     }
 
     [Fact]
-    public async Task Middleware_ShouldNotBeCalled_WhenRoutePrefixNotRequested()
+    public async Task Middleware_ShouldNotBeCalled_WhenEndpointPrefixNotRequested()
     {
         // Act
         var response = await _client.GetAsync("/");
@@ -55,7 +55,7 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
     }
 
     [Fact]
-    public async Task Middleware_ShouldRedirect_WhenRoutePrefixRequested()
+    public async Task Middleware_ShouldRedirect_WhenEndpointPrefixRequested()
     {
         // Arrange
         var client = _factory.CreateClient(new WebApplicationFactoryClientOptions

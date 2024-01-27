@@ -28,7 +28,7 @@ internal sealed class OpenApiDocumentGenerator(IApiDescriptionGroupCollectionPro
         foreach (var apiDescription in apiDescriptions)
         {
             var metadata = apiDescription.ActionDescriptor.EndpointMetadata;
-            var operation = metadata.OfType<OpenApiOperation>().FirstOrDefault() ?? throw new OpenApiOperationNoFoundException(apiDescription.RelativePath!);
+            var operation = metadata.OfType<OpenApiOperation>().FirstOrDefault() ?? throw new OpenApiOperationNotFoundException(apiDescription.RelativePath!);
         }
 
         return paths;
