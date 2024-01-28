@@ -18,11 +18,12 @@ internal sealed class OpenApiDocumentProvider(IOpenApiDocumentGenerator document
             throw new OpenApiDocumentNotFoundException(documentName);
         }
 
-        if (!_documents.ContainsKey(documentName))
+        if (!_documents.TryGetValue(documentName, out var document))
         {
-            _documents[documentName] = await documentGenerator.GenerateDocumentAsync(documentName, openApiInfo, cancellationToken);
+            document = await documentGenerator.GenerateDocumentAsync(documentName, openApiInfo, cancellationToken);
+            _documents[documentName] = document;
         }
 
-        return _documents[documentName];
+        return document;
     }
 }
