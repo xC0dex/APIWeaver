@@ -1,7 +1,6 @@
 using System.Net.Mime;
 using System.Text;
 using APIWeaver.Extensions;
-using APIWeaver.Models;
 using APIWeaver.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Extensions;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Middleware;
 

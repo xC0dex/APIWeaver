@@ -1,5 +1,3 @@
-using Microsoft.OpenApi.Models;
-
 namespace APIWeaver.Generators;
 
 internal sealed class OpenApiDocumentGenerator : IOpenApiDocumentGenerator

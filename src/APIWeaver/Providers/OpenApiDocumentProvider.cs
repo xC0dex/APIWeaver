@@ -1,9 +1,7 @@
 using System.Collections.Concurrent;
 using APIWeaver.Exceptions;
 using APIWeaver.Generators;
-using APIWeaver.Models;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Providers;
 
