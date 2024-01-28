@@ -6,13 +6,14 @@ using APIWeaver.Providers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Middleware;
 
-internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvider) : IMiddleware
+internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvider, ILogger<OpenApiMiddleware> logger) : IMiddleware
 {
     private const string OpenApiJsonSuffix = "-openapi.json";
     private const string OpenApiYamlSuffix = "-openapi.yaml";
@@ -25,6 +26,11 @@ internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvide
         var isYamlDocument = path.EndsWith(OpenApiYamlSuffix);
         if (context.Request.Method == HttpMethods.Get && (isJsonDocument || isYamlDocument))
         {
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("Handling OpenApiDocument request for {Path}", path);
+            }
+
             await HandleRequestAsync(context, isJsonDocument, context.RequestAborted);
             return;
         }
@@ -53,6 +59,12 @@ internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvide
         var document = await documentProvider.GetOpenApiDocumentAsync(documentName, cancellationToken);
         var response = context.Response;
         response.Headers.ContentType = isJson ? MediaTypeNames.Application.Json : "application/x-yaml";
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            var format = isJson ? "JSON" : "YAML";
+            logger.LogDebug("Serializing document '{Document}' into {Format} with specification version {SpecVersion}", documentName, format, options.SpecVersion);
+        }
+
         var documentContent = isJson ? document.SerializeAsJson(options.SpecVersion) : document.SerializeAsYaml(options.SpecVersion);
         await response.WriteAsync(documentContent, Encoding.UTF8, cancellationToken);
     }
