@@ -197,7 +197,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     public async Task Middleware_ShouldThrowException_WhenDocumentMismatch()
     {
         // Arrange
-        var testFactory = _factory.WithWebHostBuilder(b => { b.ConfigureTestServices(services => services.Configure<SwaggerOptions>(o => o.WithOpenApiDocument("my-document"))); });
+        var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services => services.Configure<SwaggerOptions>(o => o.WithOpenApiDocument("my-document"))));
         var client = testFactory.CreateClient();
 
         // Act
@@ -207,5 +207,20 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         content.Should().Contain("APIWeaver.Swagger.Exceptions.OpenApiDocumentMismatchException");
+    }
+
+    [Fact]
+    public async Task Middleware_ShouldHandleCustomEndpoint_WhenEndpointPrefixModified()
+    {
+        // Arrange
+        const string endpointPrefix = "open-api";
+        var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services => services.Configure<SwaggerOptions>(o => o.EndpointPrefix = $"/{endpointPrefix}/")));
+        var client = testFactory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync($"/{endpointPrefix}");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 }
