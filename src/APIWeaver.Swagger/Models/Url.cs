@@ -1,7 +1,7 @@
 namespace APIWeaver.Swagger.Models;
 
 /// <summary>
-/// Represents a URL with a name and a route.
+/// Represents a URL with a name and a endpoint.
 /// </summary>
 public sealed class Url
 {
@@ -13,14 +13,14 @@ public sealed class Url
     }
 
     /// <summary>
-    /// Constructs a new Url with the given name and route.
+    /// Constructs a new Url with the given name and endpoint.
     /// </summary>
     /// <param name="name">The name of the URL.</param>
-    /// <param name="route">The route of the URL.</param>
-    public Url(string name, string route)
+    /// <param name="endpoint">The endpoint.</param>
+    public Url(string name, string endpoint)
     {
         Name = name;
-        Route = route;
+        Endpoint = endpoint;
     }
 
     /// <summary>
@@ -29,8 +29,8 @@ public sealed class Url
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the route of the URL.
+    /// Gets or sets the endpoint of the URL.
     /// </summary>
     [JsonPropertyName("url")]
-    public string Route { get; set; } = null!;
+    public string Endpoint { get; set; } = null!;
 }

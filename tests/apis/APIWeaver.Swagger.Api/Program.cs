@@ -1,6 +1,9 @@
+using APIWeaver.Extensions;
 using APIWeaver.Swagger.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddApiWeaver();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
