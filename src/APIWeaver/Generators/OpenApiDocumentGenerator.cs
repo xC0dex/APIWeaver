@@ -2,7 +2,7 @@ using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Generators;
 
-internal sealed class OpenApiDocumentGenerator() : IOpenApiDocumentGenerator
+internal sealed class OpenApiDocumentGenerator : IOpenApiDocumentGenerator
 {
     public Task<OpenApiDocument> GenerateDocumentAsync(string documentName, OpenApiInfo openApiInfo, CancellationToken cancellationToken = default)
     {

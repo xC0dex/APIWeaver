@@ -60,7 +60,7 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next, ILogg
             throw new OpenApiDocumentMismatchException(openApiDocumentCount, swaggerUiDocumentCount);
         }
 
-        // If no OpenApiDocuments are added, add an initial OpenApi and swagger ui document
+        // If no OpenApiDocuments and swagger ui documents are added, add an initial OpenApi and swagger ui document
         if (swaggerUiDocumentCount == 0 && openApiDocumentCount == 0)
         {
             if (logger.IsEnabled(LogLevel.Debug))

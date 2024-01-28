@@ -1,14 +1,16 @@
+using APIWeaver.Extensions;
 using APIWeaver.Swagger.Helper;
+using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Swagger.Tests;
 
-public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFactory<Program>>
+public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly WebApplicationFactory<Program> _factory;
 
 
-    public SwaggerUiMiddlewareTests(WebApplicationFactory<Program> factory)
+    public SwaggerConfigurationMiddlewareTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerOptions>(configuration =>
         {
@@ -136,7 +138,7 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
     {
         // Act
         var response = await _client.GetAsync("/swagger/configuration.json");
-        var content = await response.Content.ReadAsStreamAsync();
+        await using var content = await response.Content.ReadAsStreamAsync();
         var configuration = (await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, JsonSerializerHelper.SerializerOptions))!;
 
         // Assert
@@ -166,5 +168,44 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
         configuration.OAuth2Options.Scopes.Should().Contain("offline");
         configuration.OAuth2Options.AdditionalQueryStringParams.Should().Contain("audience", "my-audience");
         configuration.OAuth2Options.UseBasicAuthenticationWithAccessCodeGrant.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Middleware_ShouldAddSwaggerDocument_WhenOnlyOpenApiDocumentProvided()
+    {
+        // Arrange
+        var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services =>
+            services.AddApiWeaver(options => options.OpenApiDocuments.Add("my-document", new OpenApiInfo
+            {
+                Title = "Hello world"
+            }))));
+        var client = testFactory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync("/swagger/configuration.json");
+        await using var content = await response.Content.ReadAsStreamAsync();
+        var configuration = (await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, JsonSerializerHelper.SerializerOptions))!;
+        var urls = configuration.UiOptions.Urls;
+
+        // Assert
+        urls.Should().HaveCount(1);
+        urls[0].Name.Should().Be("my-document");
+        urls[0].Endpoint.Should().Be("/swagger/my-document-openapi.json");
+    }
+
+    [Fact]
+    public async Task Middleware_ShouldThrowException_WhenDocumentMismatch()
+    {
+        // Arrange
+        var testFactory = _factory.WithWebHostBuilder(b => { b.ConfigureTestServices(services => services.Configure<SwaggerOptions>(o => o.WithOpenApiDocument("my-document"))); });
+        var client = testFactory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync("/swagger/configuration.json");
+        var content = await response.Content.ReadAsStringAsync();
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        content.Should().Contain("APIWeaver.Swagger.Exceptions.OpenApiDocumentMismatchException");
     }
 }
