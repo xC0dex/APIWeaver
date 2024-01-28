@@ -1,14 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\APIWeaver\APIWeaver.csproj"/>
+    <ProjectReference Include="..\APIWeaver.Core\APIWeaver.Core.csproj" />
+    <ProjectReference Include="..\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-
-    <EmbeddedResource Include="**/swagger-ui-dist/swagger-ui-bundle.js;**/swagger-ui-dist/swagger-ui-standalone-preset.js;**/swagger-ui-dist/*.css;**/swagger-ui-dist/*.html;**/swagger-ui-dist/*.png;swagger-initializer.js">
+    <EmbeddedResource Include="**/swagger-ui-dist/swagger-ui-bundle.js;**/swagger-ui-dist/swagger-ui-standalone-preset.js;**/swagger-ui-dist/*.css;**/swagger-ui-dist/*.html;**/swagger-ui-dist/*.png;StaticAssets/*;">
       <LogicalName>SwaggerUiAssets.%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="CheckForNodeModules" BeforeTargets="BeforeBuild">
+    <Warning Condition="!Exists('node_modules')" Text="Missing node_modules. Run 'npm install' to install necessary dependencies."/>
+  </Target>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
   </ItemGroup>
 
 </Project>

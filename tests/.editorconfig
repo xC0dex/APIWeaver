@@ -1,0 +1,3 @@
+[*]
+resharper_class_can_be_sealed_global_highlighting = none
+resharper_class_can_be_sealed_local_highlighting = none

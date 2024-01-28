@@ -1,8 +1,8 @@
 using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
-using APIWeaver.Extensions;
-using APIWeaver.Models;
+using APIWeaver.Core;
+using APIWeaver.Core.Extensions;
 using APIWeaver.Swagger.Exceptions;
 using APIWeaver.Swagger.Helper;
 using Microsoft.AspNetCore.Hosting;
@@ -69,13 +69,16 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next, ILogg
             }
 
             var applicationName = context.RequestServices.GetRequiredService<IWebHostEnvironment>().ApplicationName;
-            var initialApiInfo = new OpenApiInfo
+            var initialOpenApiDocumentDefinition = new OpenApiDocumentDefinition
             {
-                Title = applicationName,
-                Version = "1.0.0"
+                Info = new OpenApiInfo
+                {
+                    Title = applicationName,
+                    Version = "1.0.0"
+                }
             };
-            openApiOptions.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, initialApiInfo);
-            swaggerOptions.WithOpenApiEndpoint($"{applicationName} {DocumentConstants.InitialDocumentName}", $"/{swaggerOptions.EndpointPrefix}/{DocumentConstants.InitialDocumentName}-openapi.json");
+            openApiOptions.OpenApiDocuments.Add(Constants.InitialDocumentName, initialOpenApiDocumentDefinition);
+            swaggerOptions.WithOpenApiEndpoint($"{applicationName} {Constants.InitialDocumentName}", $"/{swaggerOptions.EndpointPrefix}/{Constants.InitialDocumentName}-openapi.json");
         }
 
         // If no swagger ui documents are added, add all OpenApiDocuments as swagger ui documents

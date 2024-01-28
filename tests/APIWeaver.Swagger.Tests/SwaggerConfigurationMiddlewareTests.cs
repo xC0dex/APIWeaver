@@ -1,4 +1,5 @@
-using APIWeaver.Extensions;
+using APIWeaver.OpenApi.Extensions;
+using APIWeaver.OpenApi.Models;
 using APIWeaver.Swagger.Helper;
 using Microsoft.OpenApi.Models;
 
@@ -120,8 +121,11 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         const string expected = """
                                 fetch('./configuration.json')
                                     .then(response => response.json())
-                                    .then(({title, uiOptions, oAuth2Options}) => {
+                                    .then(({title, uiOptions, additionalUiOptions, oAuth2Options}) => {
                                         document.title = title;
+                                        if (additionalUiOptions.darkMode) {
+                                            appendHeaderContent('<link rel="stylesheet" type="text/css" href="./dark-mode.css" />');
+                                        }
                                         uiOptions.dom_id = '#swagger-ui';
                                         uiOptions.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
                                         uiOptions.plugins = [SwaggerUIBundle.plugins.DownloadUrl];
@@ -129,6 +133,10 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
                                         window.ui = SwaggerUIBundle(uiOptions);
                                         oAuth2Options && window.ui.initOAuth(oAuth2Options);
                                     });
+                                
+                                function appendHeaderContent(content) {
+                                    document.getElementsByTagName('head')[0].insertAdjacentHTML('beforeend', content);
+                                }
                                 """;
         content.ReplaceLineEndings().Should().Be(expected);
     }
@@ -175,9 +183,12 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     {
         // Arrange
         var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services =>
-            services.AddApiWeaver(options => options.OpenApiDocuments.Add("my-document", new OpenApiInfo
+            services.AddApiWeaver(options => options.OpenApiDocuments.Add("my-document", new OpenApiDocumentDefinition
             {
-                Title = "Hello world"
+                Info = new OpenApiInfo
+                {
+                    Title = "Hello world"
+                }
             }))));
         var client = testFactory.CreateClient();
 

@@ -1,4 +1,4 @@
-using APIWeaver.Middleware;
+using APIWeaver.OpenApi.Middleware;
 using APIWeaver.Swagger.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;

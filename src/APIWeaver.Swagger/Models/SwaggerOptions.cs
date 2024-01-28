@@ -1,3 +1,5 @@
+using APIWeaver.Core;
+
 namespace APIWeaver.Swagger.Models;
 
 /// <summary>
@@ -5,11 +7,11 @@ namespace APIWeaver.Swagger.Models;
 /// </summary>
 public sealed class SwaggerOptions
 {
-    private string _endpointPrefix = "swagger";
+    private string _endpointPrefix = Constants.DefaultEndpointPrefix;
 
     /// <summary>
     /// Gets or sets the endpoint prefix for the Swagger UI.
-    /// Default value is "swagger".
+    /// Default value is Default is <see cref="Constants.DefaultEndpointPrefix" />.
     /// </summary>
     [JsonIgnore]
     public string EndpointPrefix
@@ -34,4 +36,9 @@ public sealed class SwaggerOptions
     /// This is optional.
     /// </summary>
     public OAuth2Options? OAuth2Options { get; set; }
+
+    /// <summary>
+    /// Gets or sets the additional options for the Swagger UI.
+    /// </summary>
+    public AdditionalUiOptions AdditionalUiOptions { get; set; } = new();
 }
