@@ -10,10 +10,10 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
 
     public SwaggerUiMiddlewareTests(WebApplicationFactory<Program> factory)
     {
-        _factory = factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerUiConfiguration>(configuration =>
+        _factory = factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerOptions>(configuration =>
         {
             configuration.Title = "My Swagger UI";
-            configuration.WithSwaggerOptions(o =>
+            configuration.WithUiOptions(o =>
             {
                 o.DeepLinking = true;
                 o.DisplayOperationId = true;
@@ -118,13 +118,13 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
         const string expected = """
                                 fetch('./configuration.json')
                                     .then(response => response.json())
-                                    .then(({title, swaggerOptions, oAuth2Options}) => {
+                                    .then(({title, uiOptions, oAuth2Options}) => {
                                         document.title = title;
-                                        swaggerOptions.dom_id = '#swagger-ui';
-                                        swaggerOptions.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
-                                        swaggerOptions.plugins = [SwaggerUIBundle.plugins.DownloadUrl];
-                                        swaggerOptions.layout = 'StandaloneLayout';
-                                        window.ui = SwaggerUIBundle(swaggerOptions);
+                                        uiOptions.dom_id = '#swagger-ui';
+                                        uiOptions.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
+                                        uiOptions.plugins = [SwaggerUIBundle.plugins.DownloadUrl];
+                                        uiOptions.layout = 'StandaloneLayout';
+                                        window.ui = SwaggerUIBundle(uiOptions);
                                         oAuth2Options && window.ui.initOAuth(oAuth2Options);
                                     });
                                 """;
@@ -137,25 +137,25 @@ public sealed class SwaggerUiMiddlewareTests : IClassFixture<WebApplicationFacto
         // Act
         var response = await _client.GetAsync("/swagger/configuration.json");
         var content = await response.Content.ReadAsStreamAsync();
-        var configuration = (await JsonSerializer.DeserializeAsync<SwaggerUiConfiguration>(content, JsonSerializerHelper.SerializerOptions))!;
+        var configuration = (await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, JsonSerializerHelper.SerializerOptions))!;
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         configuration.Title.Should().Be("My Swagger UI");
         configuration.EndpointPrefix.Should().Be("swagger");
 
-        configuration.SwaggerOptions.DeepLinking.Should().BeTrue();
-        configuration.SwaggerOptions.DisplayOperationId.Should().BeTrue();
-        configuration.SwaggerOptions.DefaultModelsExpandDepth.Should().Be(2);
-        configuration.SwaggerOptions.DefaultModelExpandDepth.Should().Be(2);
-        configuration.SwaggerOptions.DisplayRequestDuration.Should().BeTrue();
-        configuration.SwaggerOptions.MaxDisplayedTags.Should().Be(5);
-        configuration.SwaggerOptions.ShowExtensions.Should().BeTrue();
-        configuration.SwaggerOptions.ShowCommonExtensions.Should().BeTrue();
-        configuration.SwaggerOptions.TryItOutEnabled.Should().BeTrue();
-        configuration.SwaggerOptions.RequestSnippetsEnabled.Should().BeTrue();
-        configuration.SwaggerOptions.OAuth2RedirectUrl.Should().Be("my-oauth2-redirect.html");
-        configuration.SwaggerOptions.ValidatorUrl.Should().Be("my-validator-url");
+        configuration.UiOptions.DeepLinking.Should().BeTrue();
+        configuration.UiOptions.DisplayOperationId.Should().BeTrue();
+        configuration.UiOptions.DefaultModelsExpandDepth.Should().Be(2);
+        configuration.UiOptions.DefaultModelExpandDepth.Should().Be(2);
+        configuration.UiOptions.DisplayRequestDuration.Should().BeTrue();
+        configuration.UiOptions.MaxDisplayedTags.Should().Be(5);
+        configuration.UiOptions.ShowExtensions.Should().BeTrue();
+        configuration.UiOptions.ShowCommonExtensions.Should().BeTrue();
+        configuration.UiOptions.TryItOutEnabled.Should().BeTrue();
+        configuration.UiOptions.RequestSnippetsEnabled.Should().BeTrue();
+        configuration.UiOptions.OAuth2RedirectUrl.Should().Be("my-oauth2-redirect.html");
+        configuration.UiOptions.ValidatorUrl.Should().Be("my-validator-url");
 
         configuration.OAuth2Options.Should().NotBeNull();
         configuration.OAuth2Options!.ClientId.Should().Be("my-client-id");

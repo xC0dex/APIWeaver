@@ -1,5 +1,5 @@
 using APIWeaver.Generators;
-using APIWeaver.Middlewares;
+using APIWeaver.Middleware;
 using APIWeaver.Models;
 using APIWeaver.Providers;
 using Microsoft.Extensions.DependencyInjection;

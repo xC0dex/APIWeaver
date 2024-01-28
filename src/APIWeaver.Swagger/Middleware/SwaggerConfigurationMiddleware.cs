@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
-namespace APIWeaver.Swagger.Middlewares;
+namespace APIWeaver.Swagger.Middleware;
 
 internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
 {
@@ -38,10 +38,10 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
 
     private static string PrepareJsonResponse(HttpContext context)
     {
-        var swaggerUiConfiguration = context.RequestServices.GetRequiredService<IOptions<SwaggerUiConfiguration>>().Value;
-        var openApiConfiguration = context.RequestServices.GetRequiredService<IOptions<OpenApiOptions>>().Value;
-        var swaggerUiDocumentCount = swaggerUiConfiguration.SwaggerOptions.Urls.Count;
-        var openApiDocumentCount = openApiConfiguration.OpenApiDocuments.Count;
+        var swaggerOptions = context.RequestServices.GetRequiredService<IOptions<SwaggerOptions>>().Value;
+        var openApiOptions = context.RequestServices.GetRequiredService<IOptions<OpenApiOptions>>().Value;
+        var swaggerUiDocumentCount = swaggerOptions.UiOptions.Urls.Count;
+        var openApiDocumentCount = openApiOptions.OpenApiDocuments.Count;
 
         // If manually added swagger ui documents are not equal to the number of OpenApiDocuments, throw an exception
         if (swaggerUiDocumentCount > 0 && openApiDocumentCount != swaggerUiDocumentCount)
@@ -58,19 +58,19 @@ internal sealed class SwaggerConfigurationMiddleware(RequestDelegate next)
                 Title = applicationName,
                 Version = "1.0.0"
             };
-            openApiConfiguration.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, initialApiInfo);
-            swaggerUiConfiguration.WithOpenApiEndpoint($"{applicationName} {DocumentConstants.InitialDocumentName}", $"/{swaggerUiConfiguration.EndpointPrefix}/{DocumentConstants.InitialDocumentName}-openapi.json");
+            openApiOptions.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, initialApiInfo);
+            swaggerOptions.WithOpenApiEndpoint($"{applicationName} {DocumentConstants.InitialDocumentName}", $"/{swaggerOptions.EndpointPrefix}/{DocumentConstants.InitialDocumentName}-openapi.json");
         }
 
-        // If no swagger ui documents are added, add all to the endpoints
+        // If no swagger ui documents are added, add all OpenApiDocuments as swagger ui documents
         else if (swaggerUiDocumentCount == 0)
         {
-            foreach (var documentName in openApiConfiguration.OpenApiDocuments.Keys)
+            foreach (var documentName in openApiOptions.OpenApiDocuments.Keys)
             {
-                swaggerUiConfiguration.WithOpenApiDocument(documentName);
+                swaggerOptions.WithOpenApiDocument(documentName);
             }
         }
 
-        return JsonSerializer.Serialize(swaggerUiConfiguration, JsonSerializerHelper.SerializerOptions);
+        return JsonSerializer.Serialize(swaggerOptions, JsonSerializerHelper.SerializerOptions);
     }
 }

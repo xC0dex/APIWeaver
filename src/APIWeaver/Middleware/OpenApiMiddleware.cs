@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
-namespace APIWeaver.Middlewares;
+namespace APIWeaver.Middleware;
 
 internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvider) : IMiddleware
 {
@@ -36,15 +35,17 @@ internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvide
     private async Task HandleRequestAsync(HttpContext context, bool isJson, CancellationToken cancellationToken)
     {
         var options = context.RequestServices.GetRequiredService<IOptions<OpenApiOptions>>().Value;
+
+        // Not sure if I should keep it here. Count should never be 0 when the package is used with Swagger UI.
         if (options.OpenApiDocuments.Count == 0)
         {
             var applicationName = context.RequestServices.GetRequiredService<IWebHostEnvironment>().ApplicationName;
-            var initialApiInfo = new OpenApiInfo
+            var initialOpenApiDocumentDefinition = new OpenApiInfo
             {
                 Title = applicationName,
                 Version = "1.0.0"
             };
-            options.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, initialApiInfo);
+            options.OpenApiDocuments.Add(DocumentConstants.InitialDocumentName, initialOpenApiDocumentDefinition);
         }
 
         var path = context.Request.Path.Value!;
@@ -52,7 +53,7 @@ internal sealed class OpenApiMiddleware(IOpenApiDocumentProvider documentProvide
         var document = await documentProvider.GetOpenApiDocumentAsync(documentName, cancellationToken);
         var response = context.Response;
         response.Headers.ContentType = isJson ? MediaTypeNames.Application.Json : "application/x-yaml";
-        var documentContent = isJson ? document.SerializeAsJson(OpenApiSpecVersion.OpenApi3_0) : document.SerializeAsYaml(OpenApiSpecVersion.OpenApi3_0);
+        var documentContent = isJson ? document.SerializeAsJson(options.SpecVersion) : document.SerializeAsYaml(options.SpecVersion);
         await response.WriteAsync(documentContent, Encoding.UTF8, cancellationToken);
     }
 

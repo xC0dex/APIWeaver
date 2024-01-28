@@ -9,7 +9,6 @@ internal sealed class OpenApiDocumentGenerator(IApiDescriptionGroupCollectionPro
     public Task<OpenApiDocument> GenerateDocumentAsync(string documentName, OpenApiInfo openApiInfo, CancellationToken cancellationToken = default)
     {
         var apiDescriptions = apiDescriptionProvider.ApiDescriptionGroups.Items.SelectMany(x => x.Items).ToArray();
-        // Todo: Implement OpenApiDocument generation
         var paths = GeneratePaths(apiDescriptions);
         var document = new OpenApiDocument
         {

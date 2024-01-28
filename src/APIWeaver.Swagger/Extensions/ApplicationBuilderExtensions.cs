@@ -1,5 +1,5 @@
-using APIWeaver.Middlewares;
-using APIWeaver.Swagger.Middlewares;
+using APIWeaver.Middleware;
+using APIWeaver.Swagger.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -12,16 +12,18 @@ namespace APIWeaver.Swagger.Extensions;
 /// </summary>
 public static class ApplicationBuilderExtensions
 {
+    private const string SwaggerUiAssets = "SwaggerUiAssets";
+
     /// <summary>
     /// Configures the application to use Swagger UI.
     /// </summary>
     /// <param name="appBuilder"><see cref="IApplicationBuilder" />.</param>
     /// <param name="options">An action to configure the Swagger UI options.</param>
-    public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder appBuilder, Action<SwaggerUiConfiguration>? options = null)
+    public static IApplicationBuilder UseSwaggerUi(this IApplicationBuilder appBuilder, Action<SwaggerOptions>? options = null)
     {
-        var configuredOptions = appBuilder.ApplicationServices.GetRequiredService<IOptions<SwaggerUiConfiguration>>().Value;
-        options?.Invoke(configuredOptions);
-        var requestPath = $"/{configuredOptions.EndpointPrefix}";
+        var swaggerOptions = appBuilder.ApplicationServices.GetRequiredService<IOptions<SwaggerOptions>>().Value;
+        options?.Invoke(swaggerOptions);
+        var requestPath = $"/{swaggerOptions.EndpointPrefix}";
 
         appBuilder.MapWhen(context => context.Request.Path.StartsWithSegments(requestPath), builder =>
         {
@@ -31,7 +33,7 @@ public static class ApplicationBuilderExtensions
             builder.UseStaticFiles(new StaticFileOptions
             {
                 RequestPath = requestPath,
-                FileProvider = new EmbeddedFileProvider(typeof(SwaggerConfigurationMiddleware).Assembly, "SwaggerUiAssets")
+                FileProvider = new EmbeddedFileProvider(typeof(SwaggerConfigurationMiddleware).Assembly, SwaggerUiAssets)
             });
 
             builder.Use((context, next) =>

@@ -9,6 +9,7 @@
 
   <PropertyGroup Condition="$(CI) == true">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup>
