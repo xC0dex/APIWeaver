@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.12"/>
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.13"/>
   </ItemGroup>
 
   <ItemGroup>
