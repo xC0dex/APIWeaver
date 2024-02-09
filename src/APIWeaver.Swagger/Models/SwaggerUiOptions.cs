@@ -10,7 +10,7 @@ public sealed class SwaggerUiOptions
     /// <summary>
     /// Represents a collection of URLs for the OpenAPI documentation.
     /// </summary>
-    public IList<Url> Urls { get; set; } = [];
+    public IList<Url> Urls { get; init; } = [];
 
     /// <summary>
     /// If set to true, enables deep linking for tags and operations.

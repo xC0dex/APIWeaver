@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\APIWeaver.Core\APIWeaver.Core.csproj" />
+    <ProjectReference Include="..\APIWeaver.Core\APIWeaver.Core.csproj"/>
     <ProjectReference Include="..\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
   </ItemGroup>
 

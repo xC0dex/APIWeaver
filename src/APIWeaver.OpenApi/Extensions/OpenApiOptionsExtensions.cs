@@ -1,3 +1,5 @@
+using APIWeaver.Schema.Models;
+
 namespace APIWeaver.OpenApi.Extensions;
 
 /// <summary>
@@ -6,13 +8,24 @@ namespace APIWeaver.OpenApi.Extensions;
 public static class OpenApiOptionsExtensions
 {
     /// <summary>
-    /// Configures the generator options for the OpenApiOptions.
+    /// Configures the <see cref="OpenApiSchemaGeneratorOptions" /> for the OpenApiOptions.
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
     /// <param name="generatorOptions">An action that configures the generator options.</param>
     public static OpenApiOptions WithGeneratorOptions(this OpenApiOptions options, Action<OpenApiGeneratorOptions> generatorOptions)
     {
         generatorOptions.Invoke(options.GeneratorOptions);
+        return options;
+    }
+
+    /// <summary>
+    /// Configures the <see cref="OpenApiSchemaGeneratorOptions" /> for the OpenApiOptions.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="generatorOptions">An action that configures the schema generator options.</param>
+    public static OpenApiOptions WithSchemaGeneratorOptions(this OpenApiOptions options, Action<OpenApiSchemaGeneratorOptions> generatorOptions)
+    {
+        generatorOptions.Invoke(options.SchemaGeneratorOptions);
         return options;
     }
 

@@ -8,4 +8,5 @@ namespace APIWeaver.Schema.Transformer;
 /// <param name="Attributes">Attributes from the context.</param>
 /// <param name="ServiceProvider">An instance of <see cref="IServiceProvider" />.</param>
 /// <param name="CancellationToken">An instance of <see cref="CancellationToken" />.</param>
-public sealed record SchemaContext(OpenApiSchema Schema, Type Type, IEnumerable<Attribute> Attributes, IServiceProvider ServiceProvider, CancellationToken CancellationToken) : TransformContext(ServiceProvider, CancellationToken);
+public sealed record SchemaContext(OpenApiSchema Schema, Type Type, IEnumerable<Attribute> Attributes, IServiceProvider ServiceProvider, CancellationToken CancellationToken)
+    : TransformContext(ServiceProvider, CancellationToken);

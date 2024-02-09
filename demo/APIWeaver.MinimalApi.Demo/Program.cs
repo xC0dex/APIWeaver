@@ -7,7 +7,16 @@ using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<BookStore>();
-builder.Services.AddApiWeaver(o => { o.SchemaGeneratorOptions.JsonOptionsSource = JsonOptionsSource.MinimalApiOptions; });
+builder.Services.AddApiWeaver(options =>
+{
+    options
+        .WithSchemaGeneratorOptions(schemaGeneratorOptions =>
+        {
+            schemaGeneratorOptions
+                .WithJsonOptionsSource(JsonOptionsSource.MinimalApiOptions)
+                .WithNullableAnnotationForReferenceTypes(true);
+        });
+});
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.IncludeFields = true;
@@ -57,7 +66,7 @@ app.Run();
 public class User
 {
     public required string? Name { get; set; }
-    
+
     // [Obsolete]
     public required User[] Friends { get; set; }
 
