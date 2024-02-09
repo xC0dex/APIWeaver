@@ -92,7 +92,7 @@ jobs:
           dotnet-version: 8.x
       - name: Pack APIWeaver.Swagger
         working-directory: src/APIWeaver.Swagger
-        run: dotnet pack -c Release --output nupkgs /p:Version=$VERSION /p:PackageVersion=$VERSION /p:AssemblyVersion=$VERSION
+        run: dotnet pack -c Release --output nupkgs /p:Version=$VERSION /p:PackageVersion=$VERSION
   
   analyze:
     if: ${{ github.ref_type != 'tag' }}
