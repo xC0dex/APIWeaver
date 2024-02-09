@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="APIWeaver.OpenApi.Tests"/>
+  </ItemGroup>
+
+</Project>

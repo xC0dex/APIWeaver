@@ -7,13 +7,6 @@ trim_trailing_whitespace = false
 insert_final_newline = false
 indent_style = space
 indent_size = 4
-
-# XML project files
-[*.{csproj,props,targets,json}]
-indent_size = 2
-
-
-# Microsoft .NET properties
 csharp_new_line_before_members_in_object_initializers = false
 csharp_preferred_modifier_order = public, private, protected, internal, file, new, static, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async, required:suggestion
 csharp_space_after_cast = true
@@ -40,8 +33,6 @@ dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
-
-# ReSharper properties
 resharper_autodetect_indent_settings = true
 resharper_braces_for_foreach = required
 resharper_braces_for_ifelse = required
@@ -62,8 +53,6 @@ resharper_xmldoc_indent_child_elements = RemoveIndent
 resharper_xmldoc_indent_text = RemoveIndent
 resharper_xmldoc_max_line_length = 280
 resharper_xmldoc_wrap_tags_and_pi = false
-
-# ReSharper inspection severities
 resharper_arrange_redundant_parentheses_highlighting = hint
 resharper_arrange_this_qualifier_highlighting = hint
 resharper_arrange_type_member_modifiers_highlighting = hint
@@ -82,3 +71,8 @@ resharper_suggest_var_or_type_simple_types_highlighting = hint
 resharper_web_config_module_not_resolved_highlighting = warning
 resharper_web_config_type_not_resolved_highlighting = warning
 resharper_web_config_wrong_module_highlighting = warning
+
+# XML project files
+[*.{csproj,props,targets,json}]
+indent_size = 2
+
