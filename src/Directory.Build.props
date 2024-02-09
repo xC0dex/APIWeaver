@@ -14,12 +14,14 @@
 
   <PropertyGroup>
     <RepositoryType>git</RepositoryType>
+    <PackageTags>Swagger;OpenAPI</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/xC0dex/APIWeaver</RepositoryUrl>
     <PackageProjectUrl>https://github.com/xC0dex/APIWeaver</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <LicenseUrl>https://github.com/xC0dex/APIWeaver/blob/main/LICENSE</LicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,10 +31,15 @@
 
   <PropertyGroup>
     <ProductName>APIWeaver</ProductName>
+    <Authors>xC0dex</Authors>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 
 </Project>
