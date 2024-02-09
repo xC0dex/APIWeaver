@@ -15,6 +15,7 @@ public class SwaggerUiOptionsExtensionsTests
             .WithDisplayOperationId(true)
             .WithDefaultModelExpandDepth(2)
             .WithDefaultModelsExpandDepth(2)
+            .WithDisplayRequestDuration(true)
             .WithMaxDisplayedTags(4)
             .WithShowExtensions(true)
             .WithShowExtensions(true)
@@ -26,15 +27,16 @@ public class SwaggerUiOptionsExtensionsTests
 
         // Assert
         options.Urls.Should().BeEquivalentTo([new Url("name", "endpoint")]);
-        options.DeepLinking.Should().Be(true);
-        options.DisplayOperationId.Should().Be(true);
+        options.DeepLinking.Should().BeTrue();
+        options.DisplayOperationId.Should().BeTrue();
         options.DefaultModelExpandDepth.Should().Be(2);
         options.DefaultModelsExpandDepth.Should().Be(2);
+        options.DisplayRequestDuration.Should().BeTrue();
         options.MaxDisplayedTags.Should().Be(4);
-        options.ShowExtensions.Should().Be(true);
-        options.ShowCommonExtensions.Should().Be(true);
-        options.TryItOutEnabled.Should().Be(true);
-        options.RequestSnippetsEnabled.Should().Be(true);
+        options.ShowExtensions.Should().BeTrue();
+        options.ShowCommonExtensions.Should().BeTrue();
+        options.TryItOutEnabled.Should().BeTrue();
+        options.RequestSnippetsEnabled.Should().BeTrue();
         options.OAuth2RedirectUrl.Should().Be("custom-html");
         options.ValidatorUrl.Should().Be("url");
     }
