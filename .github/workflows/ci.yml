@@ -78,8 +78,10 @@ jobs:
     strategy:
       matrix:
         project:
-          - 'src/APIWeaver.Swagger'
-          - 'src/APIWeaver.OpenApi'
+          - 'APIWeaver.Core'
+          - 'APIWeaver.OpenApi'
+          - 'APIWeaver.Schema'
+          - 'APIWeaver.Swagger'
     steps:
       - uses: actions/checkout@v4
       - name: Download Node.js modules
@@ -95,10 +97,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
-      - name: Pack  ${{ matrix.project }}
-        working-directory: ${{ matrix.project }}
-        run: |
-          dotnet pack -c Release --output nupkgs /p:Version=$VERSION /p:PackageVersion=$VERSION
+      - name: Pack ${{ matrix.project }}
+        working-directory: src/${{ matrix.project }}
+        run: dotnet pack -c Release --output nupkgs /p:Version=$VERSION /p:PackageVersion=$VERSION
   
   analyze:
     if: ${{ github.ref_type != 'tag' }}
