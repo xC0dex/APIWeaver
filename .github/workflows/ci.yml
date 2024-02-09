@@ -7,6 +7,8 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
+    tags: 
+      - "v[0-9]+.[0-9]+.[0-9]+*"
   pull_request:
     branches:
       - main
@@ -48,6 +50,7 @@ jobs:
           path: ${{ env.NODE_MODULES_PATH }}
   
   build:
+    if: ${{ github.ref_type != 'tag' }}
     runs-on: ubuntu-latest
     needs: 
       - node-setup
@@ -66,8 +69,33 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build -c Release --no-restore
+
+  publish:
+    if: ${{ github.ref_type == 'tag' }}
+    runs-on: ubuntu-latest
+    needs: 
+      - node-setup
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Node.js modules
+        uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: ${{ env.NODE_MODULES_PATH }}
+      - name: Get version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+      - name: Pack APIWeaver.Swagger
+        working-directory: src/APIWeaver.Swagger
+        run: dotnet pack -c Release --output nupkgs /p:Version=${{ VERSION }} /p:PackageVersion=${{ VERSION }} /p:AssemblyVersion=${{ VERSION }} 
   
   analyze:
+    if: ${{ github.ref_type != 'tag' }}
     runs-on: ubuntu-latest
     needs:
       - build
