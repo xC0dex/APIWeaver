@@ -100,6 +100,11 @@ jobs:
       - name: Pack ${{ matrix.project }}
         working-directory: src/${{ matrix.project }}
         run: dotnet pack -c Release --output nupkgs /p:Version=$VERSION /p:PackageVersion=$VERSION
+      - name: Publish ${{ matrix.project }}
+        working-directory: src/${{ matrix.project }}
+        run: |
+          dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
+          dotnet nuget push nupkgs/*.snupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
   
   analyze:
     if: ${{ github.ref_type != 'tag' }}
