@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.TestHost;
 
 namespace APIWeaver.OpenApi.Tests;
 
-public class OpenApiMiddlewareTest(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public class OpenApiMiddlewareTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
 {
     [Fact]
     public async Task Middleware_ShouldHandleRequest_WhenDocumentExists()
