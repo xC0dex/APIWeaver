@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <Description>APIWeaver.Swagger is a library that adds Swagger UI support to the given API project.</Description>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\APIWeaver.Core\APIWeaver.Core.csproj"/>
     <ProjectReference Include="..\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>

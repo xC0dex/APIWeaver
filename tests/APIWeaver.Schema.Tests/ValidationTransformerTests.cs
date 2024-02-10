@@ -21,7 +21,7 @@ public class ValidationTransformerTests
         schema.Minimum.Should().Be(69);
         schema.Maximum.Should().Be(420);
     }
-    
+
     [Fact]
     public void AddValidationRequirements_ShouldAdjustRange_WhenRangeAttributeIsExclusive()
     {

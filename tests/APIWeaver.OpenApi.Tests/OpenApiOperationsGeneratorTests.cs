@@ -11,7 +11,7 @@ public class OpenApiOperationsGeneratorTests(WebApplicationFactory<Program> fact
         // Arrange
         var client = factory.WithWebHostBuilder(builder =>
         {
-            builder.ConfigureTestServices(services =>  services.AddApiWeaver(options =>  options.GeneratorOptions.OperationTransformers.Add(context => context.OpenApiOperation.Summary = "Awesome endpoint")));
+            builder.ConfigureTestServices(services => services.AddApiWeaver(options => options.GeneratorOptions.OperationTransformers.Add(context => context.OpenApiOperation.Summary = "Awesome endpoint")));
         }).CreateClient();
 
         // Act
