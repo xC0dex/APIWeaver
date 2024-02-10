@@ -133,7 +133,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
                                         window.ui = SwaggerUIBundle(uiOptions);
                                         oAuth2Options && window.ui.initOAuth(oAuth2Options);
                                     });
-                                
+
                                 function appendHeaderContent(content) {
                                     document.getElementsByTagName('head')[0].insertAdjacentHTML('beforeend', content);
                                 }
