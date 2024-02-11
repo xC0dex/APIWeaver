@@ -11,8 +11,7 @@ APIWeaver is a powerful and lightweight library designed to provide a seamless i
 
 ## Work in progress
 
-This project is currently under **active development**, with ongoing improvements, new features and potential API
-changes. I encourage you to try it out and provide feedback, but please be aware that the library is not yet stable.
+This project is currently under **active development**, with ongoing improvements, new features and potential API changes. I encourage you to try it out and provide feedback, but please be aware that the library is not yet stable.
 
 ## Getting Started
 
@@ -43,13 +42,11 @@ if (app.Environment.IsDevelopment())
 }
 ```
 
-That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to
-/swagger in your browser 🥳. A more detailed guide with more use cases can be found here.
+That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. A more detailed guide with more use cases can be found here.
 
 ## Contribution and Collaboration
 
-Your contributions to this project are welcomed and encouraged. Your active involvement can significantly impact its
-success!
+Your contributions to this project are welcomed and encouraged. Your active involvement can significantly impact its success!
 
 ## License
 
