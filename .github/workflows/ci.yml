@@ -28,7 +28,7 @@ env:
 
 jobs:
   node-setup:
-    uses: xC0dex/APIWeaver/blob/workflow/.github/workflows/node-assets.yml@workflow
+    uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@workflow
   build:
     if: ${{ github.ref_type != 'tag' }}
     runs-on: ubuntu-latest
