@@ -51,7 +51,7 @@ public class ArrayTypeContractResolverTests
         // Assert
         _schemaGenerator.Received().GenerateSchema(itemType, Arg.Is<IEnumerable<Attribute>>(i => i.OfType<DescriptionAttribute>().Any()));
     }
-    
+
     [Fact]
     public void GenerateSchema_ShouldCallValidationTransformer_WithGivenValidationAttributes()
     {
@@ -66,7 +66,7 @@ public class ArrayTypeContractResolverTests
         _sut.GenerateSchema(contract);
 
         // Assert
-       _validationTransformer.Received().AddValidationRequirements(Arg.Any<OpenApiSchema>(), Arg.Is<IEnumerable<ValidationAttribute>>(i => i.OfType<MinLengthAttribute>().Any()));
+        _validationTransformer.Received().AddValidationRequirements(Arg.Any<OpenApiSchema>(), Arg.Is<IEnumerable<ValidationAttribute>>(i => i.OfType<MinLengthAttribute>().Any()));
     }
 }
 

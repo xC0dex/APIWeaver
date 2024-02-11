@@ -20,10 +20,7 @@ public sealed class BookStore
         _books = faker.Generate(10);
     }
 
-    public IEnumerable<Book> GetBooks()
-    {
-        return _books;
-    }
+    public IEnumerable<Book> GetBooks() => _books;
 
     public Book? UpdateBook(Guid bookId, Book book)
     {
@@ -36,13 +33,14 @@ public sealed class BookStore
 
         return null;
     }
-    
+
     public Book? AddBook(Book book)
     {
         if (_books.Find(x => x.BookId == book.BookId) is not null)
         {
             return null;
         }
+
         _books.Add(book);
         return book;
     }
@@ -60,7 +58,7 @@ public class Book
     public required int Pages { get; set; }
 
     public BookType? BookType { get; set; }
-    
+
     // [Obsolete]
     public Author? Author { get; set; }
 }

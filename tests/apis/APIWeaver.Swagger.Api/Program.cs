@@ -1,4 +1,3 @@
-
 using APIWeaver;
 
 var builder = WebApplication.CreateBuilder(args);

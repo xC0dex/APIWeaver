@@ -1,5 +1,3 @@
-using APIWeaver.Schema.Models;
-
 namespace APIWeaver;
 
 /// <summary>

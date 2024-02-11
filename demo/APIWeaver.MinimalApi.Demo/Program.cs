@@ -37,10 +37,7 @@ var bookstoreEndpoint = app.MapGroup("/book-store")
     .WithOpenApi();
 
 
-bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69,420, MinimumIsExclusive = true)]  int age) =>
-{
-    Results.Ok();
-});
+bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsExclusive = true)] int age) => { Results.Ok(); });
 //
 // bookstoreEndpoint.MapGet("/", (BookStore bookstore) =>
 // {
@@ -61,7 +58,7 @@ bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69,420, MinimumIsExc
 //         return updateBook is null ? Results.NotFound() : Results.Ok(updateBook);
 //     }).Produces<Book>()
 //     .Produces(404);
-bookstoreEndpoint.MapPost("/dummy", (  [FromBody] [MinLength(4)] User[] friends) => Results.Ok()).Produces<DummyResponse>();
+bookstoreEndpoint.MapPost("/dummy", ([FromBody] [MinLength(4)] User[] friends) => Results.Ok()).Produces<DummyResponse>();
 // app.MapPost("/user", (User value, BookStore bookstore) => Results.Ok()).Produces<User>().WithOpenApi();
 
 
@@ -72,14 +69,13 @@ public class User
 {
     [AllowedValues("Peter", "Max")]
     public required string Name { get; set; }
-    
+
     [AllowedValues(2, 3)]
     public required int Age { get; set; }
 
     [MinLength(4)]
     public required string[] Friends { get; set; }
-    
-    
+
 
     // public required Dictionary<string, Book> Books { get; set; }
 }

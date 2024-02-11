@@ -1,5 +1,4 @@
 using APIWeaver.OpenApi.Middleware;
-using APIWeaver.Schema.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

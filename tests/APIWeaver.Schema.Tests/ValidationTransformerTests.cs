@@ -195,7 +195,7 @@ public class ValidationTransformerTests
         // Assert
         schema.Format.Should().Be("existing");
     }
-    
+
     [Fact]
     public void AddValidationRequirements_ShouldNotLengthConstrains_WhenAttributeIsLength()
     {
@@ -210,7 +210,7 @@ public class ValidationTransformerTests
         schema.MinLength.Should().Be(69);
         schema.MaxLength.Should().Be(420);
     }
-    
+
     [Fact]
     public void AddValidationRequirements_ShouldNotLengthConstrains_WhenAttributeIsLengthAndArrayType()
     {
@@ -228,7 +228,7 @@ public class ValidationTransformerTests
         schema.MinItems.Should().Be(69);
         schema.MaxItems.Should().Be(420);
     }
-    
+
     [Fact]
     public void AddValidationRequirements_ShouldAddByteFormat_WhenAttributeIsBase64()
     {
@@ -242,7 +242,7 @@ public class ValidationTransformerTests
         // Assert
         schema.Format.Should().Be("byte");
     }
-    
+
     [Fact]
     public void AddValidationRequirements_ShouldAddEnumWithStringValues_WhenAllowedValuesAttributeWithStringValues()
     {
@@ -262,7 +262,7 @@ public class ValidationTransformerTests
         values[0].Value.Should().Be("C");
         values[1].Value.Should().Be("#");
     }
-    
+
     [Fact]
     public void AddValidationRequirements_ShouldAddEnumWithIntegerValues_WhenAllowedValuesAttributeWithIntValues()
     {
