@@ -28,6 +28,17 @@ internal sealed class ValidationTransformer : IValidationTransformer
                 case DataTypeAttribute dataTypeAttribute:
                     AddDataTypeAttribute(schema, dataTypeAttribute);
                     break;
+#if NET8_0_OR_GREATER
+                case LengthAttribute lengthAttribute:
+                    AddLengthAttribute(schema, lengthAttribute);
+                    break;
+                case Base64StringAttribute:
+                    AddBase64StringAttribute(schema);
+                    break;
+                case AllowedValuesAttribute allowedValuesAttribute:
+                    AddAllowedValuesAttribute(schema, allowedValuesAttribute);
+                    break;
+#endif
             }
         }
     }
@@ -59,7 +70,7 @@ internal sealed class ValidationTransformer : IValidationTransformer
 
     private static void AddMinLengthAttribute(OpenApiSchema schema, MinLengthAttribute minLengthAttribute)
     {
-        if (schema.Type == OpenApiDataType.Array.ToStringFast())
+        if (schema.IsType(OpenApiDataType.Array))
         {
             schema.MinItems = minLengthAttribute.Length;
         }
@@ -71,7 +82,7 @@ internal sealed class ValidationTransformer : IValidationTransformer
 
     private static void AddMaxLengthAttribute(OpenApiSchema schema, MaxLengthAttribute maxLengthAttribute)
     {
-        if (schema.Type == OpenApiDataType.Array.ToStringFast())
+        if (schema.IsType(OpenApiDataType.Array))
         {
             schema.MaxItems = maxLengthAttribute.Length;
         }
@@ -97,4 +108,49 @@ internal sealed class ValidationTransformer : IValidationTransformer
         var pattern = dataTypeAttribute.ToSchemaFormat();
         schema.Format = pattern ?? schema.Format;
     }
+
+#if NET8_0_OR_GREATER
+    private static void AddLengthAttribute(OpenApiSchema schema, LengthAttribute lengthAttribute)
+    {
+        if (schema.IsType(OpenApiDataType.Array))
+        {
+            schema.MinItems = lengthAttribute.MinimumLength;
+            schema.MaxItems = lengthAttribute.MaximumLength;
+        }
+        else
+        {
+            schema.MinLength = lengthAttribute.MinimumLength;
+            schema.MaxLength = lengthAttribute.MaximumLength;
+        }
+    }
+
+    private static void AddBase64StringAttribute(OpenApiSchema schema)
+    {
+        schema.Format = "byte";
+    }
+
+    private static void AddAllowedValuesAttribute(OpenApiSchema schema, AllowedValuesAttribute allowedValuesAttribute)
+    {
+        if (schema.IsType(OpenApiDataType.String))
+        {
+            var values = allowedValuesAttribute.Values.OfType<string>();
+            foreach (var value in values)
+            {
+                schema.Enum.Add(new OpenApiString(value));
+            }
+
+            return;
+        }
+
+        if (schema.IsType(OpenApiDataType.Integer))
+        {
+            var values = allowedValuesAttribute.Values.OfType<int>();
+            foreach (var value in values)
+            {
+                schema.Enum.Add(new OpenApiInteger(value));
+            }
+        }
+    }
+
+#endif
 }

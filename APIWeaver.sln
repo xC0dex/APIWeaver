@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C8C12F5
 	ProjectSection(SolutionItems) = preProject
 		tests\Directory.Build.props = tests\Directory.Build.props
 		tests\.editorconfig = tests\.editorconfig
+		tests\xunit.runner.json = tests\xunit.runner.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi", "src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj", "{184B6D75-E412-4F4C-9E98-6128320636C8}"

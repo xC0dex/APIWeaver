@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Schema.Tests;
@@ -193,5 +194,92 @@ public class ValidationTransformerTests
 
         // Assert
         schema.Format.Should().Be("existing");
+    }
+    
+    [Fact]
+    public void AddValidationRequirements_ShouldNotLengthConstrains_WhenAttributeIsLength()
+    {
+        // Arrange
+        var attribute = new LengthAttribute(69, 420);
+        var schema = new OpenApiSchema();
+
+        // Act
+        _sut.AddValidationRequirements(schema, [attribute]);
+
+        // Assert
+        schema.MinLength.Should().Be(69);
+        schema.MaxLength.Should().Be(420);
+    }
+    
+    [Fact]
+    public void AddValidationRequirements_ShouldNotLengthConstrains_WhenAttributeIsLengthAndArrayType()
+    {
+        // Arrange
+        var attribute = new LengthAttribute(69, 420);
+        var schema = new OpenApiSchema
+        {
+            Type = OpenApiDataType.Array.ToStringFast()
+        };
+
+        // Act
+        _sut.AddValidationRequirements(schema, [attribute]);
+
+        // Assert
+        schema.MinItems.Should().Be(69);
+        schema.MaxItems.Should().Be(420);
+    }
+    
+    [Fact]
+    public void AddValidationRequirements_ShouldAddByteFormat_WhenAttributeIsBase64()
+    {
+        // Arrange
+        var attribute = new Base64StringAttribute();
+        var schema = new OpenApiSchema();
+
+        // Act
+        _sut.AddValidationRequirements(schema, [attribute]);
+
+        // Assert
+        schema.Format.Should().Be("byte");
+    }
+    
+    [Fact]
+    public void AddValidationRequirements_ShouldAddEnumWithStringValues_WhenAllowedValuesAttributeWithStringValues()
+    {
+        // Arrange
+        var attribute = new AllowedValuesAttribute("C", "#");
+        var schema = new OpenApiSchema
+        {
+            Type = OpenApiDataType.String.ToStringFast()
+        };
+
+        // Act
+        _sut.AddValidationRequirements(schema, [attribute]);
+
+        // Assert
+        schema.Enum.Count.Should().Be(2);
+        var values = schema.Enum.Cast<OpenApiString>().ToArray();
+        values[0].Value.Should().Be("C");
+        values[1].Value.Should().Be("#");
+    }
+    
+    [Fact]
+    public void AddValidationRequirements_ShouldAddEnumWithIntegerValues_WhenAllowedValuesAttributeWithIntValues()
+    {
+        // Arrange
+        var attribute = new AllowedValuesAttribute(1, 2);
+        var schema = new OpenApiSchema
+        {
+            Type = OpenApiDataType.Integer.ToStringFast()
+        };
+
+        // Act
+        _sut.AddValidationRequirements(schema, [attribute]);
+
+        // Assert
+        schema.Enum.Count.Should().Be(2);
+        var values = schema.Enum.Cast<OpenApiInteger>().ToArray();
+        values[0].Value.Should().Be(1);
+        values[1].Value.Should().Be(2);
     }
 }
