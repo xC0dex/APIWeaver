@@ -2,10 +2,6 @@ name: Node Assets
 
 on:
   workflow_call:
-  
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 env:
   NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
