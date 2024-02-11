@@ -16,7 +16,7 @@ env:
 
 jobs:
   node-setup:
-    uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@workflow
+    uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@main
   publish:
     runs-on: ubuntu-latest
     needs: 
