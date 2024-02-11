@@ -1,20 +1,15 @@
-name: Pipeline
+name: Default Pipeline
 
 on:
   push:
     branches:
       - main
-      - workflow
     paths:
       - 'src/**'
       - 'tests/**'
-      - '.github/**'
   pull_request:
     branches:
       - main
-    paths:
-      - 'src/**'
-      - 'tests/**'
   workflow_dispatch:
 
 concurrency:
