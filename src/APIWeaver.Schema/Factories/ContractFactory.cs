@@ -46,7 +46,7 @@ internal sealed class ContractFactory(
         if (type.IsEnumerable())
         {
             var genericType = type.GetElementType() ?? type.GetGenericArguments().FirstOrDefault() ?? typeof(object);
-            return new ArrayTypeContract(genericType, type.IsSet());
+            return new ArrayTypeContract(genericType, type.IsSet(), customAttributes);
         }
 
         var properties = GetProperties(type);

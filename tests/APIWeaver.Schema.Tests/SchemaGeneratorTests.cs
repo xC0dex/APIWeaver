@@ -65,7 +65,7 @@ public class SchemaGeneratorTests
         var type = typeof(string[]);
         Attribute[] attributes = [];
         var resolver = Substitute.For<IContractResolver<ArrayTypeContract>>();
-        var contract = new ArrayTypeContract(type, false);
+        var contract = new ArrayTypeContract(type, false, []);
         _contractFactory.GetContract(type, attributes).Returns(contract);
         _contractResolverFactory.GetContractResolver<ArrayTypeContract>().Returns(resolver);
 

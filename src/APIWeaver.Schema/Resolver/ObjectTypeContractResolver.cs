@@ -68,7 +68,6 @@ internal sealed class ObjectTypeContractResolver(ISchemaGenerator schemaGenerato
                 schemaChanges.Apply(propertySchema);
             }
 
-            validationTransformer.AddValidationRequirements(propertySchema, propertyContract.CustomAttributes.OfType<ValidationAttribute>());
             schema.Properties.Add(propertyContract.Name, propertySchema);
         }
     }
