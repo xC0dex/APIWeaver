@@ -1,6 +1,6 @@
 using APIWeaver.Core;
 
-namespace APIWeaver.Swagger.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Represents the configuration for Swagger UI.

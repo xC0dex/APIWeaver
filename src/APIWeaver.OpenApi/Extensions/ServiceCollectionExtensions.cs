@@ -1,9 +1,8 @@
 using APIWeaver.OpenApi.Middleware;
-using APIWeaver.Schema.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace APIWeaver.OpenApi.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Contains extension methods for <see cref="IServiceCollection" />.

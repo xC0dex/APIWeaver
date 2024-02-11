@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
-namespace APIWeaver.Swagger.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Extension methods for <see cref="IApplicationBuilder" />.

@@ -1,4 +1,4 @@
-namespace APIWeaver.OpenApi.Context;
+namespace APIWeaver;
 
 /// <summary>
 /// Represents the context of an OpenAPI operation.

@@ -1,4 +1,4 @@
-namespace APIWeaver.Schema.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Enum representing the possible data types in an OpenAPI schema.

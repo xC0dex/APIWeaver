@@ -1,5 +1,4 @@
-using APIWeaver.OpenApi.Extensions;
-using APIWeaver.Swagger.Extensions;
+using APIWeaver;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApiWeaver();

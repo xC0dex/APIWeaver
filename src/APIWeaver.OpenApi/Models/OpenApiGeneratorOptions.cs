@@ -1,4 +1,4 @@
-namespace APIWeaver.OpenApi.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Options for the OpenApi generator.

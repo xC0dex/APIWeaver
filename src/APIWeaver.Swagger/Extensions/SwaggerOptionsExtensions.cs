@@ -1,4 +1,4 @@
-namespace APIWeaver.Swagger.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Extension methods for <see cref="SwaggerOptions" />.

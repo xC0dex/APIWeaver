@@ -1,9 +1,6 @@
 global using Xunit;
 global using System.Net;
 global using System.Text.Json;
-global using System.Text.Json.Serialization;
-global using APIWeaver.Swagger.Extensions;
-global using APIWeaver.Swagger.Models;
 global using FluentAssertions;
 global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.AspNetCore.TestHost;

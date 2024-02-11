@@ -1,4 +1,4 @@
-namespace APIWeaver.Swagger.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// OAuth configuration for Swagger UI.

@@ -1,4 +1,4 @@
-namespace APIWeaver.Schema.Transformer;
+namespace APIWeaver;
 
 /// <summary>
 /// Represents the context for schema transformation.

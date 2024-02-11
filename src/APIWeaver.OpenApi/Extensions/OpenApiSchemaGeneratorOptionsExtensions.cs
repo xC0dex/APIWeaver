@@ -1,6 +1,4 @@
-using APIWeaver.Schema.Models;
-
-namespace APIWeaver.OpenApi.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Extension methods for <see cref="OpenApiSchemaGeneratorOptions" />-

@@ -2,7 +2,7 @@ using APIWeaver.Core;
 using APIWeaver.OpenApi.Middleware;
 using Microsoft.AspNetCore.Builder;
 
-namespace APIWeaver.OpenApi.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Extension methods for <see cref="IApplicationBuilder" />.
