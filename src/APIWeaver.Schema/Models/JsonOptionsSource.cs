@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http.Json;
 
-namespace APIWeaver.Schema.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Specifies the source of the JSON options.

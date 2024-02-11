@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Interfaces;
 
-namespace APIWeaver.OpenApi.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Represents the definition of an OpenAPI document.

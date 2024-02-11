@@ -1,4 +1,4 @@
-namespace APIWeaver.Schema.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Options for generating an OpenAPI schema.

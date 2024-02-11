@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace APIWeaver.Schema.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Extension methods for setting up APIWeaver Schema services in an <see cref="IServiceCollection" />.

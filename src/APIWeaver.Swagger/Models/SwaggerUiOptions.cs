@@ -1,4 +1,4 @@
-namespace APIWeaver.Swagger.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Options for the Swagger UI.

@@ -4,7 +4,6 @@ global using FluentAssertions;
 global using Microsoft.OpenApi.Models;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.Options;
-global using APIWeaver.OpenApi.Models;
 global using APIWeaver.OpenApi.Exceptions;
 global using APIWeaver.OpenApi.Generator;
 global using APIWeaver.OpenApi.Extensions;

@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using APIWeaver;
 using APIWeaver.MinimalApi.Demo;
-using APIWeaver.OpenApi.Extensions;
-using APIWeaver.Schema.Models;
-using APIWeaver.Swagger.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 

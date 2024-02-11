@@ -1,5 +1,3 @@
-using APIWeaver.OpenApi.Extensions;
-using APIWeaver.OpenApi.Models;
 using APIWeaver.Swagger.Helper;
 using Microsoft.OpenApi.Models;
 

@@ -1,4 +1,4 @@
-namespace APIWeaver.Swagger.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Represents a URL with a name and a endpoint.

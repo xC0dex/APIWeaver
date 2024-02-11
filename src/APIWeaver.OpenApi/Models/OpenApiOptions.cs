@@ -1,6 +1,6 @@
 using APIWeaver.Schema.Models;
 
-namespace APIWeaver.OpenApi.Models;
+namespace APIWeaver;
 
 /// <summary>
 /// Represents the options for OpenAPI documents.

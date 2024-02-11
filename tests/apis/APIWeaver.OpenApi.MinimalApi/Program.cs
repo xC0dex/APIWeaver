@@ -1,4 +1,4 @@
-using APIWeaver.OpenApi.Extensions;
+using APIWeaver;
 using APIWeaver.OpenApi.MinimalApi;
 
 var builder = WebApplication.CreateBuilder(args);
