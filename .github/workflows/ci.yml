@@ -1,4 +1,4 @@
-name: Default Pipeline
+name: Pipeline
 
 on:
   push:
