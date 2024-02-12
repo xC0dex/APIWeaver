@@ -49,7 +49,7 @@ That's it. You now have a fully functional Swagger UI in your application. The U
 ## Roadmap
 
 - Support for controller based APIs (https://github.com/xC0dex/APIWeaver/issues/27)
-- Full `System.Text.Json` support (https://github.com/xC0dex/APIWeaver/milestone/1)
+- Full `System.Text.Json` support ([Milestone](https://github.com/xC0dex/APIWeaver/milestone/1))
 - Security definitions for OpenAPI documents
 - API client generation based on the generated OpenAPI document
 - ... and many more
