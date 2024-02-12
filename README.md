@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 ```
 
-That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. A more detailed guide with more use cases can be found here.
+That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. A more detailed guide with more use cases can be found [here](/docs/Getting-Started.md).
 
 ## Currently supported features
 

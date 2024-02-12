@@ -2,7 +2,6 @@ namespace APIWeaver;
 
 /// <summary>
 /// Options for the Swagger UI.
-/// <see href="https://github.com">GitHub</see>
 /// The options are based on <a href="https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md">Swagger UI Configuration</a>.
 /// </summary>
 public sealed class SwaggerUiOptions

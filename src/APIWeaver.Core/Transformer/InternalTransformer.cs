@@ -1,4 +1,4 @@
-namespace APIWeaver.OpenApi.Transformers;
+namespace APIWeaver.Core.Transformer;
 
 internal sealed class InternalTransformer<TContext>(Func<TContext, Task> func) : ITransformer<TContext> where TContext : TransformContext
 {
