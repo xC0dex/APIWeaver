@@ -1,4 +1,4 @@
-namespace APIWeaver.OpenApi.Extensions;
+namespace APIWeaver;
 
 /// <summary>
 /// Provides extension methods for lists of transformers.

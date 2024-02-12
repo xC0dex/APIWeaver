@@ -4,7 +4,6 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.Options;
 global using APIWeaver.OpenApi.Exceptions;
 global using APIWeaver.OpenApi.Generator;
-global using APIWeaver.OpenApi.Transformers;
 global using APIWeaver.OpenApi.Extensions;
 global using APIWeaver.OpenApi.Providers;
 global using APIWeaver.Schema.Generator;
