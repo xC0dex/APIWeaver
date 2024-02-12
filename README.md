@@ -6,12 +6,7 @@
 [![NuGet Downloads](https://img.shields.io/nuget/dt/APIWeaver.OpenApi)](https://www.nuget.org/packages/APIWeaver.Swagger/)
 
 
-APIWeaver is a powerful and lightweight library designed to provide a seamless integration of OpenAPI and Swagger UI into your .NET 6+ apps. APIWeaver supports the latest .NET 8 features and is designed to be future-proof, ensuring support for upcoming .NET and OpenAPI features.
-
-
-## Work in progress
-
-This project is currently under **active development**, with ongoing improvements, new features and potential API changes. I encourage you to try it out and provide feedback, but please be aware that the library is not yet stable.
+APIWeaver is a powerful and lightweight library designed to provide a seamless integration of OpenAPI and Swagger UI into your .NET 6+ apps. APIWeaver supports the latest .NET features and is designed to be future-proof, ensuring support for upcoming .NET and OpenAPI features.
 
 ## Getting Started
 
@@ -43,6 +38,26 @@ if (app.Environment.IsDevelopment())
 ```
 
 That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. A more detailed guide with more use cases can be found here.
+
+## Currently supported features
+
+- Fully functional and configurable Swagger UI (with dark mode 🌙)
+- OpenAPI 3.0 generation
+- Document generation based on minimal APIs
+- .NET 6, 7 and 8 including required members, nullable types and latest validation attributes
+
+## Roadmap
+
+- Support for controller based APIs (https://github.com/xC0dex/APIWeaver/issues/27)
+- Full `System.Text.Json` support (https://github.com/xC0dex/APIWeaver/milestone/1)
+- Security definitions for OpenAPI documents
+- API client generation based on the generated OpenAPI document
+- ... and many more
+
+## Work in progress
+
+This project is currently under **active development**, with ongoing improvements, new features and potential API changes. If you have any feedback, feature requests or issues, please feel free to open an issue or a pull request.
+
 
 ## Contribution and Collaboration
 
