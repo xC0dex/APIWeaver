@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using APIWeaver;
 using APIWeaver.MinimalApi.Demo;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ builder.Services.AddApiWeaver(options =>
 });
 builder.Services.Configure<JsonOptions>(options =>
 {
-    options.SerializerOptions.IncludeFields = true;
+    options.SerializerOptions.IncludeFields = false;
     options.SerializerOptions.IgnoreReadOnlyFields = false;
 });
 
@@ -36,8 +37,8 @@ var bookstoreEndpoint = app.MapGroup("/book-store")
     .WithTags("bookstore")
     .WithOpenApi();
 
-
-bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsExclusive = true)] int age) => { Results.Ok(); });
+bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).Produces<User>();
+// bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsExclusive = true)] int age) => { Results.Ok(); });
 //
 // bookstoreEndpoint.MapGet("/", (BookStore bookstore) =>
 // {
@@ -58,7 +59,7 @@ bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsEx
 //         return updateBook is null ? Results.NotFound() : Results.Ok(updateBook);
 //     }).Produces<Book>()
 //     .Produces(404);
-bookstoreEndpoint.MapPost("/dummy", ([FromBody] [MinLength(4)] User[] friends) => Results.Ok()).Produces<DummyResponse>();
+// bookstoreEndpoint.MapPost("/dummy", ([FromBody] [MinLength(4)] User[] friends) => Results.Ok()).Produces<DummyResponse>();
 // app.MapPost("/user", (User value, BookStore bookstore) => Results.Ok()).Produces<User>().WithOpenApi();
 
 
@@ -73,8 +74,11 @@ public class User
     [AllowedValues(2, 3)]
     public required int Age { get; set; }
 
-    [MinLength(4)]
-    public required string[] Friends { get; set; }
+    // [MinLength(4)]
+    // public required string[] Friends { get; set; }
+    [JsonPropertyName("fullName")]
+    [JsonInclude]
+    public string _fullName = "josh";
 
 
     // public required Dictionary<string, Book> Books { get; set; }

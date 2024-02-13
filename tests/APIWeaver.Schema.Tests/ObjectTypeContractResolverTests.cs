@@ -66,7 +66,7 @@ public class ObjectTypeContractResolverTests
     {
         // Arrange
         var type = typeof(ObjectTypeContractResolverTests);
-        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, [new RequiredAttribute()])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, false, false, [new RequiredAttribute()])], []);
         var repository = new SchemaRepository();
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
         _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
@@ -94,7 +94,7 @@ public class ObjectTypeContractResolverTests
         {
             AllowEmptyStrings = true
         };
-        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, [requiredAttribute])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, false, false, [requiredAttribute])], []);
         var repository = new SchemaRepository();
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
         _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
@@ -118,7 +118,7 @@ public class ObjectTypeContractResolverTests
         {
             AllowEmptyStrings = true
         };
-        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", true, [requiredAttribute])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", true, false, false, [requiredAttribute])], []);
         var repository = new SchemaRepository();
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
         _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
@@ -132,13 +132,52 @@ public class ObjectTypeContractResolverTests
         property.Value.MinLength.Should().BeNull();
         property.Value.Nullable.Should().BeTrue();
     }
+    
+    [Fact]
+    public void GenerateSchemaForProperties_ShouldSetWriteOnly_WhenPropertyIsWriteOnly()
+    {
+        // Arrange
+        var type = typeof(ObjectTypeContractResolverTests);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", true, false, true, [])], []);
+        var repository = new SchemaRepository();
+        _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
+        _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
+
+        // Act
+        _sut.GenerateSchema(contract);
+
+        // Assert
+        var schema = repository.GetSchemas().First().Value;
+        var property = schema.Properties.First();
+        property.Value.WriteOnly.Should().BeTrue();
+    }
+    
+    [Fact]
+    public void GenerateSchemaForProperties_ShouldSetReadOnly_WhenPropertyIsReadOnly()
+    {
+        // Arrange
+        var type = typeof(ObjectTypeContractResolverTests);
+
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", true, true, false, [])], []);
+        var repository = new SchemaRepository();
+        _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
+        _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
+
+        // Act
+        _sut.GenerateSchema(contract);
+
+        // Assert
+        var schema = repository.GetSchemas().First().Value;
+        var property = schema.Properties.First();
+        property.Value.ReadOnly.Should().BeTrue();
+    }
 
     [Fact]
     public void GenerateSchemaForProperties_ShouldAddRequired_WhenPropertyHasRequiredMemberAttribute()
     {
         // Arrange
         var type = typeof(ObjectTypeContractResolverTests);
-        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, [new RequiredMemberAttribute()])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, false, false, [new RequiredMemberAttribute()])], []);
         var repository = new SchemaRepository();
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
         _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
@@ -156,7 +195,7 @@ public class ObjectTypeContractResolverTests
     {
         // Arrange
         var type = typeof(ObjectTypeContractResolverTests);
-        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, [new ObsoleteAttribute()])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", false, false, false, [new ObsoleteAttribute()])], []);
         var repository = new SchemaRepository();
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
         _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
@@ -176,7 +215,7 @@ public class ObjectTypeContractResolverTests
         // Arrange
         var type = typeof(ObjectTypeContractResolverTests);
         var propertyType = typeof(string);
-        var contract = new ObjectTypeContract(type, [new PropertyContract(propertyType, "Name", false, [new ObsoleteAttribute()])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(propertyType, "Name", false, false, false, [new ObsoleteAttribute()])], []);
         _schemaRepository.GetSchemaReference(type).ReturnsNull();
         _schemaRepository.GetOneOfSchemaReference(propertyType).Returns(new OpenApiSchema());
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema
@@ -198,7 +237,7 @@ public class ObjectTypeContractResolverTests
         // Arrange
         var type = typeof(ObjectTypeContractResolverTests);
         var propertyType = typeof(int?);
-        var contract = new ObjectTypeContract(type, [new PropertyContract(propertyType, "Name", false, [new ObsoleteAttribute()])], []);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(propertyType, "Name", false, false, false, [new ObsoleteAttribute()])], []);
         _schemaRepository.GetSchemaReference(type).ReturnsNull();
         _schemaRepository.GetOneOfSchemaReference(default!).ReturnsForAnyArgs(new OpenApiSchema());
         _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema
