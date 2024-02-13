@@ -42,6 +42,8 @@ internal sealed class ObjectTypeContractResolver(ISchemaGenerator schemaGenerato
 
             schemaChanges.AddWhen(propertyContract.Nullable, s => s.Nullable = true);
             schemaChanges.AddWhen(propertyContract.CustomAttributes.OfType<ObsoleteAttribute>().Any(), s => s.Deprecated = true);
+            schemaChanges.AddWhen(propertyContract is {Readonly: true, WriteOnly: false}, s => s.ReadOnly = true);
+            schemaChanges.AddWhen(propertyContract is {Readonly: false, WriteOnly: true}, s => s.WriteOnly = true);
 
             var requiredAttribute = propertyContract.CustomAttributes.OfType<RequiredAttribute>().FirstOrDefault();
             if (requiredAttribute is not null)

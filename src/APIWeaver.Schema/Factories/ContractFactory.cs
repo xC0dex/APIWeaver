@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -69,30 +70,61 @@ internal sealed class ContractFactory(
             var name = attribute?.Name ?? _jsonSerializerOptions.PropertyNamingPolicy?.ConvertName(propertyInfo.Name) ?? propertyInfo.Name;
 
             var isNullable = propertyInfo.IsNullable(schemaGeneratorOptions.Value.NullableAnnotationForReferenceTypes);
-            return new PropertyContract(propertyInfo.PropertyType, name, isNullable, propertyInfo.GetCustomAttributes());
+            const bool isReadonly = false;
+            const bool isWriteOnly = false;
+            return new PropertyContract(propertyInfo.PropertyType, name, isNullable, isReadonly, isWriteOnly, propertyInfo.GetCustomAttributes());
         });
 
-        // Fields
-        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(fieldInfo =>
-        {
-            var jsonInclude = fieldInfo.GetCustomAttribute<JsonIncludeAttribute>();
-            var jsonIgnore = fieldInfo.GetCustomAttribute<JsonIgnoreAttribute>();
-            var ignoreField = jsonIgnore is not null && jsonIgnore.Condition == JsonIgnoreCondition.Always;
+        var fields = GetPropertiesFromFields(type);
 
+        return visibleProperties.Concat(fields);
+    }
+
+    private IEnumerable<PropertyContract> GetPropertiesFromFields(Type type)
+    {
+        return type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(fieldInfo =>
+        {
+            var compilerGenerated = fieldInfo.GetCustomAttribute<CompilerGeneratedAttribute>();
+
+            // Ignore backing fields
+            if (compilerGenerated is not null)
+            {
+                return false;
+            }
+
+            var jsonInclude = fieldInfo.GetCustomAttribute<JsonIncludeAttribute>();
+
+            // Always include fields with JsonIncludeAttribute
             if (jsonInclude is not null)
             {
                 return true;
             }
 
-            return fieldInfo.IsPublic && _jsonSerializerOptions.IncludeFields && !ignoreField;
+            // Ignore fields if IncludeFields is false
+            if (!_jsonSerializerOptions.IncludeFields)
+            {
+                return false;
+            }
+
+            // Ignore readonly fields if IgnoreReadOnlyFields is true
+            if (fieldInfo.IsInitOnly && _jsonSerializerOptions.IgnoreReadOnlyFields)
+            {
+                return false;
+            }
+
+            var jsonIgnore = fieldInfo.GetCustomAttribute<JsonIgnoreAttribute>();
+            var ignoreField = jsonIgnore is not null && jsonIgnore.Condition == JsonIgnoreCondition.Always;
+
+            // Include public fields
+            return !ignoreField && fieldInfo.IsPublic;
         }).Select(fieldInfo =>
         {
             var attribute = fieldInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
             var name = attribute?.Name ?? _jsonSerializerOptions.PropertyNamingPolicy?.ConvertName(fieldInfo.Name) ?? fieldInfo.Name;
             var isNullable = fieldInfo.IsNullable(schemaGeneratorOptions.Value.NullableAnnotationForReferenceTypes);
-            return new PropertyContract(fieldInfo.FieldType, name, isNullable, fieldInfo.GetCustomAttributes());
+            var isReadonly = fieldInfo.IsInitOnly;
+            const bool isWriteOnly = false;
+            return new PropertyContract(fieldInfo.FieldType, name, isNullable, isReadonly, isWriteOnly, fieldInfo.GetCustomAttributes());
         });
-
-        return visibleProperties.Concat(fields);
     }
 }

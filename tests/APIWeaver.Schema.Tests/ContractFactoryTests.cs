@@ -11,7 +11,7 @@ public class ContractFactoryTests
     private readonly IOptions<Microsoft.AspNetCore.Http.Json.JsonOptions> _minimalApiJsonOptions = Substitute.For<IOptions<Microsoft.AspNetCore.Http.Json.JsonOptions>>();
     private readonly IOptions<OpenApiSchemaGeneratorOptions> _schemaGeneratorOptions = Substitute.For<IOptions<OpenApiSchemaGeneratorOptions>>();
 
-    private readonly ContractFactory _sut;
+    private ContractFactory _sut;
 
     public ContractFactoryTests()
     {
@@ -234,19 +234,88 @@ public class ContractFactoryTests
         var nameProperty = properties.First(x => x.Name == "name");
         nameProperty.Type.Should().Be(typeof(string));
     }
+
+    [Fact]
+    public void GetContract_ShouldIncludeFields_WhenOptionsSet()
+    {
+        // Arrange
+        var type = typeof(User);
+        Attribute[] attributes = [];
+        var options = new Microsoft.AspNetCore.Http.Json.JsonOptions
+        {
+            SerializerOptions =
+            {
+                IncludeFields = true
+            }
+        };
+        _minimalApiJsonOptions.Value.Returns(options);
+        _sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
+
+        // Act
+        var contract = _sut.GetContract(type, attributes);
+
+        // Assert
+        contract.Should().BeOfType<ObjectTypeContract>()
+            .Which.Type.Should().Be(type);
+
+        var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
+        properties.Should().HaveCount(6);
+
+        // Asserting on the properties
+        var nameProperty = properties.First(x => x.Name == "name");
+        nameProperty.Type.Should().Be(typeof(string));
+
+        properties.Should().Contain(x => x.Name == "password");
+        properties.Should().Contain(x => x.Name == "fullName" && x.Readonly);
+    }
+
+    [Fact]
+    public void GetContract_ShouldReturnIgnoreReadOnlyFields_WhenOptionsSet()
+    {
+        // Arrange
+        var type = typeof(User);
+        Attribute[] attributes = [];
+        var options = new Microsoft.AspNetCore.Http.Json.JsonOptions
+        {
+            SerializerOptions =
+            {
+                IncludeFields = true,
+                IgnoreReadOnlyFields = true
+            }
+        };
+        _minimalApiJsonOptions.Value.Returns(options);
+        _sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
+
+        // Act
+        var contract = _sut.GetContract(type, attributes);
+
+        // Assert
+        contract.Should().BeOfType<ObjectTypeContract>()
+            .Which.Type.Should().Be(type);
+
+        var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
+        properties.Should().HaveCount(5);
+        properties.Should().NotContain(x => x.Name == "fullName");
+    }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 file enum TestEnum;
 
 #pragma warning disable CS0169 // Field is never used
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
 file class User
 {
-    private string? _company;
-
     [JsonInclude]
     [JsonPropertyName("dev")]
-    private bool _isDeveloper;
+    private readonly bool _isDeveloper;
+
+    [JsonPropertyName("fullName")]
+    public readonly string? FullName;
+
+    private string? _company;
+
+    public string? Password;
 
     public required string Name { get; set; }
 
@@ -258,4 +327,5 @@ file class User
 
     public string? Bio { get; set; }
 }
+#pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
 #pragma warning restore CS0169 // Field is never used
