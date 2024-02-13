@@ -132,6 +132,45 @@ public class ObjectTypeContractResolverTests
         property.Value.MinLength.Should().BeNull();
         property.Value.Nullable.Should().BeTrue();
     }
+    
+    [Fact]
+    public void GenerateSchemaForProperties_ShouldSetWriteOnly_WhenPropertyIsWriteOnly()
+    {
+        // Arrange
+        var type = typeof(ObjectTypeContractResolverTests);
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", true, false, true, [])], []);
+        var repository = new SchemaRepository();
+        _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
+        _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
+
+        // Act
+        _sut.GenerateSchema(contract);
+
+        // Assert
+        var schema = repository.GetSchemas().First().Value;
+        var property = schema.Properties.First();
+        property.Value.WriteOnly.Should().BeTrue();
+    }
+    
+    [Fact]
+    public void GenerateSchemaForProperties_ShouldSetReadOnly_WhenPropertyIsReadOnly()
+    {
+        // Arrange
+        var type = typeof(ObjectTypeContractResolverTests);
+
+        var contract = new ObjectTypeContract(type, [new PropertyContract(typeof(string), "Name", true, true, false, [])], []);
+        var repository = new SchemaRepository();
+        _schemaGenerator.GenerateSchema(default!, []).ReturnsForAnyArgs(new OpenApiSchema());
+        _sut = new ObjectTypeContractResolver(_schemaGenerator, _validationTransformer, repository);
+
+        // Act
+        _sut.GenerateSchema(contract);
+
+        // Assert
+        var schema = repository.GetSchemas().First().Value;
+        var property = schema.Properties.First();
+        property.Value.ReadOnly.Should().BeTrue();
+    }
 
     [Fact]
     public void GenerateSchemaForProperties_ShouldAddRequired_WhenPropertyHasRequiredMemberAttribute()
