@@ -17,4 +17,8 @@ internal static class PropertyInfoExtensions
 
         return Nullable.GetUnderlyingType(propertyInfo.PropertyType) is not null;
     }
+
+    public static bool IsPublic(this PropertyInfo propertyInfo) => propertyInfo.GetMethod is not null && propertyInfo.GetMethod.IsPublic;
+
+    public static bool IsReadonly(this PropertyInfo propertyInfo) => propertyInfo is {CanRead: true, CanWrite: false};
 }

@@ -26,10 +26,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(int);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<PrimitiveTypeContract>()
@@ -41,10 +40,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(JsonElement);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<UndefinedTypeContract>();
@@ -55,10 +53,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(DayOfWeek);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<EnumTypeContract>()
@@ -85,10 +82,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(TestEnum);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<EnumTypeContract>()
@@ -100,14 +96,13 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(DayOfWeek);
-        Attribute[] attributes = [];
         var options = new Microsoft.AspNetCore.Http.Json.JsonOptions();
         options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         _minimalApiJsonOptions.Value.Returns(options);
         var sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
 
         // Act
-        var contract = sut.GetContract(type, attributes);
+        var contract = sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<EnumTypeContract>()
@@ -119,7 +114,6 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(DayOfWeek);
-        Attribute[] attributes = [];
         var options = new JsonOptions();
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         _controllerJsonOptions.Value.Returns(options);
@@ -130,7 +124,7 @@ public class ContractFactoryTests
         var sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
 
         // Act
-        var contract = sut.GetContract(type, attributes);
+        var contract = sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<EnumTypeContract>()
@@ -142,10 +136,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(Dictionary<string, int>);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<DictionaryTypeContract>()
@@ -158,10 +151,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(IDictionary);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<DictionaryTypeContract>()
@@ -173,10 +165,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(string[]);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<ArrayTypeContract>()
@@ -188,10 +179,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(IEnumerable<int>);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<ArrayTypeContract>()
@@ -203,10 +193,9 @@ public class ContractFactoryTests
     {
         // Arrange
         var type = typeof(IEnumerable);
-        Attribute[] attributes = [];
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<ArrayTypeContract>()
@@ -217,30 +206,27 @@ public class ContractFactoryTests
     public void GetContract_ShouldReturnObjectTypeContract_WhenTypeIsClass()
     {
         // Arrange
-        var type = typeof(User);
-        Attribute[] attributes = [];
+        var type = typeof(UserForFields);
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<ObjectTypeContract>()
             .Which.Type.Should().Be(type);
 
         var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
-        properties.Should().HaveCount(4);
+        properties.Should().HaveCount(1);
 
         // Asserting on the properties
-        var nameProperty = properties.First(x => x.Name == "name");
-        nameProperty.Type.Should().Be(typeof(string));
+        properties.Should().Contain(x => x.Name == "dev");
     }
 
     [Fact]
     public void GetContract_ShouldIncludeFields_WhenOptionsSet()
     {
         // Arrange
-        var type = typeof(User);
-        Attribute[] attributes = [];
+        var type = typeof(UserForFields);
         var options = new Microsoft.AspNetCore.Http.Json.JsonOptions
         {
             SerializerOptions =
@@ -252,20 +238,19 @@ public class ContractFactoryTests
         _sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<ObjectTypeContract>()
             .Which.Type.Should().Be(type);
 
         var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
-        properties.Should().HaveCount(6);
+        properties.Should().HaveCount(3);
 
         // Asserting on the properties
-        var nameProperty = properties.First(x => x.Name == "name");
-        nameProperty.Type.Should().Be(typeof(string));
 
         properties.Should().Contain(x => x.Name == "password");
+        properties.Should().Contain(x => x.Name == "dev");
         properties.Should().Contain(x => x.Name == "fullName" && x.Readonly);
     }
 
@@ -273,8 +258,7 @@ public class ContractFactoryTests
     public void GetContract_ShouldReturnIgnoreReadOnlyFields_WhenOptionsSet()
     {
         // Arrange
-        var type = typeof(User);
-        Attribute[] attributes = [];
+        var type = typeof(UserForFields);
         var options = new Microsoft.AspNetCore.Http.Json.JsonOptions
         {
             SerializerOptions =
@@ -287,15 +271,65 @@ public class ContractFactoryTests
         _sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
 
         // Act
-        var contract = _sut.GetContract(type, attributes);
+        var contract = _sut.GetContract(type, []);
 
         // Assert
         contract.Should().BeOfType<ObjectTypeContract>()
             .Which.Type.Should().Be(type);
 
         var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
-        properties.Should().HaveCount(5);
+        properties.Should().HaveCount(2);
         properties.Should().NotContain(x => x.Name == "fullName");
+    }
+
+    [Fact]
+    public void GetContract_ShouldReturnPublicProperties_WhenDefaultOptions()
+    {
+        // Arrange
+        var type = typeof(UserForProperties);
+
+        // Act
+        var contract = _sut.GetContract(type, []);
+
+        // Assert
+        contract.Should().BeOfType<ObjectTypeContract>()
+            .Which.Type.Should().Be(type);
+
+        var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
+        properties.Should().HaveCount(3);
+        properties.Should().Contain(x => x.Name == "id");
+        properties.Should().Contain(x => x.Name == "theAge");
+        properties.Should().Contain(x => x.Name == "fullName");
+        properties.Should().NotContain(x => x.Name == "name");
+    }
+
+    [Fact]
+    public void GetContract_ShouldIgnoreReadOnlyProperties_WhenOptionsSet()
+    {
+        // Arrange
+        var type = typeof(UserForProperties);
+        var options = new Microsoft.AspNetCore.Http.Json.JsonOptions
+        {
+            SerializerOptions =
+            {
+                IgnoreReadOnlyProperties = true
+            }
+        };
+        _minimalApiJsonOptions.Value.Returns(options);
+        _sut = new ContractFactory(_schemaGeneratorOptions, _controllerJsonOptions, _minimalApiJsonOptions);
+
+        // Act
+        var contract = _sut.GetContract(type, []);
+
+        // Assert
+        contract.Should().BeOfType<ObjectTypeContract>()
+            .Which.Type.Should().Be(type);
+
+        var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
+        properties.Should().HaveCount(1);
+        properties.Should().Contain(x => x.Name == "id");
+        properties.Should().NotContain(x => x.Name == "fullName");
+        properties.Should().NotContain(x => x.Name == "theAge");
     }
 }
 
@@ -304,7 +338,7 @@ file enum TestEnum;
 
 #pragma warning disable CS0169 // Field is never used
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
-file class User
+file class UserForFields
 {
     [JsonInclude]
     [JsonPropertyName("dev")]
@@ -316,16 +350,19 @@ file class User
     private string? _company;
 
     public string? Password;
+}
 
-    public required string Name { get; set; }
+file class UserForProperties
+{
+    public required string Id { get; set; }
 
-    [JsonIgnore]
-    public bool Enabled { get; set; }
+    [JsonPropertyName("theAge")]
+    public int Age { get; }
+
+    private string? Name { get; init; }
 
     [JsonInclude]
-    private int Age { get; set; }
-
-    public string? Bio { get; set; }
+    private string FullName { get; }
 }
 #pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
 #pragma warning restore CS0169 // Field is never used
