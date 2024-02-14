@@ -67,13 +67,12 @@ internal sealed class ContractFactory(
     {
         return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(propertyInfo =>
         {
-
             // Ignore readonly properties if IgnoreReadOnlyProperties is true
-            if (_jsonSerializerOptions.IgnoreReadOnlyProperties && propertyInfo.IsReadonly())
+            if (_jsonSerializerOptions.IgnoreReadOnlyProperties && propertyInfo.IsReadOnly())
             {
                 return false;
             }
-            
+
             var jsonInclude = propertyInfo.GetCustomAttribute<JsonIncludeAttribute>();
 
             // Include properties with JsonIncludeAttribute
@@ -92,8 +91,8 @@ internal sealed class ContractFactory(
             var jsonPropertyNameAttribute = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
             var name = jsonPropertyNameAttribute?.Name ?? _jsonSerializerOptions.PropertyNamingPolicy?.ConvertName(propertyInfo.Name) ?? propertyInfo.Name;
             var isNullable = propertyInfo.IsNullable(schemaGeneratorOptions.Value.NullableAnnotationForReferenceTypes);
-            var isReadonly = propertyInfo.IsReadonly();
-            var isWriteOnly = propertyInfo is {CanRead: false, CanWrite: true};
+            var isReadonly = propertyInfo.IsReadOnly();
+            var isWriteOnly = propertyInfo.IsWriteOnly();
             return new PropertyContract(propertyInfo.PropertyType, name, isNullable, isReadonly, isWriteOnly, propertyInfo.GetCustomAttributes());
         });
     }

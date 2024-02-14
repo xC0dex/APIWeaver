@@ -81,7 +81,7 @@ public class PropertyInfoExtensionsTests
     }
 
     [Fact]
-    public void IsPublic_ShouldReturnFalse_WhenPropertyHasNoGetter()
+    public void IsPublic_ShouldReturnTrue_WhenPropertyHasNoGetterButSetter()
     {
         // Arrange
         var propertyInfo = typeof(TestClass).GetProperty(nameof(TestClass.PropertyWithoutGetter))!;
@@ -90,7 +90,7 @@ public class PropertyInfoExtensionsTests
         var result = propertyInfo.IsPublic();
 
         // Assert
-        result.Should().BeFalse();
+        result.Should().BeTrue();
     }
 
     [Fact]
@@ -100,7 +100,7 @@ public class PropertyInfoExtensionsTests
         var propertyInfo = typeof(TestClass).GetProperty(nameof(TestClass.ReadOnlyProperty))!;
 
         // Act
-        var result = propertyInfo.IsReadonly();
+        var result = propertyInfo.IsReadOnly();
 
         // Assert
         result.Should().BeTrue();
@@ -113,10 +113,36 @@ public class PropertyInfoExtensionsTests
         var propertyInfo = typeof(TestClass).GetProperty(nameof(TestClass.PropertyWithoutGetter))!;
 
         // Act
-        var result = propertyInfo.IsReadonly();
+        var result = propertyInfo.IsReadOnly();
 
         // Assert
         result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void IsWriteOnly_ShouldReturnFalse_WhenPropertyHasGetter()
+    {
+        // Arrange
+        var propertyInfo = typeof(TestClass).GetProperty(nameof(TestClass.NonNullableInt))!;
+
+        // Act
+        var result = propertyInfo.IsWriteOnly();
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void IsWriteOnly_ShouldReturnTrue_WhenPropertyHasNoGetterButSetter()
+    {
+        // Arrange
+        var propertyInfo = typeof(TestClass).GetProperty(nameof(TestClass.PropertyWithoutGetter))!;
+
+        // Act
+        var result = propertyInfo.IsWriteOnly();
+
+        // Assert
+        result.Should().BeTrue();
     }
 }
 

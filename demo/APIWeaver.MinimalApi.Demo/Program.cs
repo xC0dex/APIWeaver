@@ -68,6 +68,7 @@ app.Run();
 
 public class User
 {
+    private int _number;
     public required string Id { get; set; }
 
     [JsonPropertyName("theAge")]
@@ -77,6 +78,11 @@ public class User
 
     [JsonInclude]
     private string FullName { get; init; } = "awd";
+
+    public int Number
+    {
+        set => _number = value;
+    }
 }
 
 // public class User
