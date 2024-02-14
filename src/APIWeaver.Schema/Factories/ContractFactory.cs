@@ -57,10 +57,14 @@ internal sealed class ContractFactory(
 
     private IEnumerable<PropertyContract> GetProperties(Type type)
     {
-        var properties = GetPropertyContractsFromProperties(type);
         var fields = GetPropertyContractsFromFields(type);
+        var properties = GetPropertyContractsFromProperties(type);
 
-        return properties.Concat(fields);
+        return fields.Concat(properties).OrderBy(property =>
+        {
+            var orderAttribute = property.CustomAttributes.OfType<JsonPropertyOrderAttribute>().FirstOrDefault();
+            return orderAttribute?.Order ?? int.MaxValue;
+        });
     }
 
     private IEnumerable<PropertyContract> GetPropertyContractsFromProperties(Type type)

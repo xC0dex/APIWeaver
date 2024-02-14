@@ -331,6 +331,22 @@ public class ContractFactoryTests
         properties.Should().NotContain(x => x.Name == "fullName");
         properties.Should().NotContain(x => x.Name == "theAge");
     }
+    
+    [Fact]
+    public void GetContract_ShouldReturnPropertyWithOrderAttributeFirst_WhenPropertyHasOrderAttribute()
+    {
+        // Arrange
+        var type = typeof(UserForProperties);
+
+        // Act
+        var contract = _sut.GetContract(type, []);
+
+        // Assert
+        contract.Should().BeOfType<ObjectTypeContract>()
+            .Which.Type.Should().Be(type);
+        var properties = (contract as ObjectTypeContract)!.Properties.ToArray();
+        properties[0].Name.Should().Be("fullName");
+    }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -362,6 +378,7 @@ file class UserForProperties
     private string? Name { get; init; }
 
     [JsonInclude]
+    [JsonPropertyOrder(1)]
     private string FullName { get; } = null!;
 }
 #pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
