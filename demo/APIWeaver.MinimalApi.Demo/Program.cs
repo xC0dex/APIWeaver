@@ -68,6 +68,9 @@ app.Run();
 
 public class User
 {
+    [JsonInclude]
+    private int _int;
+    
     private int _number;
     public required string Id { get; set; }
 
@@ -79,6 +82,7 @@ public class User
     [JsonInclude]
     private string FullName { get; init; } = "awd";
 
+    [JsonPropertyOrder(1)]
     public int Number
     {
         set => _number = value;
