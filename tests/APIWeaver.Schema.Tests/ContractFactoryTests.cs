@@ -362,7 +362,7 @@ file class UserForProperties
     private string? Name { get; init; }
 
     [JsonInclude]
-    private string FullName { get; }
+    private string FullName { get; } = null!;
 }
 #pragma warning restore CS0649 // Field is never assigned to, and will always have its default value
 #pragma warning restore CS0169 // Field is never used
