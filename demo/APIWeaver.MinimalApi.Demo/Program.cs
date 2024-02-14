@@ -68,8 +68,6 @@ app.Run();
 
 public class User
 {
-    [JsonInclude]
-    private int _int;
     
     private int _number;
     public required string Id { get; set; }
