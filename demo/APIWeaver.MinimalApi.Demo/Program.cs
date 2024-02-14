@@ -20,8 +20,7 @@ builder.Services.AddApiWeaver(options =>
 });
 builder.Services.Configure<JsonOptions>(options =>
 {
-    options.SerializerOptions.IncludeFields = false;
-    options.SerializerOptions.IgnoreReadOnlyFields = false;
+    options.SerializerOptions.IgnoreReadOnlyProperties = true;
 });
 
 var app = builder.Build();
@@ -66,20 +65,40 @@ bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).P
 app.Run();
 
 
+
 public class User
 {
-    [AllowedValues("Peter", "Max")]
-    public required string Name { get; set; }
+    private int _number;
+    public required string Id { get; set; }
 
-    [AllowedValues(2, 3)]
-    public required int Age { get; set; }
+    [JsonPropertyName("theAge")]
+    public int Age { get; }
 
-    // [MinLength(4)]
-    // public required string[] Friends { get; set; }
-    [JsonPropertyName("fullName")]
+    private string? Name { get; init; }
+
     [JsonInclude]
-    public string _fullName = "josh";
+    private string FullName { get; init; } = "awd";
 
-
-    // public required Dictionary<string, Book> Books { get; set; }
+    public int Number
+    {
+        set => _number = value;
+    }
 }
+
+// public class User
+// {
+//     [AllowedValues("Peter", "Max")]
+//     public required string Name { get; set; }
+//
+//     [AllowedValues(2, 3)]
+//     public required int Age { get; set; }
+//
+//     // [MinLength(4)]
+//     // public required string[] Friends { get; set; }
+//     [JsonPropertyName("fullName")]
+//     [JsonInclude]
+//     public string _fullName = "josh";
+//
+//
+//     // public required Dictionary<string, Book> Books { get; set; }
+// }

@@ -57,30 +57,47 @@ internal sealed class ContractFactory(
 
     private IEnumerable<PropertyContract> GetProperties(Type type)
     {
-        var publicProperties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p =>
-        {
-            var attribute = p.GetCustomAttribute<JsonIgnoreAttribute>();
-            return attribute is null || attribute.Condition != JsonIgnoreCondition.Always;
-        });
-        var nonPublicProperties = type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic).Where(p => p.GetCustomAttribute<JsonIncludeAttribute>() is not null);
+        var properties = GetPropertyContractsFromProperties(type);
+        var fields = GetPropertyContractsFromFields(type);
 
-        var visibleProperties = publicProperties.Concat(nonPublicProperties).Select(propertyInfo =>
-        {
-            var attribute = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
-            var name = attribute?.Name ?? _jsonSerializerOptions.PropertyNamingPolicy?.ConvertName(propertyInfo.Name) ?? propertyInfo.Name;
-
-            var isNullable = propertyInfo.IsNullable(schemaGeneratorOptions.Value.NullableAnnotationForReferenceTypes);
-            const bool isReadonly = false;
-            const bool isWriteOnly = false;
-            return new PropertyContract(propertyInfo.PropertyType, name, isNullable, isReadonly, isWriteOnly, propertyInfo.GetCustomAttributes());
-        });
-
-        var fields = GetPropertiesFromFields(type);
-
-        return visibleProperties.Concat(fields);
+        return properties.Concat(fields);
     }
 
-    private IEnumerable<PropertyContract> GetPropertiesFromFields(Type type)
+    private IEnumerable<PropertyContract> GetPropertyContractsFromProperties(Type type)
+    {
+        return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(propertyInfo =>
+        {
+            // Ignore readonly properties if IgnoreReadOnlyProperties is true
+            if (_jsonSerializerOptions.IgnoreReadOnlyProperties && propertyInfo.IsReadOnly())
+            {
+                return false;
+            }
+
+            var jsonInclude = propertyInfo.GetCustomAttribute<JsonIncludeAttribute>();
+
+            // Include properties with JsonIncludeAttribute
+            if (jsonInclude is not null)
+            {
+                return true;
+            }
+
+            var jsonIgnore = propertyInfo.GetCustomAttribute<JsonIgnoreAttribute>();
+            var ignoreField = jsonIgnore is not null && jsonIgnore.Condition == JsonIgnoreCondition.Always;
+
+            // Include public readable properties
+            return !ignoreField && propertyInfo.IsPublic();
+        }).Select(propertyInfo =>
+        {
+            var jsonPropertyNameAttribute = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>();
+            var name = jsonPropertyNameAttribute?.Name ?? _jsonSerializerOptions.PropertyNamingPolicy?.ConvertName(propertyInfo.Name) ?? propertyInfo.Name;
+            var isNullable = propertyInfo.IsNullable(schemaGeneratorOptions.Value.NullableAnnotationForReferenceTypes);
+            var isReadonly = propertyInfo.IsReadOnly();
+            var isWriteOnly = propertyInfo.IsWriteOnly();
+            return new PropertyContract(propertyInfo.PropertyType, name, isNullable, isReadonly, isWriteOnly, propertyInfo.GetCustomAttributes());
+        });
+    }
+
+    private IEnumerable<PropertyContract> GetPropertyContractsFromFields(Type type)
     {
         return type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(fieldInfo =>
         {
