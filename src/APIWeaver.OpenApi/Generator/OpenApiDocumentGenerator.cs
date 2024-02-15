@@ -45,7 +45,7 @@ internal sealed class OpenApiDocumentGenerator(
     private async Task<OpenApiPaths> GeneratePathsAsync(CancellationToken cancellationToken)
     {
         var paths = new OpenApiPaths();
-        var apiDescriptions = apiDescriptionProvider.ApiDescriptionGroups.Items.SelectMany(x => x.Items).ToArray();
+        var apiDescriptions = apiDescriptionProvider.ApiDescriptionGroups.Items.SelectMany(x => x.Items);
         var apiDescriptionsByPath = apiDescriptions.GroupBy(apiDescription => apiDescription.GetRelativePath());
         foreach (var group in apiDescriptionsByPath)
         {
