@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Core", "src\APIWe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Core.Tests", "tests\APIWeaver.Core.Tests\APIWeaver.Core.Tests.csproj", "{2A019294-F9A1-4E3D-9677-1F26C2F532D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.ControllerApi.Demo", "demo\APIWeaver.ControllerApi.Demo\APIWeaver.ControllerApi.Demo.csproj", "{CED28A60-261E-4E23-8066-0F4166712451}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,7 @@ Global
 		{24AA7F01-C90F-4F2C-918C-82F29F8652CD} = {DDE3C770-5DDB-4650-8B68-D753730D3B1B}
 		{9DE203CF-F93E-4DA1-9AD2-4037970671D4} = {CC045423-814B-40D9-B087-5AC3C8848B09}
 		{2A019294-F9A1-4E3D-9677-1F26C2F532D8} = {9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}
+		{CED28A60-261E-4E23-8066-0F4166712451} = {BBD49ECA-CB62-4820-B425-296EFCFE7EC2}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{184B6D75-E412-4F4C-9E98-6128320636C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -114,5 +117,9 @@ Global
 		{2A019294-F9A1-4E3D-9677-1F26C2F532D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A019294-F9A1-4E3D-9677-1F26C2F532D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A019294-F9A1-4E3D-9677-1F26C2F532D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CED28A60-261E-4E23-8066-0F4166712451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CED28A60-261E-4E23-8066-0F4166712451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CED28A60-261E-4E23-8066-0F4166712451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CED28A60-261E-4E23-8066-0F4166712451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

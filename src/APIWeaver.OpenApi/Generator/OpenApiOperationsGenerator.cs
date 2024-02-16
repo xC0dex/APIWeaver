@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace APIWeaver.OpenApi.Generator;
 
-internal sealed class OpenApiOperationsGenerator(ISchemaGenerator schemaGenerator, IOptions<OpenApiOptions> options, IServiceProvider serviceProvider) : IOpenApiOperationsGenerator
+internal sealed class OpenApiOperationsGenerator(
+    ISchemaGenerator schemaGenerator,
+    IOpenApiOperationGenerator operationGenerator,
+    IOptions<OpenApiOptions> options,
+    IServiceProvider serviceProvider) : IOpenApiOperationsGenerator
 {
-    public async Task<Dictionary<OperationType, OpenApiOperation>> GenerateOperationsAsync(IEnumerable<ApiDescription> apiDescriptions, CancellationToken cancellationToken)
+    public async Task<Dictionary<OperationType, OpenApiOperation>> GenerateOpenApiOperationsAsync(IEnumerable<ApiDescription> apiDescriptions, CancellationToken cancellationToken)
     {
         var apiDescriptionsByMethod = apiDescriptions.GroupBy(apiDescription => apiDescription.HttpMethod.ToOperationType());
         var operations = new Dictionary<OperationType, OpenApiOperation>();
@@ -17,17 +21,17 @@ internal sealed class OpenApiOperationsGenerator(ISchemaGenerator schemaGenerato
                 throw new OpenApiOperationConflictException(method);
             }
 
-            var operation = await GenerateOperationAsync(group.First(), cancellationToken);
+            var operation = await GenerateOpenApiOperationAsync(group.First(), cancellationToken);
             operations.Add(method, operation);
         }
 
         return operations;
     }
 
-    private async Task<OpenApiOperation> GenerateOperationAsync(ApiDescription apiDescription, CancellationToken cancellationToken)
+    private async Task<OpenApiOperation> GenerateOpenApiOperationAsync(ApiDescription apiDescription, CancellationToken cancellationToken)
     {
         var metadata = apiDescription.ActionDescriptor.EndpointMetadata;
-        var operation = metadata.OfType<OpenApiOperation>().FirstOrDefault() ?? throw new OpenApiOperationNotFoundException(apiDescription.RelativePath); // Currently only support Minimal APIs.
+        var operation = metadata.OfType<OpenApiOperation>().FirstOrDefault() ?? operationGenerator.GenerateOpenApiOperation(apiDescription);
 
         foreach (var parameter in operation.Parameters)
         {

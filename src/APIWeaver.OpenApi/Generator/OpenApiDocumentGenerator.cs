@@ -50,7 +50,7 @@ internal sealed class OpenApiDocumentGenerator(
         foreach (var group in apiDescriptionsByPath)
         {
             var path = group.Key;
-            var operations = await operationsGenerator.GenerateOperationsAsync(group, cancellationToken);
+            var operations = await operationsGenerator.GenerateOpenApiOperationsAsync(group, cancellationToken);
             var item = new OpenApiPathItem
             {
                 Operations = operations

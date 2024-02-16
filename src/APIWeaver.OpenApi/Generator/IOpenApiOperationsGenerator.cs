@@ -4,5 +4,5 @@ namespace APIWeaver.OpenApi.Generator;
 
 internal interface IOpenApiOperationsGenerator
 {
-    Task<Dictionary<OperationType, OpenApiOperation>> GenerateOperationsAsync(IEnumerable<ApiDescription> apiDescriptions, CancellationToken cancellationToken);
+    Task<Dictionary<OperationType, OpenApiOperation>> GenerateOpenApiOperationsAsync(IEnumerable<ApiDescription> apiDescriptions, CancellationToken cancellationToken);
 }

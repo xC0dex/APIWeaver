@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
 
         services.TryAddScoped<IOpenApiDocumentGenerator, OpenApiDocumentGenerator>();
         services.TryAddScoped<IOpenApiOperationsGenerator, OpenApiOperationsGenerator>();
+        services.TryAddScoped<IOpenApiOperationGenerator, ControllerOpenApiOperationGenerator>();
         services.TryAddScoped<IOpenApiServersGenerator, OpenApiServersGenerator>();
         services.TryAddScoped<IOpenApiDocumentProvider, OpenApiDocumentProvider>();
         services.TryAddScoped<OpenApiMiddleware>();
