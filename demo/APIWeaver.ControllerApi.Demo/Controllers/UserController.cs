@@ -25,7 +25,7 @@ public class UserController: ControllerBase
     
     [HttpGet("{id:guid}")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
-    public IActionResult GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] [BindRequired] string name)
+    public IActionResult GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name)
     {
         var user = new UserDto
         {

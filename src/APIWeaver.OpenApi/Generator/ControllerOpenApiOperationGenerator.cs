@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -26,7 +27,7 @@ internal sealed class ControllerOpenApiOperationGenerator : IOpenApiOperationGen
         {
             Name = apiParameterDescription.Name,
             In = apiParameterDescription.ToParameterLocation(),
-            Required = apiParameterDescription.IsRequired || apiParameterDescription.GetParameterInfo().ParameterType.IsDefined(typeof(RequiredAttribute), false)
+            Required = apiParameterDescription.IsRequired || apiParameterDescription.GetParameterInfo().GetCustomAttributes().OfType<RequiredAttribute>().Any()
         };
     }
 
