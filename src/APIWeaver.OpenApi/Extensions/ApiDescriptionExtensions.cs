@@ -20,4 +20,14 @@ internal static class ApiDescriptionExtensions
 
         return string.Join("/", segments);
     }
+
+    // public static MethodInfo? GetMethodInfo(this ApiDescription apiDescription)
+    // {
+    //     if (apiDescription.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
+    //     {
+    //         return actionDescriptor.MethodInfo;
+    //     }
+    //
+    //     return null;
+    // }
 }

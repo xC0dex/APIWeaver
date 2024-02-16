@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using APIWeaver;
 using APIWeaver.MinimalApi.Demo;
@@ -36,7 +37,7 @@ var bookstoreEndpoint = app.MapGroup("/book-store")
     .WithTags("bookstore")
     .WithOpenApi();
 
-bookstoreEndpoint.MapGet("/user", (Guid id, [FromHeader] int? age, [FromQuery] [BindRequired] string? name) => Results.Ok()).Produces<User>();
+bookstoreEndpoint.MapGet("/user", (Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] string lul) => Results.NotFound());
 // bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).Produces<User>();
 // bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsExclusive = true)] int age) => { Results.Ok(); });
 //

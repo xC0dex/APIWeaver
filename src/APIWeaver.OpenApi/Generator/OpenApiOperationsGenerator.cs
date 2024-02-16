@@ -59,10 +59,14 @@ internal sealed class OpenApiOperationsGenerator(
             var responseType = apiDescription.SupportedResponseTypes.FirstOrDefault(desc => desc.StatusCode.ToString() == statusCode);
             if (responseType is not null)
             {
-                var responseContentType = openApiResponse?.Content?.Values.FirstOrDefault();
-                if (responseContentType is not null)
+                var responseSchema = await schemaGenerator.GenerateSchemaAsync(responseType.Type!, [], cancellationToken);
+                var responseContentTypes = openApiResponse?.Content?.Values;
+                if (responseContentTypes is not null)
                 {
-                    responseContentType.Schema = await schemaGenerator.GenerateSchemaAsync(responseType.Type!, [], cancellationToken);
+                    foreach (var responseContentType in responseContentTypes)
+                    {
+                        responseContentType.Schema = responseSchema;
+                    }
                 }
             }
         }
