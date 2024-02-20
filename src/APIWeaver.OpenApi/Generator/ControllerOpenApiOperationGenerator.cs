@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.Http.Metadata;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
@@ -14,7 +15,8 @@ internal sealed class ControllerOpenApiOperationGenerator : IOpenApiOperationGen
             Tags = GenerateTags(apiDescription.ActionDescriptor),
             Parameters = GenerateParameters(apiDescription),
             RequestBody = GenerateRequestBody(apiDescription),
-            Responses = GenerateResponses(apiDescription)
+            Responses = GenerateResponses(apiDescription),
+            Deprecated = apiDescription.ActionDescriptor.EndpointMetadata.OfType<ObsoleteAttribute>().Any()
         };
 
     private static OpenApiResponses GenerateResponses(ApiDescription apiDescription)
@@ -27,10 +29,11 @@ internal sealed class ControllerOpenApiOperationGenerator : IOpenApiOperationGen
         var openApiResponses = new OpenApiResponses();
         foreach (var apiResponseType in apiResponseTypes)
         {
+            var responseMediaTypes = GetOpenApiResponseMediaTypes(apiDescription, apiResponseType);
             var response = new OpenApiResponse
             {
                 Description = apiResponseType.StatusCode.GetDescription(),
-                Content = apiResponseType.ApiResponseFormats.ToDictionary(contentType => contentType.MediaType, _ => new OpenApiMediaType()) // Todo: Get produce attribute data form endpointmetadata
+                Content = responseMediaTypes.ToDictionary(mediaType => mediaType, _ => new OpenApiMediaType())
             };
             openApiResponses.Add(apiResponseType.StatusCode.ToString(), response);
         }
@@ -38,6 +41,11 @@ internal sealed class ControllerOpenApiOperationGenerator : IOpenApiOperationGen
         return openApiResponses;
     }
 
+    private static IEnumerable<string> GetOpenApiResponseMediaTypes(ApiDescription apiDescription, ApiResponseType apiResponseType)
+    {
+        var producesAttributes = apiDescription.ActionDescriptor.EndpointMetadata.OfType<ProducesAttribute>().ToArray();
+        return producesAttributes.Length > 0 ? producesAttributes.SelectMany(x => x.ContentTypes) : apiResponseType.ApiResponseFormats.Select(x => x.MediaType);
+    }
 
     private static OpenApiRequestBody? GenerateRequestBody(ApiDescription apiDescription)
     {

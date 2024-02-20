@@ -7,6 +7,7 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [Route("[controller]")]
 [ProducesResponseType<UserDto>(StatusCodes.Status404NotFound)]
+[Obsolete]
 public class UserController: ControllerBase
 {
     
@@ -25,8 +26,8 @@ public class UserController: ControllerBase
     // }
     
     [HttpPost("{id:guid}")]
+    [ProducesResponseType<UserDto>(StatusCodes.Status200OK, "may/content")]
     // [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
-    // [ProducesResponseType<UserDto>(StatusCodes.Status404NotFound)]
     public ActionResult<UserDto> GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] UserDto userDto)
     {
         var user = new UserDto
