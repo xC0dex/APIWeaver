@@ -1,32 +1,26 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 
 namespace APIWeaver.OpenApi.Tests;
 
-public class OpenApiOperationsGeneratorTests(WebApplicationFactory<MinimalApiProgram> factory) : IClassFixture<WebApplicationFactory<MinimalApiProgram>>
+public class ControllerOpenApiOperationGeneratorTests(WebApplicationFactory<ControllerApiProgram> factory): IClassFixture<WebApplicationFactory<ControllerApiProgram>>
 {
     [Fact]
     public async Task GenerateOperationsAsync_ShouldShould_WhenWhen()
     {
         // Arrange
-        var client = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureTestServices(services => services.AddApiWeaver(options => options.GeneratorOptions.OperationTransformers.Add(context => context.OpenApiOperation.Summary = "Awesome endpoint")));
-        }).CreateClient();
+        var client = factory.CreateClient();
 
         // Act
-        var response = await client.GetAsync($"/swagger/v1-openapi.json");
+        var response = await client.GetAsync("/swagger/v1-openapi.json");
         response.EnsureSuccessStatusCode();
-
-
         var content = await response.Content.ReadAsStringAsync();
-
+        
         // Assert
         var expected = $$"""
                          {
                            "openapi": "3.0.1",
                            "info": {
-                             "title": "APIWeaver.OpenApi.MinimalApi",
+                             "title": "APIWeaver.OpenApi.ControllerApi",
                              "version": "1.0.0"
                            },
                            "servers": [
@@ -35,34 +29,11 @@ public class OpenApiOperationsGeneratorTests(WebApplicationFactory<MinimalApiPro
                              }
                            ],
                            "paths": {
-                             "/user": {
+                             "/User": {
                                "get": {
                                  "tags": [
-                                   "APIWeaver.OpenApi.MinimalApi"
+                                   "User"
                                  ],
-                                 "summary": "Awesome endpoint",
-                                 "responses": {
-                                   "200": {
-                                     "description": "OK",
-                                     "content": {
-                                       "application/json": {
-                                         "schema": {
-                                           "uniqueItems": false,
-                                           "type": "array",
-                                           "items": {
-                                             "$ref": "#/components/schemas/User"
-                                           }
-                                         }
-                                       }
-                                     }
-                                   }
-                                 }
-                               },
-                               "post": {
-                                 "tags": [
-                                   "APIWeaver.OpenApi.MinimalApi"
-                                 ],
-                                 "summary": "Awesome endpoint",
                                  "requestBody": {
                                    "content": {
                                      "application/json": {
@@ -74,41 +45,40 @@ public class OpenApiOperationsGeneratorTests(WebApplicationFactory<MinimalApiPro
                                    "required": true
                                  },
                                  "responses": {
-                                   "200": {
-                                     "description": "OK",
+                                   "500": {
+                                     "description": "Internal Server Error",
                                      "content": {
+                                       "text/plain": {
+                                         "schema": {
+                                           "$ref": "#/components/schemas/User"
+                                         }
+                                       },
                                        "application/json": {
+                                         "schema": {
+                                           "$ref": "#/components/schemas/User"
+                                         }
+                                       },
+                                       "text/json": {
                                          "schema": {
                                            "$ref": "#/components/schemas/User"
                                          }
                                        }
                                      }
-                                   }
-                                 }
-                               }
-                             },
-                             "/user/{id}": {
-                               "get": {
-                                 "tags": [
-                                   "APIWeaver.OpenApi.MinimalApi"
-                                 ],
-                                 "summary": "Awesome endpoint",
-                                 "parameters": [
-                                   {
-                                     "name": "id",
-                                     "in": "path",
-                                     "required": true,
-                                     "schema": {
-                                       "type": "string",
-                                       "format": "uuid"
-                                     }
-                                   }
-                                 ],
-                                 "responses": {
+                                   },
                                    "200": {
                                      "description": "OK",
                                      "content": {
+                                       "text/plain": {
+                                         "schema": {
+                                           "$ref": "#/components/schemas/User"
+                                         }
+                                       },
                                        "application/json": {
+                                         "schema": {
+                                           "$ref": "#/components/schemas/User"
+                                         }
+                                       },
+                                       "text/json": {
                                          "schema": {
                                            "$ref": "#/components/schemas/User"
                                          }
@@ -172,5 +142,6 @@ public class OpenApiOperationsGeneratorTests(WebApplicationFactory<MinimalApiPro
                          }
                          """;
         content.ReplaceLineEndings().Should().Be(expected);
+
     }
 }

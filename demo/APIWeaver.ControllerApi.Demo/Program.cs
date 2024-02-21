@@ -10,4 +10,5 @@ builder.Services.AddApiWeaver(o =>
 var app = builder.Build();
 app.UseSwaggerUi();
 
+app.MapControllers();
 app.Run();

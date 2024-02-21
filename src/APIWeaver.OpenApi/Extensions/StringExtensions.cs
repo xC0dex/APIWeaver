@@ -6,7 +6,6 @@ internal static class StringExtensions
     {
         return httpMethod switch
         {
-            "GET" => OperationType.Get,
             "PUT" => OperationType.Put,
             "POST" => OperationType.Post,
             "DELETE" => OperationType.Delete,
@@ -14,7 +13,7 @@ internal static class StringExtensions
             "HEAD" => OperationType.Head,
             "PATCH" => OperationType.Patch,
             "TRACE" => OperationType.Trace,
-            _ => throw new ArgumentException($"Invalid http method type: {httpMethod}")
+            _ => OperationType.Get
         };
     }
 }
