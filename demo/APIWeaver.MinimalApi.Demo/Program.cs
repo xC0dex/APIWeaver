@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using APIWeaver;
 using APIWeaver.MinimalApi.Demo;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +37,8 @@ var bookstoreEndpoint = app.MapGroup("/book-store")
     .WithTags("bookstore")
     .WithOpenApi();
 
-bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).Produces<User>();
+bookstoreEndpoint.MapGet("/user", (Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] string lul) => Results.NotFound());
+// bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).Produces<User>();
 // bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsExclusive = true)] int age) => { Results.Ok(); });
 //
 // bookstoreEndpoint.MapGet("/", (BookStore bookstore) =>

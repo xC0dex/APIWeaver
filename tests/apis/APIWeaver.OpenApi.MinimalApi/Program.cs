@@ -39,3 +39,5 @@ app.Run();
 
 
 public partial class Program;
+
+public sealed class MinimalApiProgram : Program;

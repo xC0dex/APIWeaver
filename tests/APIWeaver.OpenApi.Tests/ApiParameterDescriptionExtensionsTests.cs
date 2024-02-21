@@ -7,6 +7,17 @@ namespace APIWeaver.OpenApi.Tests;
 
 public class ApiParameterDescriptionExtensionsTests
 {
+    public static TheoryData<BindingSource, ParameterLocation> BindingSourceData =>
+        new()
+        {
+            {BindingSource.Path, ParameterLocation.Path},
+            {BindingSource.Header, ParameterLocation.Header},
+            {BindingSource.Query, ParameterLocation.Query},
+            {BindingSource.Form, ParameterLocation.Query},
+            {BindingSource.FormFile, ParameterLocation.Query},
+            {BindingSource.Body, ParameterLocation.Query}
+        };
+
     [Fact]
     public void GetPathParameters_ShouldOnlyReturnNonBodyParameters()
     {
@@ -79,6 +90,20 @@ public class ApiParameterDescriptionExtensionsTests
 
         // Assert
         result.Should().Be(parameterInfo);
+    }
+
+    [Theory]
+    [MemberData(nameof(BindingSourceData))]
+    public void ToParameterLocation_ShouldReturnExpectedLocation(BindingSource source, ParameterLocation expectedLocation)
+    {
+        // Arrange
+        var parameterDescriptor = new ApiParameterDescription {Source = source};
+
+        // Act
+        var actualLocation = parameterDescriptor.ToParameterLocation();
+
+        // Assert
+        actualLocation.Should().Be(expectedLocation);
     }
 }
 

@@ -22,4 +22,15 @@ internal static class ApiParameterDescriptionExtensions
         var descriptor = (parameterDescriptor.ParameterDescriptor as IParameterInfoParameterDescriptor)!;
         return descriptor.ParameterInfo;
     }
+    
+    public static ParameterLocation ToParameterLocation(this ApiParameterDescription parameterDescriptor)
+    {
+        var source = parameterDescriptor.Source;
+        if (source == BindingSource.Path)
+        {
+            return ParameterLocation.Path;
+        }
+
+        return source == BindingSource.Header ? ParameterLocation.Header : ParameterLocation.Query;
+    }
 }
