@@ -43,14 +43,13 @@ That's it. You now have a fully functional Swagger UI in your application. The U
 
 - Fully functional and configurable Swagger UI (with dark mode 🌙)
 - OpenAPI 3.0 generation
-- Document generation based on minimal APIs
+- OpenAPI generation based on minimal APIs and controllers
 - .NET 6, 7 and 8 including required members, nullable types and latest validation attributes
 - `System.Text.Json` including serializer options like IncludeFields, IgnoreReadOnlyFields, IgnoreReadOnlyProperties and more
 - Custom transformers to modify the generated OpenAPI document asynchronously
 
 ## Roadmap
 
-- Support for controller based APIs (https://github.com/xC0dex/APIWeaver/issues/27)
 - Full support for discriminators (https://github.com/xC0dex/APIWeaver/issues/21)
 - Security definitions for OpenAPI documents
 - API client generation based on the generated OpenAPI document
