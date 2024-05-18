@@ -9,7 +9,7 @@ APIWeaver is a powerful and lightweight library designed to provide a seamless i
 
 ## Announcement
 
-Microsoft is planning a built-in solution for generating OpenAPI documents. APIWeaver will provide SwaggerUI support for their generators.
+Microsoft is planning a built-in solution for generating OpenAPI documents. APIWeaver is no longer needed.
 
 ## Getting Started
 
