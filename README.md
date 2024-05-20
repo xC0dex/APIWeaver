@@ -9,7 +9,7 @@ APIWeaver is a powerful and lightweight library designed to provide a seamless i
 
 ## Announcement
 
-Microsoft is planning a built-in solution for generating OpenAPI documents. APIWeaver is no longer needed.
+Microsoft is planning a built-in solution for generating OpenAPI documents. APIWeaver is focusing on API client generation.
 
 ## Getting Started
 
@@ -53,10 +53,7 @@ That's it. You now have a fully functional Swagger UI in your application. The U
 
 ## Roadmap
 
-- Full support for discriminators (https://github.com/xC0dex/APIWeaver/issues/21)
-- Security definitions for OpenAPI documents
 - API client generation based on the generated OpenAPI document
-- ... and many more
 
 ## Work in progress
 
