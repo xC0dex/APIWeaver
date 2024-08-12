@@ -60,7 +60,7 @@ jobs:
           name: node-modules
           path: 'src/APIWeaver.Swagger/node_modules'
       - name: Analyze and test solution
-        uses: highbyte/sonarscan-dotnet@v2.3.1
+        uses: highbyte/sonarscan-dotnet@v2.3.2
         with:
           sonarProjectKey: xC0dex_APIWeaver
           sonarProjectName: APIWeaver
