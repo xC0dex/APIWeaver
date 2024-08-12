@@ -1,0 +1,11 @@
+{
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      "labels": ["dependencies"],
+      "matchPackagePatterns": ["*"],
+      "groupName": "all dependencies",
+      "groupSlug": "all-dependencies"
+    }
+  ]
+}
