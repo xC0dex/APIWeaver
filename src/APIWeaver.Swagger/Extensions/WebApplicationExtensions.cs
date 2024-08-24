@@ -1,4 +1,3 @@
-using APIWeaver.Swagger;
 using APIWeaver.Swagger.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +33,7 @@ public static class WebApplicationExtensions
                 swaggerOptions.WithOpenApiEndpoint(document, $"/openapi/{document}.json");
             }
         }
-        
+
         var group = app.MapGroup($"{requestPath}").ExcludeFromDescription();
 
         group.MapGet("configuration.json", () => Results.Json(swaggerOptions, JsonSerializerHelper.SerializerOptions));
