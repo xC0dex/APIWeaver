@@ -1,4 +1,4 @@
-using APIWeaver.Core;
+using APIWeaver.Swagger;
 
 namespace APIWeaver;
 

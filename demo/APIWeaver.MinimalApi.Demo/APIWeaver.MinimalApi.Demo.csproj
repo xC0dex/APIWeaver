@@ -6,7 +6,6 @@
   
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8"/>
   </ItemGroup>
 
 </Project>

@@ -2,13 +2,13 @@ using APIWeaver;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddApiWeaver(o =>
-{
-    o.SchemaGeneratorOptions.WithJsonOptionsSource(JsonOptionsSource.ControllerOptions);
-});
+
+builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
-app.UseSwaggerUi();
+app.MapOpenApi();
+app.MapSwaggerUi();
+
 
 app.MapControllers();
 app.Run();

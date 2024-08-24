@@ -9,7 +9,7 @@ app.MapGet("/", () => "Hello World!").WithOpenApi();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerUi();
+    app.MapSwaggerUi();
 }
 
 app.Run();
