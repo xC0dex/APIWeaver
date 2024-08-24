@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds a default OpenAPI document to the service collection.
     /// </summary>
-    /// <param name="services"><see cref="IServiceCollection"/>.</param>
+    /// <param name="services"><see cref="IServiceCollection" />.</param>
     public static IServiceCollection AddOpenApiDocument(this IServiceCollection services)
     {
         return services.AddOpenApiDocument(_ => { });
@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds an OpenAPI document to the service collection with specified options.
     /// </summary>
-    /// <param name="services"><see cref="IServiceCollection"/>.</param>
+    /// <param name="services"><see cref="IServiceCollection" />.</param>
     /// <param name="options">A delegate to configure the OpenAPI options.</param>
     public static IServiceCollection AddOpenApiDocument(this IServiceCollection services, Action<OpenApiOptions> options)
     {
@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds an OpenAPI document with a specified name to the service collection.
     /// </summary>
-    /// <param name="services"><see cref="IServiceCollection"/>.</param>
+    /// <param name="services"><see cref="IServiceCollection" />.</param>
     /// <param name="documentName">The name of the OpenAPI document.</param>
     public static IServiceCollection AddOpenApiDocument(this IServiceCollection services, string documentName)
     {
@@ -43,7 +43,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds an OpenAPI document with a specified name and options to the service collection.
     /// </summary>
-    /// <param name="services"><see cref="IServiceCollection"/>.</param>
+    /// <param name="services"><see cref="IServiceCollection" />.</param>
     /// <param name="documentName">The name of the OpenAPI document.</param>
     /// <param name="options">A delegate to configure the OpenAPI options.</param>
     public static IServiceCollection AddOpenApiDocument(this IServiceCollection services, string documentName, Action<OpenApiOptions> options)

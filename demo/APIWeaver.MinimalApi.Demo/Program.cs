@@ -12,7 +12,7 @@ builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.IgnoreReadOnlyProperties = true;
 });
 
-builder.Services.AddOpenApiDocument();
+builder.Services.AddOpenApiDocument(x => x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API"));
 
 var app = builder.Build();
 

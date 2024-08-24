@@ -3,7 +3,7 @@ namespace APIWeaver;
 /// <summary>
 /// Options for configuring OpenAPI helper.
 /// </summary>
-public sealed class OpenApiHelperOptions
+internal sealed class OpenApiHelperOptions
 {
     /// <summary>
     /// Gets the list of OpenAPI document names.

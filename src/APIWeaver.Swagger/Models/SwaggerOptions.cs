@@ -22,7 +22,7 @@ public sealed class SwaggerOptions
 
     /// <summary>
     /// Gets or sets the route pattern of the OpenAPI documents.
-    /// Default value is <see cref="Constants.DefaultOpenApiRoutePattern"/>.
+    /// Default value is <see cref="Constants.DefaultOpenApiRoutePattern" />.
     /// </summary>
     [JsonIgnore]
     public string OpenApiRoutePattern { get; set; } = Constants.DefaultOpenApiRoutePattern;
