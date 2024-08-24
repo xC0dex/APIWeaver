@@ -51,27 +51,35 @@ jobs:
       - build
       - node-setup
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
             dotnet-version: 9.x
+        
+      - name: Install sonar scanner
+        run: dotnet tool install -g dotnet-sonarscanner  
+        
+      - name: Restore dependencies
+        run: dotnet restore
+        
       - name: Download Node.js modules
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          path: 'src/APIWeaver.Swagger/node_modules'
+          #path: 'src/APIWeaver.Swagger/node_modules'
+          
       - name: Analyze and test solution
-        uses: highbyte/sonarscan-dotnet@v2.3.2
-        with:
-          sonarProjectKey: xC0dex_APIWeaver
-          sonarProjectName: APIWeaver
-          sonarOrganization: apiweaver
-          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
-          dotnetTestArguments: -c Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-          dotnetBuildArguments: -c Release
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+          dotnet build -c Release --no-restore --no-incremental
+          dotnet test -c Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          PROJECT_KEY: xC0dex_APIWeaver
+          ORGANIZATION: apiweaver
