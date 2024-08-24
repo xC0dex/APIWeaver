@@ -1,11 +1,9 @@
 {
-  "extends": ["config:base"],
-  "packageRules": [
-    {
-      "labels": ["dependencies"],
-      "matchPackagePatterns": ["*"],
-      "groupName": "all dependencies",
-      "groupSlug": "all-dependencies"
-    }
-  ]
+   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended"
+    ],
+    "ignorePresets": [
+        ":ignoreModulesAndTests"
+    ]
 }
