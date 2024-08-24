@@ -36,8 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 ```
 
-That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. A more detailed guide with more use cases can be found [here](https://github.com/xC0dex/APIWeaver/blob/main/docs/Getting-Started.md).
-
+That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. 
 ## Currently supported features
 
 - Fully functional and configurable Swagger UI
@@ -46,8 +45,8 @@ That's it. You now have a fully functional Swagger UI in your application. The U
 
 ## Roadmap
 
+- Useful transformers for OpenAPI documents and operations. Like, e.g, For Security schemes.
 - Support for more OpenAPI UIs
-- Useful transformers for OpenAPI documents and OpenAPI operations
 - If I have enough time: API client generation based on the generated OpenAPI document
 
 ## Work in progress
