@@ -10,5 +10,7 @@ internal struct Constants
     /// <summary>
     /// The default prefix for endpoints.
     /// </summary>
-    public const string DefaultEndpointPrefix = "swagger";
+    public const string DefaultSwaggerRoutePrefix = "swagger";
+
+    public const string DefaultOpenApiRoutePattern = "/openapi/{documentName}.json";
 }

@@ -1,7 +1,6 @@
 using APIWeaver;
 
 var builder = WebApplication.CreateBuilder(args);
-// builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
 

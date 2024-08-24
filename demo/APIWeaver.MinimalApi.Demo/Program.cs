@@ -13,7 +13,6 @@ builder.Services.Configure<JsonOptions>(options =>
 });
 
 builder.Services.AddOpenApiDocument();
-builder.Services.AddOpenApiDocument("v2");
 
 var app = builder.Build();
 

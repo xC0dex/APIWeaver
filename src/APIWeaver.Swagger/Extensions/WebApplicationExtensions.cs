@@ -19,31 +19,33 @@ public static class WebApplicationExtensions
     /// </summary>
     /// <param name="app"><see cref="WebApplication" />.</param>
     /// <param name="options">An action to configure the Swagger UI options.</param>
-    public static IApplicationBuilder MapSwaggerUi(this WebApplication app, Action<SwaggerOptions>? options = null)
+    public static IEndpointConventionBuilder MapSwaggerUi(this WebApplication app, Action<SwaggerOptions>? options = null)
     {
         var swaggerOptions = app.Services.GetRequiredService<IOptions<SwaggerOptions>>().Value;
         options?.Invoke(swaggerOptions);
-        var requestPath = $"/{swaggerOptions.EndpointPrefix}";
+        var requestPath = $"/{swaggerOptions.RoutePrefix}";
 
+        // If no URLs are provided, use the OpenAPI documents registered in the options
         if (swaggerOptions.UiOptions.Urls.Count == 0)
         {
-            var openApiOptions = app.Services.GetRequiredService<IOptions<InternalOpenApiOptions>>().Value;
+            var openApiOptions = app.Services.GetRequiredService<IOptions<OpenApiHelperOptions>>().Value;
             foreach (var document in openApiOptions.Documents)
             {
-                swaggerOptions.WithOpenApiEndpoint(document, $"/openapi/{document}.json");
+                var route = swaggerOptions.OpenApiRoutePattern.Replace("{documentName}", document);
+                swaggerOptions.WithOpenApiEndpoint(document, $"{route}");
             }
         }
 
-        var group = app.MapGroup($"{requestPath}").ExcludeFromDescription();
+        var swaggerGroup = app.MapGroup($"{requestPath}").ExcludeFromDescription();
+        swaggerGroup.MapGet("configuration.json", () => Results.Json(swaggerOptions, JsonSerializerHelper.SerializerOptions));
+        swaggerGroup.MapGet("/", () => Results.Redirect($"{requestPath}/index.html"));
 
-        group.MapGet("configuration.json", () => Results.Json(swaggerOptions, JsonSerializerHelper.SerializerOptions));
-        group.MapGet("/", () => Results.Redirect($"{requestPath}/index.html"));
         app.UseStaticFiles(new StaticFileOptions
         {
             RequestPath = requestPath,
             FileProvider = new EmbeddedFileProvider(typeof(WebApplicationExtensions).Assembly, SwaggerUiAssets)
         });
 
-        return app;
+        return swaggerGroup;
     }
 }

@@ -150,7 +150,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         configuration.Title.Should().Be("My Swagger UI");
-        configuration.EndpointPrefix.Should().Be("swagger");
+        configuration.RoutePrefix.Should().Be("swagger");
 
         configuration.UiOptions.DeepLinking.Should().BeTrue();
         configuration.UiOptions.DisplayOperationId.Should().BeTrue();
@@ -201,7 +201,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     {
         // Arrange
         const string endpointPrefix = "open-api";
-        var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services => services.Configure<SwaggerOptions>(o => o.EndpointPrefix = $"/{endpointPrefix}/")));
+        var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services => services.Configure<SwaggerOptions>(o => o.RoutePrefix = $"/{endpointPrefix}/")));
         var client = testFactory.CreateClient();
 
         // Act
