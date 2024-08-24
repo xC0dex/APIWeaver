@@ -3,26 +3,16 @@ using System.Text.Json.Serialization;
 using APIWeaver;
 using APIWeaver.MinimalApi.Demo;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<BookStore>();
-builder.Services.AddApiWeaver(options =>
-{
-    options
-        .WithSchemaGeneratorOptions(schemaGeneratorOptions =>
-        {
-            schemaGeneratorOptions
-                .WithJsonOptionsSource(JsonOptionsSource.MinimalApiOptions)
-                .WithNullableAnnotationForReferenceTypes(true);
-        });
-});
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.IgnoreReadOnlyProperties = true;
 });
+
+builder.Services.AddOpenApiDocument(x => x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API"));
 
 var app = builder.Build();
 
@@ -30,12 +20,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwaggerUi();
+    app.MapOpenApi();
+    app.MapSwaggerUi();
 }
 
 var bookstoreEndpoint = app.MapGroup("/book-store")
-    .WithTags("bookstore")
-    .WithOpenApi();
+    .WithTags("bookstore");
 
 bookstoreEndpoint.MapGet("/user", (Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] string lul) => Results.NotFound());
 // bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).Produces<User>();

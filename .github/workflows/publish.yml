@@ -24,9 +24,9 @@ jobs:
     strategy:
       matrix:
         project:
-          - 'APIWeaver.Core'
-          - 'APIWeaver.OpenApi'
-          - 'APIWeaver.Schema'
+#          - 'APIWeaver.Core'
+#          - 'APIWeaver.OpenApi'
+#          - 'APIWeaver.Schema'
           - 'APIWeaver.Swagger'
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
+          dotnet-version: 9.x
       - name: Pack ${{ matrix.project }}
         working-directory: src/${{ matrix.project }}
         run: dotnet pack -c Release --output nupkgs /p:Version=$VERSION /p:PackageVersion=$VERSION

@@ -1,4 +1,4 @@
-using APIWeaver.Core;
+using APIWeaver.Swagger;
 
 namespace APIWeaver;
 
@@ -7,18 +7,25 @@ namespace APIWeaver;
 /// </summary>
 public sealed class SwaggerOptions
 {
-    private string _endpointPrefix = Constants.DefaultEndpointPrefix;
+    private string _routePrefix = Constants.DefaultSwaggerRoutePrefix;
 
     /// <summary>
     /// Gets or sets the endpoint prefix for the Swagger UI.
-    /// Default value is Default is <see cref="Constants.DefaultEndpointPrefix" />.
+    /// Default value is Default is <see cref="Constants.DefaultSwaggerRoutePrefix" />.
     /// </summary>
     [JsonIgnore]
-    public string EndpointPrefix
+    public string RoutePrefix
     {
-        get => _endpointPrefix;
-        set => _endpointPrefix = value.Trim('/');
+        get => _routePrefix;
+        set => _routePrefix = value.Trim('/');
     }
+
+    /// <summary>
+    /// Gets or sets the route pattern of the OpenAPI documents.
+    /// Default value is <see cref="Constants.DefaultOpenApiRoutePattern" />.
+    /// </summary>
+    [JsonIgnore]
+    public string OpenApiRoutePattern { get; set; } = Constants.DefaultOpenApiRoutePattern;
 
     /// <summary>
     /// Gets or sets the title for the Swagger UI.
