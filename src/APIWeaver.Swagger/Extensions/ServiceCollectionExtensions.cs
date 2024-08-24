@@ -29,4 +29,19 @@ public static class ServiceCollectionExtensions
         services.AddOpenApi(documentName, options);
         return services;
     }
+
+    public static IServiceCollection AddOpenApiDocuments(this IServiceCollection services, IEnumerable<string> documentNames)
+    {
+        return services.AddOpenApiDocuments(documentNames, _ => { });
+    }
+
+    public static IServiceCollection AddOpenApiDocuments(this IServiceCollection services, IEnumerable<string> documentNames, Action<OpenApiOptions> options)
+    {
+        foreach (var documentName in documentNames)
+        {
+            services.AddOpenApiDocument(documentName, options);
+        }
+
+        return services;
+    }
 }

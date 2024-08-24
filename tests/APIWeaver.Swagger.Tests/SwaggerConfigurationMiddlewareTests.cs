@@ -181,13 +181,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     {
         // Arrange
         var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services =>
-            services.AddApiWeaver(options => options.OpenApiDocuments.Add("my-document", new OpenApiDocumentDefinition
-            {
-                Info = new OpenApiInfo
-                {
-                    Title = "Hello world"
-                }
-            }))));
+            services.AddOpenApiDocument("my-document")));
         var client = testFactory.CreateClient();
 
         // Act

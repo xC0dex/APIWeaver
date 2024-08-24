@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace APIWeaver.ControllerApi.Demo.Controllers;
 
 [ApiController]
-[ApiVersion(1, Deprecated = true)]
+[ApiVersion(2)]
 [Route("v{version:apiVersion}/users")]
-public class UserController: ControllerBase
+public class UserControllerNew: ControllerBase
 {
     
-    [HttpPost("{id:guid}")]
+    [HttpPost("dummy/{id:guid}")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<UserDto> GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] UserDto userDto)
@@ -23,13 +23,4 @@ public class UserController: ControllerBase
         };
         return Ok(user);
     }
-}
-
-public class UserDto
-{
-    public required Guid UserId { get; set; }
-
-    public string? Name { get; set; }
-
-    public int Age { get; set; }
 }

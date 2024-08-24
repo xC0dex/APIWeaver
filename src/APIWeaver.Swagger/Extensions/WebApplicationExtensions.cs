@@ -22,16 +22,19 @@ public static class WebApplicationExtensions
     /// <param name="options">An action to configure the Swagger UI options.</param>
     public static IApplicationBuilder MapSwaggerUi(this WebApplication app, Action<SwaggerOptions>? options = null)
     {
-        var swaggerOptions = app.Services.GetRequiredService<IOptionsMonitor<SwaggerOptions>>().CurrentValue;
-        var openApiOptions = app.Services.GetRequiredService<IOptions<InternalOpenApiOptions>>().Value;
+        var swaggerOptions = app.Services.GetRequiredService<IOptions<SwaggerOptions>>().Value;
         options?.Invoke(swaggerOptions);
         var requestPath = $"/{swaggerOptions.EndpointPrefix}";
-        
-        foreach (var document in openApiOptions.Documents)
-        {
-            swaggerOptions.WithOpenApiEndpoint(document, $"/openapi/{document}.json");
-        }
 
+        if (swaggerOptions.UiOptions.Urls.Count == 0)
+        {
+            var openApiOptions = app.Services.GetRequiredService<IOptions<InternalOpenApiOptions>>().Value;
+            foreach (var document in openApiOptions.Documents)
+            {
+                swaggerOptions.WithOpenApiEndpoint(document, $"/openapi/{document}.json");
+            }
+        }
+        
         var group = app.MapGroup($"{requestPath}").ExcludeFromDescription();
 
         group.MapGet("configuration.json", () => Results.Json(swaggerOptions, JsonSerializerHelper.SerializerOptions));
