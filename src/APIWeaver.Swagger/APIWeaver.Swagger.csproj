@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>APIWeaver.Swagger is a library that adds Swagger UI support to the given API project.</Description>
+    <Description>
+      APIWeaver.Swagger is a comprehensive library that integrates Swagger UI support into .NET 9 API projects.
+      It provides customizable options for the Swagger UI, including OAuth2 support and additional UI configurations.
+    </Description>
   </PropertyGroup>
 
   <ItemGroup>

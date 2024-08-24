@@ -5,11 +5,7 @@
 [![NuGet Version](https://img.shields.io/nuget/v/APIWeaver.Swagger)](https://www.nuget.org/packages/APIWeaver.Swagger/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/APIWeaver.OpenApi)](https://www.nuget.org/packages/APIWeaver.Swagger/)
 
-APIWeaver is a powerful and lightweight library designed to provide a seamless integration of OpenAPI and Swagger UI into your .NET 6+ apps. APIWeaver supports the latest .NET features and is designed to be future-proof, ensuring support for upcoming .NET and OpenAPI features.
-
-## Announcement
-
-Microsoft is planning a built-in solution for generating OpenAPI documents.
+APIWeaver is a powerful and lightweight library designed to provide a seamless integration Swagger UI into your .NET 9+ apps. APIWeaver supports the latest .NET features and is designed to be future-proof, ensuring support for upcoming .NET and OpenAPI features.
 
 ## Getting Started
 
@@ -30,13 +26,13 @@ using APIWeaver;
 3. Add the following lines to your `Program.cs` file.
 
 ```csharp
-builder.Services.AddApiWeaver();
-
+builder.Services.AddOpenApiDocument();
 // other code
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerUi();
+    app.MapOpenApi();
+    app.MapSwaggerUi();
 }
 ```
 
