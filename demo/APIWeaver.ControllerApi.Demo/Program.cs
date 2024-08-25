@@ -1,4 +1,5 @@
 using APIWeaver;
+using APIWeaver.Transformers;
 using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,13 +15,23 @@ builder.Services.AddApiVersioning(options =>
         options.SubstituteApiVersionInUrl = true;
     });
 
+builder.Services.AddAuthentication()
+    .AddJwtBearer();
+builder.Services.AddAuthorizationBuilder()
+    .AddFallbackPolicy("meddl", policy => policy.RequireRole("meddl"));
 
-builder.Services.AddOpenApiDocument("v1");
+builder.Services.AddOpenApiDocument("v1", options: options =>
+{
+    options.AddOperationTransformer<MethodInfoOperationTransformer>();
+    options.AddOperationTransformer<AuthorizeOperationTransformer>();
+});
 
 var app = builder.Build();
-app.MapOpenApi();
-app.MapSwaggerUi();
+app.MapOpenApi().AllowAnonymous();
+app.MapSwaggerUi().AllowAnonymous();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.Run();
