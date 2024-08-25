@@ -20,7 +20,7 @@ concurrency:
 env:
   DOTNET_NOLOGO: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
+  # NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
 
 jobs:
   node-setup:
@@ -37,7 +37,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          path: ${{ env.NODE_MODULES_PATH }}
+          # path: ${{ env.NODE_MODULES_PATH }}
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -75,7 +75,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          path: ${{ env.NODE_MODULES_PATH }}
+          # path: ${{ env.NODE_MODULES_PATH }}
           
       - name: Analyze and test solution
         run: |
