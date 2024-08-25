@@ -18,7 +18,7 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddAuthentication()
     .AddJwtBearer();
 builder.Services.AddAuthorizationBuilder()
-    .AddFallbackPolicy("meddl", policy => policy.RequireRole("meddl"));
+    .AddFallbackPolicy("foo", policy => policy.RequireRole("foo"));
 
 builder.Services.AddOpenApiDocument("v1", options: options =>
 {

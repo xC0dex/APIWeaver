@@ -8,7 +8,7 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [ApiVersion(1, Deprecated = true)]
 [Route("v{version:apiVersion}/users")]
-[Authorize(Roles = "meddl")]
+[Authorize(Roles = "foo")]
 public class UserController: ControllerBase
 {
     
