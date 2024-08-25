@@ -20,12 +20,12 @@ concurrency:
 env:
   DOTNET_NOLOGO: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  # NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
+  NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
 
 jobs:
   node-setup:
     uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@main
-  build:
+  build-test:
     runs-on: ubuntu-latest
     needs: 
       - node-setup
@@ -37,7 +37,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-modules
-          # path: ${{ env.NODE_MODULES_PATH }}
+          path: ${{ env.NODE_MODULES_PATH }}
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -64,18 +64,18 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     needs:
-      - node-setup
-      - build
+      - build-test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           
-      - name: Download Node.js modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
+      # - name: Download Node.js modules
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: node-modules
+          
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
