@@ -46,9 +46,21 @@ jobs:
           
       - name: Restore dependencies
         run: dotnet restore
-      - name: Build
+        
+      - name: Build solution
         run: dotnet build -c Release --no-restore
-  
+        
+      - name: Test solution
+        run: dotnet test -c Release --no-restore --no-build --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            **/TestResults/**/coverage.opencover.xml
+            **/TestResults/*.trx
+        
   analyze:
     runs-on: ubuntu-latest
     needs:
@@ -75,18 +87,16 @@ jobs:
         
       - name: Restore dependencies
         run: dotnet restore
-        
-      # - name: Download Node.js modules
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: node-modules
-          # path: ${{ env.NODE_MODULES_PATH }}
+
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
           
       - name: Analyze and test solution
         run: |
           dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
           dotnet build -c Release --no-restore --no-incremental
-          dotnet test -c Release --no-restore --no-build --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
