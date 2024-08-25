@@ -83,7 +83,7 @@ jobs:
           
       - name: Analyze solution
         run: |
-          dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/test-results/*.trx"
+          dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.scanAll=false /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml"
           dotnet build -c Release --no-restore --no-incremental
           dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"
         env:
