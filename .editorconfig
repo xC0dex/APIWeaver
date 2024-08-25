@@ -73,6 +73,6 @@ resharper_web_config_type_not_resolved_highlighting = warning
 resharper_web_config_wrong_module_highlighting = warning
 
 # XML project files
-[*.{csproj,props,targets,json}]
+[*.{csproj,props,targets,json,yml}]
 indent_size = 2
 

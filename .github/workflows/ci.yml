@@ -22,29 +22,29 @@ jobs:
     uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@main
   build-test:
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - node-setup
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Download Node.js modules
         uses: actions/download-artifact@v4
         with:
           name: node-modules
           path: 'src/APIWeaver.Swagger/node_modules'
-          
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.x
-          
+
       - name: Restore dependencies
         run: dotnet restore
-        
+
       - name: Build solution
         run: dotnet build -c Release --no-restore
-        
+
       - name: Test solution
         run: dotnet test -c Release --no-restore --no-build --results-directory "test-results" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
@@ -53,7 +53,7 @@ jobs:
         with:
           name: coverage-report
           path: test-results
-        
+  
   analyze:
     runs-on: ubuntu-latest
     needs:
@@ -62,16 +62,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0      
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-            dotnet-version: 9.x
-        
+          dotnet-version: 9.x
+
       - name: Install sonar scanner
-        run: dotnet tool install -g dotnet-sonarscanner  
-        
+        run: dotnet tool install -g dotnet-sonarscanner
+
       - name: Restore dependencies
         run: dotnet restore
 
@@ -80,14 +80,14 @@ jobs:
         with:
           name: coverage-report
           path: test-results
-          
+
       - name: Analyze solution
         run: |
           dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.scanAll=true /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml"
           dotnet build -c Release --no-restore --no-incremental
           dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           PROJECT_KEY: xC0dex_APIWeaver
           ORGANIZATION: apiweaver

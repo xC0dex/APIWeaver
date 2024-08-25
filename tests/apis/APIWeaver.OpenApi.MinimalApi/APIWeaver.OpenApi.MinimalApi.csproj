@@ -5,10 +5,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="APIWeaver.OpenApi.Tests"/>
   </ItemGroup>
 

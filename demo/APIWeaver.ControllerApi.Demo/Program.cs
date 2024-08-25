@@ -15,7 +15,7 @@ builder.Services.AddApiVersioning(options =>
     });
 
 
-builder.Services.AddOpenApiDocuments(["v1", "v2"]);
+builder.Services.AddOpenApiDocument("v1");
 
 var app = builder.Build();
 app.MapOpenApi();
