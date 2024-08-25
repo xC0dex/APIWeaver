@@ -3,28 +3,29 @@ name: Node Assets
 on:
   workflow_call:
 
-env:
-  NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
-
 jobs:
   node-setup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          
       - name: Cache Node.js modules
         uses: actions/cache@v4
         with:
           path: ${{ env.NODE_MODULES_PATH }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          
       - name: Restore dependencies
         working-directory: src/APIWeaver.Swagger
         run: npm ci
+        
       - name: Archive node_modules
         uses: actions/upload-artifact@v4
         with:
           name: node-modules
-          path: ${{ env.NODE_MODULES_PATH }}
+          path: 'src/APIWeaver.Swagger/node_modules'
