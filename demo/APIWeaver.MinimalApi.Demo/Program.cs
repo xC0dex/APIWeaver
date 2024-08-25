@@ -12,7 +12,12 @@ builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.IgnoreReadOnlyProperties = true;
 });
 
-builder.Services.AddOpenApiDocument(x => x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API"));
+builder.Services.AddOpenApiDocument(x =>
+{
+    x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
+    x.AddDocumentTransformer<BearerSecuritySchemeOperationTransformerTest>();
+    x.AddOperationTransformer<BearerSecuritySchemeOperationTransformer>();
+});
 
 var app = builder.Build();
 
@@ -21,37 +26,19 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.MapOpenApi();
-    app.MapSwaggerUi();
+    app.MapSwaggerUi(x => x.OAuth2Options = new OAuth2Options
+    {
+        Realm = "dawd",
+        ClientId = "afwf",
+        ClientSecret = "awgw"
+    });
 }
 
 var bookstoreEndpoint = app.MapGroup("/book-store")
+    .RequireAuthorization()
     .WithTags("bookstore");
 
 bookstoreEndpoint.MapGet("/user", (Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] string lul) => Results.NotFound());
-// bookstoreEndpoint.MapPost("/user", ([FromBody] User user) => Results.Ok(user)).Produces<User>();
-// bookstoreEndpoint.MapGet("/parameters", ([FromQuery] [Range(69, 420, MinimumIsExclusive = true)] int age) => { Results.Ok(); });
-//
-// bookstoreEndpoint.MapGet("/", (BookStore bookstore) =>
-// {
-//     var books = bookstore.GetBooks();
-//     return Results.Ok(books);
-// }).Produces<IEnumerable<Book>>();
-//
-// bookstoreEndpoint.MapPost("/", (Book book, BookStore bookstore) =>
-//     {
-//         var addedBook = bookstore.AddBook(book);
-//         return addedBook is null ? Results.Conflict() : Results.Ok(addedBook);
-//     }).Produces<Book>()
-//     .Produces(409);
-//
-// bookstoreEndpoint.MapPut("/{id:guid?}", (Guid? id, Book book, BookStore bookstore) =>
-//     {
-//         var updateBook = bookstore.UpdateBook(id!.Value, book);
-//         return updateBook is null ? Results.NotFound() : Results.Ok(updateBook);
-//     }).Produces<Book>()
-//     .Produces(404);
-// bookstoreEndpoint.MapPost("/dummy", ([FromBody] [MinLength(4)] User[] friends) => Results.Ok()).Produces<DummyResponse>();
-// app.MapPost("/user", (User value, BookStore bookstore) => Results.Ok()).Produces<User>().WithOpenApi();
 
 
 app.Run();

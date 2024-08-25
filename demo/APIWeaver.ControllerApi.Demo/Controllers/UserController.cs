@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIWeaver.ControllerApi.Demo.Controllers;
@@ -7,6 +8,7 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [ApiVersion(1, Deprecated = true)]
 [Route("v{version:apiVersion}/users")]
+[Authorize]
 public class UserController: ControllerBase
 {
     

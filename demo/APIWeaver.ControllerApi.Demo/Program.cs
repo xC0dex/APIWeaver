@@ -15,7 +15,10 @@ builder.Services.AddApiVersioning(options =>
     });
 
 
-builder.Services.AddOpenApiDocuments(["v1", "v2"]);
+builder.Services.AddOpenApiDocument("v1", x =>
+{
+    x.AddOperationTransformer<BearerSecuritySchemeOperationTransformer>();
+});
 
 var app = builder.Build();
 app.MapOpenApi();
