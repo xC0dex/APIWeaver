@@ -3,9 +3,6 @@ name: Node Assets
 on:
   workflow_call:
 
-# env:
-  # NODE_MODULES_PATH: 'src/APIWeaver.Swagger/node_modules'
-
 jobs:
   node-setup:
     runs-on: ubuntu-latest
@@ -32,4 +29,3 @@ jobs:
         with:
           name: node-modules
           path: 'src/APIWeaver.Swagger/node_modules'
-          # path: ${{ env.NODE_MODULES_PATH }}
