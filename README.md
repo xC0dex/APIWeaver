@@ -9,12 +9,12 @@ APIWeaver is a powerful and lightweight library designed to provide a seamless i
 
 ## Getting Started
 
-To get started with APIWeaver, you can install the NuGet package using your preferred package manager. In most cases, the package `APIWeaver.Swagger` is the one you are looking for.
+To get started with APIWeaver, you can install the NuGet package using your preferred package manager. In most cases, the package `APIWeaver` is the one you are looking for.
 
 1. Install the NuGet package
 
 ```shell
-dotnet add package APIWeaver.Swagger
+dotnet add package APIWeaver
 ```
 
 2. Add the using directive to your Program.cs file
@@ -27,6 +27,7 @@ using APIWeaver;
 
 ```csharp
 builder.Services.AddOpenApiDocument();
+
 // other code
 
 if (app.Environment.IsDevelopment())
@@ -36,17 +37,17 @@ if (app.Environment.IsDevelopment())
 }
 ```
 
-That's it. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. 
+That's it. You now have a fully functional native AOT compatible Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳. 
 ## Currently supported features
 
 - Fully functional and configurable Swagger UI
 - Dark mode 🌙
-- Useful extension methods
 - AOT compatible
+- Useful extension methods
 
 ## Roadmap
 
-- Useful transformers for OpenAPI documents and operations. Like, e.g, For Security schemes.
+- Useful transformers for OpenAPI documents and operations. Like, e.g, for Security schemes and definitions.
 - Support for more OpenAPI UIs
 - If I have enough time: API client generation based on the generated OpenAPI document
 
