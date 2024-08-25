@@ -7,24 +7,19 @@ using Microsoft.OpenApi.Models;
 namespace APIWeaver.Transformers;
 
 /// <summary>
-/// Transforms the operation to require authorization if the action requires it.
+/// Transforms the operation to add responses for unauthorized and forbidden requests.
 /// </summary>
-public sealed class AuthorizeOperationTransformer : IOpenApiOperationTransformer
+public sealed class AuthorizeResponseOperationTransformer : IOpenApiOperationTransformer
 {
     /// <inheritdoc />
     public async Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
-        var authorizeAttributes = context.Description.ActionDescriptor.EndpointMetadata.OfType<AuthorizeAttribute>().ToArray();
-        var anonymousAttributes = context.Description.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>();
-
-        var hasFallbackPolicy = await HasFallbackPolicyAsync(context);
-        var isAuthorized = authorizeAttributes.Any() || hasFallbackPolicy;
-        if (isAuthorized && !anonymousAttributes.Any())
+        var isAuthorized = await context.HasAuthorizationAsync();
+        if (isAuthorized)
         {
-            AddSecurityReference(operation);
             AddResponse(operation, StatusCodes.Status401Unauthorized, "Unauthorized - A valid bearer token is required.");
 
-            var hasRequirements = await HasRequirementsAsync(authorizeAttributes, context);
+            var hasRequirements = await HasRequirementsAsync(context);
             if (hasRequirements)
             {
                 AddResponse(operation, StatusCodes.Status403Forbidden, "Forbidden - The authenticated user does not have the required permissions.");
@@ -32,20 +27,9 @@ public sealed class AuthorizeOperationTransformer : IOpenApiOperationTransformer
         }
     }
 
-    private static async Task<bool> HasFallbackPolicyAsync(OpenApiOperationTransformerContext context)
+    private static async Task<bool> HasRequirementsAsync(OpenApiOperationTransformerContext context)
     {
-        var policyProvider = context.ApplicationServices.GetService<IAuthorizationPolicyProvider>();
-        if (policyProvider is not null)
-        {
-            var fallbackPolicy = await policyProvider.GetFallbackPolicyAsync();
-            return fallbackPolicy is not null;
-        }
-
-        return false;
-    }
-
-    private static async Task<bool> HasRequirementsAsync(AuthorizeAttribute[] authorizeAttributes, OpenApiOperationTransformerContext context)
-    {
+        var authorizeAttributes = context.Description.ActionDescriptor.EndpointMetadata.OfType<AuthorizeAttribute>().ToArray();
         // Check if any authorize attribute has roles
         if (authorizeAttributes.Any(attr => !string.IsNullOrEmpty(attr.Roles)))
         {
@@ -90,22 +74,5 @@ public sealed class AuthorizeOperationTransformer : IOpenApiOperationTransformer
         {
             operation.Responses.Add(statusCodeString, new OpenApiResponse {Description = description});
         }
-    }
-
-    private static void AddSecurityReference(OpenApiOperation operation)
-    {
-        var schema = new OpenApiSecurityScheme
-        {
-            Reference = new OpenApiReference
-            {
-                Id = "Bearer",
-                Type = ReferenceType.SecurityScheme
-            }
-        };
-        var requirement = new OpenApiSecurityRequirement
-        {
-            [schema] = []
-        };
-        operation.Security.Add(requirement);
     }
 }

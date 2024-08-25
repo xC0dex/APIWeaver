@@ -5,6 +5,9 @@ fetch('./configuration.json')
         if (additionalUiOptions.darkMode) {
             appendHeaderContent('<link rel="stylesheet" type="text/css" href="./dark-mode.css" />');
         }
+
+        additionalUiOptions.stylesheets.forEach((href) => appendHeaderContent(`<link rel="stylesheet" type="text/css" href="${href}" />`));
+        additionalUiOptions.scripts.forEach((src) => document.body.insertAdjacentHTML('beforeend', `<script src="${src}"></script>`));
         uiOptions.dom_id = '#swagger-ui';
         uiOptions.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
         uiOptions.plugins = [SwaggerUIBundle.plugins.DownloadUrl];
@@ -14,5 +17,5 @@ fetch('./configuration.json')
     });
 
 function appendHeaderContent(content) {
-    document.getElementsByTagName('head')[0].insertAdjacentHTML('beforeend', content);
+    document.head.insertAdjacentHTML('beforeend', content);
 }
