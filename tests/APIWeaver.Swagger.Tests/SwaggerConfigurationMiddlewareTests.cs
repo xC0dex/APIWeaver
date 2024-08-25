@@ -1,6 +1,3 @@
-using APIWeaver.Swagger.Helper;
-using Microsoft.OpenApi.Models;
-
 namespace APIWeaver.Swagger.Tests;
 
 public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebApplicationFactory<Program>>
@@ -145,11 +142,13 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         // Act
         var response = await _client.GetAsync("/swagger/configuration.json");
         await using var content = await response.Content.ReadAsStreamAsync();
-        var configuration = (await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, JsonSerializerHelper.SerializerOptions))!;
+        
+        var configuration = await JsonSerializer.DeserializeAsync(content, typeof(SwaggerOptions), SwaggerOptionsSerializerContext.Default) as SwaggerOptions;
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        configuration.Title.Should().Be("My Swagger UI");
+        configuration.Should().NotBeNull();
+        configuration!.Title.Should().Be("My Swagger UI");
         configuration.RoutePrefix.Should().Be("swagger");
 
         configuration.UiOptions.DeepLinking.Should().BeTrue();
@@ -187,8 +186,8 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         // Act
         var response = await client.GetAsync("/swagger/configuration.json");
         await using var content = await response.Content.ReadAsStreamAsync();
-        var configuration = (await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, JsonSerializerHelper.SerializerOptions))!;
-        var urls = configuration.UiOptions.Urls;
+        var configuration = await JsonSerializer.DeserializeAsync(content, typeof(SwaggerOptions), SwaggerOptionsSerializerContext.Default) as SwaggerOptions;
+        var urls = configuration!.UiOptions.Urls;
 
         // Assert
         urls.Should().HaveCount(1);
