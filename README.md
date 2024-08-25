@@ -2,7 +2,7 @@
 
 [![Pipeline](https://github.com/xC0dex/APIWeaver/actions/workflows/ci.yml/badge.svg)](https://github.com/xC0dex/APIWeaver/actions/workflows/ci.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=xC0dex_APIWeaver&metric=coverage)](https://sonarcloud.io/summary/new_code?id=xC0dex_APIWeaver)
-[![NuGet Version](https://img.shields.io/nuget/v/APIWeaver.Swagger)](https://www.nuget.org/packages/APIWeaver.Swagger/)
+[![NuGet Version](https://img.shields.io/nuget/v/APIWeaver.Swagger)](https://www.nuget.org/packages/APIWeaver/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/APIWeaver.Swagger)](https://www.nuget.org/packages/APIWeaver.Swagger/)
 
 APIWeaver is a powerful and lightweight library designed to provide a seamless integration Swagger UI into your .NET 9+ apps. APIWeaver supports the latest .NET features and is designed to be future-proof, ensuring support for upcoming .NET and OpenAPI features.
@@ -42,14 +42,15 @@ That's it. You now have a fully functional native AOT compatible Swagger UI in y
 
 - Fully functional and configurable Swagger UI
 - Dark mode 🌙
-- AOT compatible
+- Native AOT compatible
 - Useful extension methods
+- Transformer for OpenApiOperations and OpenApiDocuments
 
 ## Roadmap
 
 - Useful transformers for OpenAPI documents and operations. Like, e.g, for Security schemes and definitions.
 - Support for more OpenAPI UIs
-- If I have enough time: API client generation based on the generated OpenAPI document
+- Later: API client generation based on the generated OpenAPI document
 
 ## Work in progress
 
