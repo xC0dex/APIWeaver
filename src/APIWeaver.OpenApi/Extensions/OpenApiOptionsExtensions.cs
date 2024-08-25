@@ -39,4 +39,53 @@ public static class OpenApiOptionsExtensions
         });
         return options;
     }
+
+    public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, OpenApiSecurityScheme scheme)
+    {
+        options.AddSecurityScheme(schemeName, (_, _, _) => Task.FromResult(scheme));
+        return options;
+    }
+
+    public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Action<OpenApiSecurityScheme> factory)
+    {
+        return options.AddSecurityScheme(schemeName, (scheme, provider, _) =>
+        {
+            factory(scheme);
+            return Task.CompletedTask;
+        });
+    }
+
+    public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Action<OpenApiSecurityScheme, IServiceProvider> factory)
+    {
+        return options.AddSecurityScheme(schemeName, (scheme, provider, _) =>
+        {
+            factory(scheme, provider);
+            return Task.CompletedTask;
+        });
+    }
+
+    public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Func<OpenApiSecurityScheme, IServiceProvider, CancellationToken, Task> asyncFactory)
+    {
+        options.AddDocumentTransformer(async (document, context, cancellationToken) =>
+        {
+            var securityScheme = new OpenApiSecurityScheme();
+            await asyncFactory(securityScheme, context.ApplicationServices, cancellationToken);
+            document.Components ??= new OpenApiComponents();
+            document.Components.SecuritySchemes.Add(schemeName, securityScheme);
+        });
+
+        options.AddOperationTransformer(async (operation, context, _) =>
+        {
+            var hasAuthorization = await context.HasAuthorizationAsync();
+            if (hasAuthorization)
+            {
+                var referenceScheme = new OpenApiSecurityScheme {Reference = new OpenApiReference {Id = schemeName, Type = ReferenceType.SecurityScheme}};
+                operation.Security.Add(new OpenApiSecurityRequirement
+                {
+                    [referenceScheme] = []
+                });
+            }
+        });
+        return options;
+    }
 }
