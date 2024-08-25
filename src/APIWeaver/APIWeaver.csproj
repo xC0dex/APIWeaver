@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  
   <PropertyGroup>
     <Description>
-      APIWeaver.OpenApi is a library that provides useful extensions and transformers for the build-in .NET 9 OpenAPI generator. 
+      APIWeaver is a powerful and lightweight library designed to provide a seamless integration Swagger UI into your .NET 9+ apps.
     </Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.7.24406.2"/>
-  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
@@ -16,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Transformers\" />
+    <ProjectReference Include="..\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj" />
+    <ProjectReference Include="..\APIWeaver.Swagger\APIWeaver.Swagger.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-  
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\APIWeaver.OpenApi.Legacy\APIWeaver.OpenApi.Legacy.csproj" />
-  </ItemGroup>
-  
-</Project>
+<Project Sdk="Microsoft.NET.Sdk.Web" />

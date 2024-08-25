@@ -15,8 +15,6 @@ builder.Services.Configure<JsonOptions>(options =>
 builder.Services.AddOpenApiDocument(x =>
 {
     x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
-    x.AddDocumentTransformer<BearerSecuritySchemeOperationTransformerTest>();
-    x.AddOperationTransformer<BearerSecuritySchemeOperationTransformer>();
 });
 
 var app = builder.Build();
