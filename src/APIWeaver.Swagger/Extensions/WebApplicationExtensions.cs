@@ -1,4 +1,3 @@
-using APIWeaver.Swagger.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +36,7 @@ public static class WebApplicationExtensions
         }
 
         var swaggerGroup = app.MapGroup($"{requestPath}").ExcludeFromDescription();
-        swaggerGroup.MapGet("configuration.json", () => Results.Json(swaggerOptions, JsonSerializerHelper.SerializerOptions));
+        swaggerGroup.MapGet("configuration.json", () => Results.Json(swaggerOptions, SwaggerOptionsSerializerContext.Default));
         swaggerGroup.MapGet("/", () => Results.Redirect($"{requestPath}/index.html"));
 
         app.UseStaticFiles(new StaticFileOptions
@@ -49,3 +48,7 @@ public static class WebApplicationExtensions
         return swaggerGroup;
     }
 }
+
+[JsonSerializable(typeof(SwaggerOptions))]
+[JsonSourceGenerationOptions(DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+internal sealed partial class SwaggerOptionsSerializerContext : JsonSerializerContext;
