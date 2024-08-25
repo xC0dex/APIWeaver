@@ -42,6 +42,7 @@ That's it. You now have a fully functional Swagger UI in your application. The U
 - Fully functional and configurable Swagger UI
 - Dark mode 🌙
 - Useful extension methods
+- AOT compatible
 
 ## Roadmap
 
