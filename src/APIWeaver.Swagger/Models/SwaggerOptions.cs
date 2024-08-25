@@ -29,9 +29,9 @@ public sealed class SwaggerOptions
 
     /// <summary>
     /// Gets or sets the title for the Swagger UI.
-    /// Default value is "Swagger UI".
+    /// Default value is the application name followed by " | Swagger UI".
     /// </summary>
-    public string Title { get; set; } = "Swagger UI";
+    public string? Title { get; set; }
 
     /// <summary>
     /// Gets or sets the options for the Swagger UI.
@@ -49,3 +49,7 @@ public sealed class SwaggerOptions
     /// </summary>
     public AdditionalUiOptions AdditionalUiOptions { get; set; } = new();
 }
+
+[JsonSerializable(typeof(SwaggerOptions))]
+[JsonSourceGenerationOptions(DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+internal sealed partial class SwaggerOptionsSerializerContext : JsonSerializerContext;

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace APIWeaver;
@@ -24,6 +25,13 @@ public static class WebApplicationExtensions
         options?.Invoke(swaggerOptions);
         var requestPath = $"/{swaggerOptions.RoutePrefix}";
 
+        if (swaggerOptions.Title is null)
+        {
+            var hostEnvironment = app.Services.GetRequiredService<IHostEnvironment>();
+            var title = $"{hostEnvironment.ApplicationName} | Swagger UI";
+            swaggerOptions.Title = title;
+        }
+        
         // If no URLs are provided, use the OpenAPI documents registered in the options
         if (swaggerOptions.UiOptions.Urls.Count == 0)
         {
@@ -31,7 +39,7 @@ public static class WebApplicationExtensions
             foreach (var document in openApiOptions.Documents)
             {
                 var route = swaggerOptions.OpenApiRoutePattern.Replace("{documentName}", document);
-                swaggerOptions.WithOpenApiEndpoint(document, $"{route}");
+                swaggerOptions.WithOpenApiEndpoint(document, route);
             }
         }
 
@@ -48,7 +56,3 @@ public static class WebApplicationExtensions
         return swaggerGroup;
     }
 }
-
-[JsonSerializable(typeof(SwaggerOptions))]
-[JsonSourceGenerationOptions(DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
-internal sealed partial class SwaggerOptionsSerializerContext : JsonSerializerContext;
