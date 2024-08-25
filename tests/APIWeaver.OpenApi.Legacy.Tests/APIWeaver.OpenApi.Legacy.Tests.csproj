@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
+    <ProjectReference Include="..\..\src\APIWeaver.OpenApi.Legacy\APIWeaver.OpenApi.Legacy.csproj" />
     <ProjectReference Include="..\apis\APIWeaver.OpenApi.ControllerApi\APIWeaver.OpenApi.ControllerApi.csproj" />
     <ProjectReference Include="..\apis\APIWeaver.OpenApi.MinimalApi\APIWeaver.OpenApi.MinimalApi.csproj"/>
   </ItemGroup>

@@ -1,56 +1,42 @@
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.OpenApi.Models;
+
 namespace APIWeaver;
 
 /// <summary>
-/// Extension methods for <see cref="OpenApiOptions" />.
+/// Useful extension methods for <see cref="OpenApiOptions"/>.
 /// </summary>
 public static class OpenApiOptionsExtensions
 {
     /// <summary>
-    /// Configures the <see cref="OpenApiSchemaGeneratorOptions" /> for the OpenApiOptions.
+    /// Registers a given delegate as a document transformer on the current <see cref="OpenApiOptions"/> instance.
     /// </summary>
-    /// <param name="options"><see cref="OpenApiOptions" />.</param>
-    /// <param name="generatorOptions">An action that configures the generator options.</param>
-    public static OpenApiOptions WithGeneratorOptions(this OpenApiOptions options, Action<OpenApiGeneratorOptions> generatorOptions)
+    /// <param name="options"><see cref="OpenApiOptions"/>.</param>
+    /// <param name="transformer">The synchronous delegate representing the document transformer.</param>
+    /// <returns>The <see cref="OpenApiOptions"/> instance for further customization.</returns>
+    public static OpenApiOptions AddDocumentTransformer(this OpenApiOptions options, Action<OpenApiDocument, OpenApiDocumentTransformerContext> transformer)
     {
-        generatorOptions.Invoke(options.GeneratorOptions);
+        options.AddDocumentTransformer((document, context, _) =>
+        {
+            transformer(document, context);
+            return Task.CompletedTask;
+        });
         return options;
     }
 
     /// <summary>
-    /// Configures the <see cref="OpenApiSchemaGeneratorOptions" /> for the OpenApiOptions.
+    /// Registers a given delegate as an operation transformer on the current <see cref="OpenApiOptions"/> instance.
     /// </summary>
-    /// <param name="options"><see cref="OpenApiOptions" />.</param>
-    /// <param name="generatorOptions">An action that configures the schema generator options.</param>
-    public static OpenApiOptions WithSchemaGeneratorOptions(this OpenApiOptions options, Action<OpenApiSchemaGeneratorOptions> generatorOptions)
+    /// <param name="options"><see cref="OpenApiOptions"/>.</param>
+    /// <param name="transformer">The synchronous delegate representing the operation transformer.</param>
+    /// <returns>The <see cref="OpenApiOptions"/> instance for further customization.</returns>
+    public static OpenApiOptions AddOperationTransformer(this OpenApiOptions options, Action<OpenApiOperation, OpenApiOperationTransformerContext> transformer)
     {
-        generatorOptions.Invoke(options.SchemaGeneratorOptions);
-        return options;
-    }
-
-
-    /// <summary>
-    /// Adds an OpenApi document to the OpenApiOptions.
-    /// </summary>
-    /// <param name="options"><see cref="OpenApiOptions" />.</param>
-    /// <param name="documentName">The name of the document.</param>
-    /// <param name="documentDefinition">An action that defines the document.</param>
-    public static OpenApiOptions AddOpenApiDocument(this OpenApiOptions options, string documentName, Action<OpenApiDocumentDefinition> documentDefinition)
-    {
-        var document = new OpenApiDocumentDefinition();
-        documentDefinition.Invoke(document);
-        options.OpenApiDocuments.Add(documentName, document);
-        return options;
-    }
-
-    /// <summary>
-    /// Adds an OpenApi document to the OpenApiOption.
-    /// </summary>
-    /// <param name="options">T<see cref="OpenApiOptions" />.</param>
-    /// <param name="documentName">The name of the document.</param>
-    /// <param name="documentDefinition">The document definition.</param>
-    public static OpenApiOptions AddOpenApiDocument(this OpenApiOptions options, string documentName, OpenApiDocumentDefinition documentDefinition)
-    {
-        options.OpenApiDocuments.Add(documentName, documentDefinition);
+        options.AddOperationTransformer((operation, context, _) =>
+        {
+            transformer(operation, context);
+            return Task.CompletedTask;
+        });
         return options;
     }
 }

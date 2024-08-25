@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
+    <ProjectReference Include="..\..\..\src\APIWeaver.OpenApi.Legacy\APIWeaver.OpenApi.Legacy.csproj" />
   </ItemGroup>
 
   <ItemGroup>

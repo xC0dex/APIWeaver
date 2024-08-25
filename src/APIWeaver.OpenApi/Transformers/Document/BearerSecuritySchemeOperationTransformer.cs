@@ -16,7 +16,7 @@ public sealed class BearerSecuritySchemeOperationTransformer : IOpenApiOperation
         var anonymousAttributes = context.Description.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>();
         if (authorizeAttributes.Any() && !anonymousAttributes.Any())
         {
-            AddSecurityScheme(operation);
+            AddSecurityReference(operation);
             operation.Responses.Add("401", new OpenApiResponse
             {
                 Description = "Unauthorized - A valid bearer token is required."
@@ -26,7 +26,7 @@ public sealed class BearerSecuritySchemeOperationTransformer : IOpenApiOperation
         return Task.CompletedTask;
     }
 
-    private static void AddSecurityScheme(OpenApiOperation operation)
+    private static void AddSecurityReference(OpenApiOperation operation)
     {
         var schema = new OpenApiSecurityScheme
         {
@@ -48,15 +48,20 @@ public sealed class BearerSecuritySchemeOperationTransformerTest : IOpenApiDocum
 {
     public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {
-        // Add the security scheme at the document level
         var requirements = new Dictionary<string, OpenApiSecurityScheme>
         {
-            ["Oidc"] = new OpenApiSecurityScheme
+            ["Bearer"] = new OpenApiSecurityScheme
             {
+                Flows = new OpenApiOAuthFlows
+                {
+                    AuthorizationCode = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri("https://example.com/oauth2/authorize")
+                    }
+                },
                 Type = SecuritySchemeType.OAuth2,
-                Scheme = "Bearer", // "bearer" refers to the header name here
-                In = ParameterLocation.Header,
-                BearerFormat = "Json Web Token"
+                Scheme = "Bearer",
+                In = ParameterLocation.Header
             }
         };
         document.Components ??= new OpenApiComponents();

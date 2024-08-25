@@ -39,17 +39,4 @@ public static class SwaggerOptionsExtensions
         configuration.UiOptions.Urls.Add(new Url(name, endpoint));
         return configuration;
     }
-
-    /// <summary>
-    /// Configures the OpenAPI endpoint for the Swagger UI.
-    /// </summary>
-    /// <param name="configuration"><see cref="SwaggerOptions" />.</param>
-    /// <param name="documentName">The name of the OpenAPI document.</param>
-    /// <param name="isJson">Whether the OpenAPI document is in JSON format. False if the format is YAML.</param>
-    public static SwaggerOptions WithOpenApiDocument(this SwaggerOptions configuration, string documentName, bool isJson = true)
-    {
-        var endpoint = $"/{configuration.RoutePrefix}/{documentName}-openapi.{(isJson ? "json" : "yaml")}";
-        configuration.UiOptions.Urls.Add(new Url(documentName, endpoint));
-        return configuration;
-    }
 }

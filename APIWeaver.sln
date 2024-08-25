@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C8C12F5
 		tests\xunit.runner.json = tests\xunit.runner.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi", "src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj", "{184B6D75-E412-4F4C-9E98-6128320636C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi.Legacy", "src\APIWeaver.OpenApi.Legacy\APIWeaver.OpenApi.Legacy.csproj", "{184B6D75-E412-4F4C-9E98-6128320636C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi.Tests", "tests\APIWeaver.OpenApi.Tests\APIWeaver.OpenApi.Tests.csproj", "{05883931-C88D-4196-AAE9-4EA55EF00829}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi.Legacy.Tests", "tests\APIWeaver.OpenApi.Legacy.Tests\APIWeaver.OpenApi.Legacy.Tests.csproj", "{05883931-C88D-4196-AAE9-4EA55EF00829}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{BBD49ECA-CB62-4820-B425-296EFCFE7EC2}"
 	ProjectSection(SolutionItems) = preProject
@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.ControllerApi.Dem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi.ControllerApi", "tests\apis\APIWeaver.OpenApi.ControllerApi\APIWeaver.OpenApi.ControllerApi.csproj", "{BDA46E4D-086E-48AB-A658-274904190A73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi", "src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj", "{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,7 @@ Global
 		{2A019294-F9A1-4E3D-9677-1F26C2F532D8} = {9C8C12F5-F67A-4319-94FC-281A1EEFF1B4}
 		{CED28A60-261E-4E23-8066-0F4166712451} = {BBD49ECA-CB62-4820-B425-296EFCFE7EC2}
 		{BDA46E4D-086E-48AB-A658-274904190A73} = {DDE3C770-5DDB-4650-8B68-D753730D3B1B}
+		{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E} = {CC045423-814B-40D9-B087-5AC3C8848B09}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{184B6D75-E412-4F4C-9E98-6128320636C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -128,5 +131,9 @@ Global
 		{BDA46E4D-086E-48AB-A658-274904190A73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDA46E4D-086E-48AB-A658-274904190A73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDA46E4D-086E-48AB-A658-274904190A73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
