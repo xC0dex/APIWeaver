@@ -40,21 +40,39 @@ public static class OpenApiOptionsExtensions
         return options;
     }
 
+    /// <summary>
+    /// Adds the given security scheme to the current <see cref="OpenApiOptions" /> instance.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="schemeName">The name of the scheme.</param>
+    /// <param name="scheme">The <see cref="OpenApiSecurityScheme" />.</param>
     public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, OpenApiSecurityScheme scheme)
     {
         options.AddSecurityScheme(schemeName, (_, _, _) => Task.FromResult(scheme));
         return options;
     }
 
-    public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Action<OpenApiSecurityScheme> factory)
+    /// <summary>
+    /// Adds the given security scheme to the current <see cref="OpenApiOptions" /> instance.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="schemeName">The name of the scheme.</param>
+    /// <param name="scheme">An action to configure the <see cref="OpenApiSecurityScheme" />.</param>
+    public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Action<OpenApiSecurityScheme> scheme)
     {
-        return options.AddSecurityScheme(schemeName, (scheme, provider, _) =>
+        return options.AddSecurityScheme(schemeName, (s, provider, _) =>
         {
-            factory(scheme);
+            scheme(s);
             return Task.CompletedTask;
         });
     }
 
+    /// <summary>
+    /// Adds the given security scheme to the current <see cref="OpenApiOptions" /> instance.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="schemeName">The name of the scheme.</param>
+    /// <param name="factory">A factory to provide the <see cref="OpenApiSecurityScheme" />.</param>
     public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Action<OpenApiSecurityScheme, IServiceProvider> factory)
     {
         return options.AddSecurityScheme(schemeName, (scheme, provider, _) =>
@@ -64,6 +82,12 @@ public static class OpenApiOptionsExtensions
         });
     }
 
+    /// <summary>
+    /// Adds the given security scheme to the current <see cref="OpenApiOptions" /> instance.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="schemeName">The name of the scheme.</param>
+    /// <param name="asyncFactory">An async factory to provide the <see cref="OpenApiSecurityScheme" />.</param>
     public static OpenApiOptions AddSecurityScheme(this OpenApiOptions options, string schemeName, Func<OpenApiSecurityScheme, IServiceProvider, CancellationToken, Task> asyncFactory)
     {
         options.AddDocumentTransformer(async (document, context, cancellationToken) =>

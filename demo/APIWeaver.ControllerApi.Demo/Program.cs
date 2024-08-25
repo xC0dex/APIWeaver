@@ -42,7 +42,11 @@ builder.Services.AddOpenApiDocument("v1", options =>
 
 var app = builder.Build();
 app.MapOpenApi().AllowAnonymous();
-app.MapSwaggerUi().AllowAnonymous();
+app.MapSwaggerUi(x =>
+{
+    x.AdditionalUiOptions.Stylesheets.Add("test");
+    x.AdditionalUiOptions.Scripts.Add("test");
+}).AllowAnonymous();
 
 app.UseAuthentication();
 app.UseAuthorization();
