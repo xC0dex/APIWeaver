@@ -9,7 +9,7 @@ APIWeaver is a powerful and lightweight library that seamlessly integrates Swagg
 
 ## Getting Started
 
-Getting up and running with APIWeaver is simple. Follow these steps to integrate it into your .NET 9+ application:
+Getting up and running with APIWeaver is simple:
 
 1. **Install the NuGet package**
 
