@@ -129,6 +129,7 @@ builder.Services.AddOpenApiDocument(options =>
 });
 ```
 
-The `AddSecurityScheme` method adds a security scheme to the OpenAPI document and updates all operations with the security requirement. The `AddAuthResponse` method checks if the endpoint requires authentication ands adds the `401- Unauthorized` response to the related operation. If the endpoint requires authorization (roles, policies, default or fallback policies), the `403- Forbidden` response is added to the operation.
+The `AddSecurityScheme` method adds a security scheme to the OpenAPI document and updates all operations with the security requirement. The `AddAuthResponse` method checks if the endpoint requires authentication ands adds the `401 - Unauthorized` response to the related operation. If the endpoint requires authorization (roles, policies, default or fallback policies), the `403 - Forbidden` response is added to the operation.
+
 
 More is coming soon...
