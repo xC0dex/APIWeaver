@@ -31,15 +31,15 @@ public static class WebApplicationExtensions
             var title = $"{hostEnvironment.ApplicationName} | Swagger UI";
             swaggerOptions.Title = title;
         }
-        
+
         // If no URLs are provided, use the OpenAPI documents registered in the options
-        if (swaggerOptions.UiOptions.Urls.Count == 0)
+        if (swaggerOptions.Urls.Count == 0)
         {
             var openApiOptions = app.Services.GetRequiredService<IOptions<OpenApiHelperOptions>>().Value;
             foreach (var document in openApiOptions.Documents)
             {
                 var route = swaggerOptions.OpenApiRoutePattern.Replace("{documentName}", document);
-                swaggerOptions.WithOpenApiEndpoint(document, route);
+                swaggerOptions.AddOpenApiDocument(document, route);
             }
         }
 

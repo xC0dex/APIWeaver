@@ -3,14 +3,14 @@ namespace APIWeaver.Swagger.Tests;
 public class SwaggerUiOptionsExtensionsTests
 {
     [Fact]
-    public void MethodName_ShouldShould_WhenWhen()
+    public void Extensions_ShouldSetProperties()
     {
         // Arrange
-        var options = new SwaggerUiOptions();
+        var options = new SwaggerOptions();
 
         // Act
         options
-            .AddUrl(new Url("name", "endpoint"))
+            .AddOpenApiDocument("name", "endpoint")
             .WithDeepLinking(true)
             .WithDisplayOperationId(true)
             .WithDefaultModelExpandDepth(2)
