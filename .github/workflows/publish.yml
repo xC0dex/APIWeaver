@@ -5,10 +5,6 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   node-setup:
     uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@main
@@ -41,12 +37,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.x
-
+          
+      - name: Restore dependencies
+        working-directory: src/${{ matrix.project }}
+        run: dotnet restore
+        
       - name: Pack ${{ matrix.project }}
         working-directory: src/${{ matrix.project }}
-        run: dotnet pack -c Release --output nupkgs /p:Version=$VERSION
+        run: dotnet pack -c Release --no-restore --output nupkgs /p:Version=$VERSION
 
       - name: Publish ${{ matrix.project }}
         working-directory: src/${{ matrix.project }}
-        run: |
-          dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
