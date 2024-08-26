@@ -45,9 +45,19 @@ public sealed class SwaggerOptions
     public OAuth2Options? OAuth2Options { get; set; }
 
     /// <summary>
-    /// Gets or sets the additional options for the Swagger UI.
+    /// Gets or sets a value indicating whether to use dark mode.
     /// </summary>
-    public AdditionalUiOptions AdditionalUiOptions { get; set; } = new();
+    public bool DarkMode { get; set; } = true;
+
+    /// <summary>
+    /// Optional stylesheets to include in the Swagger UI.
+    /// </summary>
+    public IList<string> Stylesheets { get; set; } = [];
+
+    /// <summary>
+    /// Optional scripts to include in the Swagger UI.
+    /// </summary>
+    public IList<string> Scripts { get; set; } = [];
 }
 
 [JsonSerializable(typeof(SwaggerOptions))]

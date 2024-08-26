@@ -7,15 +7,9 @@ using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<BookStore>();
-builder.Services.Configure<JsonOptions>(options =>
-{
-    options.SerializerOptions.IgnoreReadOnlyProperties = true;
-});
+builder.Services.Configure<JsonOptions>(options => { options.SerializerOptions.IgnoreReadOnlyProperties = true; });
 
-builder.Services.AddOpenApiDocument(x =>
-{
-    x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
-});
+builder.Services.AddOpenApiDocument(x => { x.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API"); });
 
 var app = builder.Build();
 
@@ -42,10 +36,8 @@ bookstoreEndpoint.MapGet("/user", (Guid id, [FromHeader] [Required] int age, [Fr
 app.Run();
 
 
-
 public class User
 {
-    
     private int _number;
     public required string Id { get; set; }
 

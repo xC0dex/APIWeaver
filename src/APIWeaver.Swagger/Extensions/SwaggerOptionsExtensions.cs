@@ -31,12 +31,12 @@ public static class SwaggerOptionsExtensions
     /// <summary>
     /// Configures the OpenAPI endpoint for the Swagger UI.
     /// </summary>
-    /// <param name="configuration"><see cref="SwaggerOptions" />.</param>
+    /// <param name="options"><see cref="SwaggerOptions" />.</param>
     /// <param name="name">The name of the OpenAPI document.</param>
-    /// <param name="endpoint">The URL where the OpenAPI document can be found.</param>
-    public static SwaggerOptions WithOpenApiEndpoint(this SwaggerOptions configuration, string name, string endpoint)
+    /// <param name="route">The URL where the OpenAPI document can be found.</param>
+    public static SwaggerOptions AddOpenApiDocument(this SwaggerOptions options, string name, string route)
     {
-        configuration.UiOptions.Urls.Add(new Url(name, endpoint));
-        return configuration;
+        options.UiOptions.Urls.Add(new Url(name, route));
+        return options;
     }
 }

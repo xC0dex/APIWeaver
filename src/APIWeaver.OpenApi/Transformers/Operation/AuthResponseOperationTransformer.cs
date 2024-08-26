@@ -9,7 +9,7 @@ namespace APIWeaver.Transformers;
 /// <summary>
 /// Transforms the operation to add responses for unauthorized and forbidden requests.
 /// </summary>
-public sealed class AuthorizeResponseOperationTransformer : IOpenApiOperationTransformer
+public sealed class AuthResponseOperationTransformer : IOpenApiOperationTransformer
 {
     /// <inheritdoc />
     public async Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)

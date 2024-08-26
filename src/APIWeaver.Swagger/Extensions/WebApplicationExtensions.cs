@@ -39,7 +39,7 @@ public static class WebApplicationExtensions
             foreach (var document in openApiOptions.Documents)
             {
                 var route = swaggerOptions.OpenApiRoutePattern.Replace("{documentName}", document);
-                swaggerOptions.WithOpenApiEndpoint(document, route);
+                swaggerOptions.AddOpenApiDocument(document, route);
             }
         }
 
