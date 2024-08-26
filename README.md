@@ -40,6 +40,7 @@ if (app.Environment.IsDevelopment())
 ```
 
 That's it! Your application now has a fully functional, native AOT-compatible Swagger UI. To view it, simply navigate to `/swagger` in your browser 🥳.
+For more advanced configuration options, check out the [documentation](docs/Getting-Started.md).
 
 ## Currently supported features
 
