@@ -1,10 +1,69 @@
 # Getting started with APIWeaver
 
-## APIWeaver configuration
+`ApiWeaver` is a library that provides a fully functional and configurable Swagger UI for your ASP.NET Core application.
 
-API Weaver is highly configurable and can be customized to fit your needs by using the `OpenApiOptions` class. 
+## Installation
 
-### Transformers
+To get started with APIWeaver, you can install the NuGet package `APIWeaver`.
+
+```shell
+dotnet add package APIWeaver
+```
+
+The `APIWeaver` package bundles the `APIWeaver.Swagger` and `APIWeaver.OpenApi` packages. The `APIWeaver.Swagger` package provides everything you need to integrate Swagger UI into your application, while the `APIWeaver.OpenApi` package provides useful extension methods and transformers for OpenAPI documents and operations.
+
+## Basic usage
+
+Add the following using directive to your `Program.cs` file.
+
+```csharp
+using APIWeaver;
+```
+
+Add the following lines to your `Program.cs` file.
+
+```csharp
+builder.Services.AddOpenApiDocument();
+
+// other code
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.MapSwaggerUi();
+}
+```
+
+This is the minimum configuration required to get started with APIWeaver. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳.
+
+## Configure Swagger UI
+
+The Swagger UI can be configured using the `SwaggerOptions` class. This class has different properties and a fluent API to configure the UI. The UI configuration is based on the official Swagger UI configuration with some additional options. The following snippet shows how to configure the Swagger UI:
+
+```csharp
+app.MapSwaggerUi(options =>
+{
+    options
+        .AddStylesheet("https://localhost:5001/custom.css")
+        .WithTryItOut(true)
+        .WithDarkMode(true);
+});
+```
+
+
+
+
+
+
+
+
+
+<!-- ## APIWeaver configuration
+
+API Weaver is highly configurable and can be customized to fit your needs by using the `OpenApiOptions` class.  -->
+
+
+<!-- ### Transformers
 
 Transformers are a way to modify the generated OpenAPI segments like the document, operations, servers or schemes. There are three different ways how transformers can be added to the options:
 
@@ -50,6 +109,6 @@ app.UseSwaggerUi(options =>
     });
     options.WithOAuth2Options(oAuth2Options => oAuth2Options.ClientSecret = "my-client-secret");
 });
-```
+``` -->
 
 More is coming soon...
