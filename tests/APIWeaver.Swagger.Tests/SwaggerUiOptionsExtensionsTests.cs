@@ -20,8 +20,8 @@ public class SwaggerUiOptionsExtensionsTests
             .WithShowExtensions(true)
             .WithShowExtensions(true)
             .WithShowCommonExtensions(true)
-            .WithTryItOutEnabled(true)
-            .WithRequestSnippetsEnabled(true)
+            .WithTryItOut(true)
+            .WithRequestSnippets(true)
             .WithOAuth2RedirectUrl("custom-html")
             .WithValidatorUrl("url");
 

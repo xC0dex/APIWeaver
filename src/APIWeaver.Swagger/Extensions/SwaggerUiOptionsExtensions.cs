@@ -98,7 +98,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="tryItOutEnabled">The TryItOutEnabled value to set.</param>
-    public static SwaggerOptions WithTryItOutEnabled(this SwaggerOptions options, bool tryItOutEnabled)
+    public static SwaggerOptions WithTryItOut(this SwaggerOptions options, bool tryItOutEnabled)
     {
         options.TryItOutEnabled = tryItOutEnabled;
         return options;
@@ -109,7 +109,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="requestSnippetsEnabled">The RequestSnippetsEnabled value to set.</param>
-    public static SwaggerOptions WithRequestSnippetsEnabled(this SwaggerOptions options, bool requestSnippetsEnabled)
+    public static SwaggerOptions WithRequestSnippets(this SwaggerOptions options, bool requestSnippetsEnabled)
     {
         options.RequestSnippetsEnabled = requestSnippetsEnabled;
         return options;

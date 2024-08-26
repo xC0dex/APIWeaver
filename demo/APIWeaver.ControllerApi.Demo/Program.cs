@@ -49,7 +49,7 @@ app.MapOpenApi().AllowAnonymous();
 app.MapSwaggerUi(options =>
 {
     options
-        .WithTryItOutEnabled(true)
+        .WithTryItOut(true)
         .WithDarkMode(false)
         .WithDeepLinking(false);
 }).AllowAnonymous();
