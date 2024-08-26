@@ -44,6 +44,10 @@ The `APIWeaver.Swagger` package provides everything you need to integrate Swagge
 - `AddOpenApiDocuments()`: Adds multiple OpenAPI documents to the service collection.
 - `MapOpenApi()`: Adds the OpenAPI document endpoint to the application.
 
+> [!NOTE]  
+> Due to the current implementation of `AddOpenApi()` the registration of OpenAPI documents **must** be done with `AddOpenApiDocument()` or `AddOpenApiDocument()`.
+> Otherwise you have to provide the routes to the OpenAPI documents manually.
+
 Here are some examples of how to use these extension methods:
 
 ```csharp
