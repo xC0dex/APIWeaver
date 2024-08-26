@@ -36,11 +36,43 @@ if (app.Environment.IsDevelopment())
 
 This is the minimum configuration required to get started with APIWeaver. You now have a fully functional Swagger UI in your application. The UI can be accessed by navigating to `/swagger` in your browser 🥳.
 
-## Configure Swagger UI
+## APIWeaver.Swagger
+
+The `APIWeaver.Swagger` package provides everything you need to integrate Swagger UI into your application. The package contains the following extension methods to register an OpenAPI document:
+
+- `AddOpenApiDocument()`: Adds the OpenAPI document to the service collection by calling `AddOpenApi`.
+- `AddOpenApiDocuments()`: Adds multiple OpenAPI documents to the service collection.
+- `MapOpenApi()`: Adds the OpenAPI document endpoint to the application.
+
+Here are some examples of how to use these extension methods:
+
+```csharp
+// Add a single OpenAPI document
+builder.Services.AddOpenApiDocument();
+
+// Add multiple OpenAPI documents
+builder.Services.AddOpenApiDocuments(["v1", "v2"]);
+
+// Add a single OpenAPI document with a custom configuration
+builder.Services.AddOpenApiDocument(options =>
+{
+    options.AddDocumentTransformer((document, _) => document.Info.Title = "My API");
+});
+
+// Add multiple OpenAPI documents with custom configurations
+builder.Services.AddOpenApiDocuments(["v1", "v2"], options =>
+{
+    // Reuse for all documents
+    options.AddDocumentTransformer((document, _) => document.Info.Title = "My API");
+});
+```
+
+### Configure Swagger UI
 
 The Swagger UI can be configured using the `SwaggerOptions` class. This class has different properties and a fluent API to configure the UI. The UI configuration is based on the official Swagger UI configuration with some additional options. The following snippet shows how to configure the Swagger UI:
 
 ```csharp
+// Fluent API
 app.MapSwaggerUi(options =>
 {
     options
@@ -48,7 +80,21 @@ app.MapSwaggerUi(options =>
         .WithTryItOut(true)
         .WithDarkMode(true);
 });
+
+// Object initializer
+app.MapSwaggerUi(options =>
+{
+    options.AddStylesheet("https://localhost:5001/custom.css");
+    options.TryItOutEnabled = true;
+    options.DarkMode = true;
+});
 ```
+
+There are many more options available to configure the Swagger UI. You can find a list of all available options in the `SwaggerOptions` and `SwaggerUiOptions` class.
+
+## 
+
+
 
 
 
