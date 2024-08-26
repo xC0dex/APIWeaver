@@ -48,7 +48,10 @@ var app = builder.Build();
 app.MapOpenApi().AllowAnonymous();
 app.MapSwaggerUi(options =>
 {
-    options.Stylesheets.Add("https://example.com/styles.css");
+    options
+        .WithTryItOutEnabled(true)
+        .WithDarkMode(false)
+        .WithDeepLinking(false);
 }).AllowAnonymous();
 
 app.UseAuthentication();

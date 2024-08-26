@@ -4,12 +4,13 @@ namespace APIWeaver;
 /// Options for the Swagger UI.
 /// The options are based on <a href="https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md">Swagger UI Configuration</a>.
 /// </summary>
-public sealed class SwaggerUiOptions
+public abstract class SwaggerUiOptions
 {
     /// <summary>
     /// Represents a collection of URLs for the OpenAPI documentation.
     /// </summary>
-    public IList<Url> Urls { get; init; } = [];
+    [JsonInclude]
+    internal IList<Url> Urls { get; init; } = [];
 
     /// <summary>
     /// If set to true, enables deep linking for tags and operations.

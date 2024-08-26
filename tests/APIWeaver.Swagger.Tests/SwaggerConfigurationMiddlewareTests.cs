@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace APIWeaver.Swagger.Tests;
 
 public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebApplicationFactory<Program>>
@@ -5,27 +7,29 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     private readonly HttpClient _client;
     private readonly WebApplicationFactory<Program> _factory;
 
+    private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
 
     public SwaggerConfigurationMiddlewareTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerOptions>(configuration =>
         {
             configuration.Title = "My Swagger UI";
-            configuration.WithUiOptions(o =>
-            {
-                o.DeepLinking = true;
-                o.DisplayOperationId = true;
-                o.DefaultModelsExpandDepth = 2;
-                o.DefaultModelExpandDepth = 2;
-                o.DisplayRequestDuration = true;
-                o.MaxDisplayedTags = 5;
-                o.ShowExtensions = true;
-                o.ShowCommonExtensions = true;
-                o.TryItOutEnabled = true;
-                o.RequestSnippetsEnabled = true;
-                o.OAuth2RedirectUrl = "my-oauth2-redirect.html";
-                o.ValidatorUrl = "my-validator-url";
-            });
+            configuration.DeepLinking = true;
+            configuration.DisplayOperationId = true;
+            configuration.DefaultModelsExpandDepth = 2;
+            configuration.DefaultModelExpandDepth = 2;
+            configuration.DisplayRequestDuration = true;
+            configuration.MaxDisplayedTags = 5;
+            configuration.ShowExtensions = true;
+            configuration.ShowCommonExtensions = true;
+            configuration.TryItOutEnabled = true;
+            configuration.RequestSnippetsEnabled = true;
+            configuration.OAuth2RedirectUrl = "my-oauth2-redirect.html";
+            configuration.ValidatorUrl = "my-validator-url";
             configuration.WithOAuth2Options(o =>
             {
                 o.ClientId = "my-client-id";
@@ -118,18 +122,18 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         configuration!.Title.Should().Be("My Swagger UI");
         configuration.RoutePrefix.Should().Be("swagger");
 
-        configuration.UiOptions.DeepLinking.Should().BeTrue();
-        configuration.UiOptions.DisplayOperationId.Should().BeTrue();
-        configuration.UiOptions.DefaultModelsExpandDepth.Should().Be(2);
-        configuration.UiOptions.DefaultModelExpandDepth.Should().Be(2);
-        configuration.UiOptions.DisplayRequestDuration.Should().BeTrue();
-        configuration.UiOptions.MaxDisplayedTags.Should().Be(5);
-        configuration.UiOptions.ShowExtensions.Should().BeTrue();
-        configuration.UiOptions.ShowCommonExtensions.Should().BeTrue();
-        configuration.UiOptions.TryItOutEnabled.Should().BeTrue();
-        configuration.UiOptions.RequestSnippetsEnabled.Should().BeTrue();
-        configuration.UiOptions.OAuth2RedirectUrl.Should().Be("my-oauth2-redirect.html");
-        configuration.UiOptions.ValidatorUrl.Should().Be("my-validator-url");
+        configuration.DeepLinking.Should().BeTrue();
+        configuration.DisplayOperationId.Should().BeTrue();
+        configuration.DefaultModelsExpandDepth.Should().Be(2);
+        configuration.DefaultModelExpandDepth.Should().Be(2);
+        configuration.DisplayRequestDuration.Should().BeTrue();
+        configuration.MaxDisplayedTags.Should().Be(5);
+        configuration.ShowExtensions.Should().BeTrue();
+        configuration.ShowCommonExtensions.Should().BeTrue();
+        configuration.TryItOutEnabled.Should().BeTrue();
+        configuration.RequestSnippetsEnabled.Should().BeTrue();
+        configuration.OAuth2RedirectUrl.Should().Be("my-oauth2-redirect.html");
+        configuration.ValidatorUrl.Should().Be("my-validator-url");
 
         configuration.OAuth2Options.Should().NotBeNull();
         configuration.OAuth2Options!.ClientId.Should().Be("my-client-id");
@@ -153,13 +157,13 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
         // Act
         var response = await client.GetAsync("/swagger/configuration.json");
         await using var content = await response.Content.ReadAsStreamAsync();
-        var configuration = await JsonSerializer.DeserializeAsync(content, typeof(SwaggerOptions), SwaggerOptionsSerializerContext.Default) as SwaggerOptions;
-        var urls = configuration!.UiOptions.Urls;
+        var configuration = await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, Options);
+        var urls = configuration!.Urls;
 
         // Assert
         urls.Should().HaveCount(1);
         urls[0].Name.Should().Be("my-document");
-        urls[0].Endpoint.Should().Be("/openapi/my-document.json");
+        urls[0].Route.Should().Be("/openapi/my-document.json");
     }
 
     [Fact]

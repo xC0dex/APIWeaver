@@ -6,22 +6,11 @@ namespace APIWeaver;
 public static class SwaggerUiOptionsExtensions
 {
     /// <summary>
-    /// Sets the <see cref="SwaggerUiOptions.Urls" /> property.
-    /// </summary>
-    /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
-    /// <param name="url">The Url to add.</param>
-    public static SwaggerUiOptions AddUrl(this SwaggerUiOptions options, Url url)
-    {
-        options.Urls.Add(url);
-        return options;
-    }
-
-    /// <summary>
     /// Sets the <see cref="SwaggerUiOptions.DeepLinking" /> property.
     /// </summary>
-    /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
+    /// <param name="options"><see cref="SwaggerOptions" />.</param>
     /// <param name="deepLinking">The DeepLinking value to set.</param>
-    public static SwaggerUiOptions WithDeepLinking(this SwaggerUiOptions options, bool deepLinking)
+    public static SwaggerOptions WithDeepLinking(this SwaggerOptions options, bool deepLinking)
     {
         options.DeepLinking = deepLinking;
         return options;
@@ -32,7 +21,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="displayOperationId">The DisplayOperationId value to set.</param>
-    public static SwaggerUiOptions WithDisplayOperationId(this SwaggerUiOptions options, bool displayOperationId)
+    public static SwaggerOptions WithDisplayOperationId(this SwaggerOptions options, bool displayOperationId)
     {
         options.DisplayOperationId = displayOperationId;
         return options;
@@ -43,7 +32,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="defaultModelsExpandDepth">The DefaultModelsExpandDepth value to set.</param>
-    public static SwaggerUiOptions WithDefaultModelsExpandDepth(this SwaggerUiOptions options, int defaultModelsExpandDepth)
+    public static SwaggerOptions WithDefaultModelsExpandDepth(this SwaggerOptions options, int defaultModelsExpandDepth)
     {
         options.DefaultModelsExpandDepth = defaultModelsExpandDepth;
         return options;
@@ -54,7 +43,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="defaultModelExpandDepth">The DefaultModelExpandDepth value to set.</param>
-    public static SwaggerUiOptions WithDefaultModelExpandDepth(this SwaggerUiOptions options, int defaultModelExpandDepth)
+    public static SwaggerOptions WithDefaultModelExpandDepth(this SwaggerOptions options, int defaultModelExpandDepth)
     {
         options.DefaultModelExpandDepth = defaultModelExpandDepth;
         return options;
@@ -65,7 +54,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="displayRequestDuration">The DisplayRequestDuration value to set.</param>
-    public static SwaggerUiOptions WithDisplayRequestDuration(this SwaggerUiOptions options, bool displayRequestDuration)
+    public static SwaggerOptions WithDisplayRequestDuration(this SwaggerOptions options, bool displayRequestDuration)
     {
         options.DisplayRequestDuration = displayRequestDuration;
         return options;
@@ -76,7 +65,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="maxDisplayedTags">The MaxDisplayedTags value to set.</param>
-    public static SwaggerUiOptions WithMaxDisplayedTags(this SwaggerUiOptions options, int? maxDisplayedTags)
+    public static SwaggerOptions WithMaxDisplayedTags(this SwaggerOptions options, int? maxDisplayedTags)
     {
         options.MaxDisplayedTags = maxDisplayedTags;
         return options;
@@ -87,7 +76,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="showExtensions">The ShowExtensions value to set.</param>
-    public static SwaggerUiOptions WithShowExtensions(this SwaggerUiOptions options, bool showExtensions)
+    public static SwaggerOptions WithShowExtensions(this SwaggerOptions options, bool showExtensions)
     {
         options.ShowExtensions = showExtensions;
         return options;
@@ -98,7 +87,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="showCommonExtensions">The ShowCommonExtensions value to set.</param>
-    public static SwaggerUiOptions WithShowCommonExtensions(this SwaggerUiOptions options, bool showCommonExtensions)
+    public static SwaggerOptions WithShowCommonExtensions(this SwaggerOptions options, bool showCommonExtensions)
     {
         options.ShowCommonExtensions = showCommonExtensions;
         return options;
@@ -109,7 +98,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="tryItOutEnabled">The TryItOutEnabled value to set.</param>
-    public static SwaggerUiOptions WithTryItOutEnabled(this SwaggerUiOptions options, bool tryItOutEnabled)
+    public static SwaggerOptions WithTryItOutEnabled(this SwaggerOptions options, bool tryItOutEnabled)
     {
         options.TryItOutEnabled = tryItOutEnabled;
         return options;
@@ -120,7 +109,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="requestSnippetsEnabled">The RequestSnippetsEnabled value to set.</param>
-    public static SwaggerUiOptions WithRequestSnippetsEnabled(this SwaggerUiOptions options, bool requestSnippetsEnabled)
+    public static SwaggerOptions WithRequestSnippetsEnabled(this SwaggerOptions options, bool requestSnippetsEnabled)
     {
         options.RequestSnippetsEnabled = requestSnippetsEnabled;
         return options;
@@ -131,7 +120,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="oAuth2RedirectUrl">The OAuth2RedirectUrl value to set.</param>
-    public static SwaggerUiOptions WithOAuth2RedirectUrl(this SwaggerUiOptions options, string oAuth2RedirectUrl)
+    public static SwaggerOptions WithOAuth2RedirectUrl(this SwaggerOptions options, string oAuth2RedirectUrl)
     {
         options.OAuth2RedirectUrl = oAuth2RedirectUrl;
         return options;
@@ -142,7 +131,7 @@ public static class SwaggerUiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="SwaggerUiOptions" />.</param>
     /// <param name="validatorUrl">The ValidatorUrl value to set.</param>
-    public static SwaggerUiOptions WithValidatorUrl(this SwaggerUiOptions options, string? validatorUrl)
+    public static SwaggerOptions WithValidatorUrl(this SwaggerOptions options, string? validatorUrl)
     {
         options.ValidatorUrl = validatorUrl;
         return options;

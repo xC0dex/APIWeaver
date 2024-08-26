@@ -5,7 +5,7 @@ namespace APIWeaver;
 /// <summary>
 /// Represents the configuration for Swagger UI.
 /// </summary>
-public sealed class SwaggerOptions
+public sealed class SwaggerOptions : SwaggerUiOptions
 {
     private string _routePrefix = Constants.DefaultSwaggerRoutePrefix;
 
@@ -34,11 +34,6 @@ public sealed class SwaggerOptions
     public string? Title { get; set; }
 
     /// <summary>
-    /// Gets or sets the options for the Swagger UI.
-    /// </summary>
-    public SwaggerUiOptions UiOptions { get; set; } = new();
-
-    /// <summary>
     /// Gets or sets the OAuth2 options for the Swagger UI.
     /// This is optional.
     /// </summary>
@@ -52,12 +47,14 @@ public sealed class SwaggerOptions
     /// <summary>
     /// Optional stylesheets to include in the Swagger UI.
     /// </summary>
-    public IList<string> Stylesheets { get; set; } = [];
+    [JsonInclude]
+    internal IList<string> Stylesheets { get; init; } = [];
 
     /// <summary>
     /// Optional scripts to include in the Swagger UI.
     /// </summary>
-    public IList<string> Scripts { get; set; } = [];
+    [JsonInclude]
+    internal IList<string> Scripts { get; init; } = [];
 }
 
 [JsonSerializable(typeof(SwaggerOptions))]
