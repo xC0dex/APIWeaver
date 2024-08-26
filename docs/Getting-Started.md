@@ -1,6 +1,6 @@
 # Getting started with APIWeaver
 
-`ApiWeaver` is a library that provides a fully functional and configurable Swagger UI for your ASP.NET Core application.
+APIWeaver is a powerful and lightweight library that seamlessly integrates Swagger UI into your .NET 9+ applications. It is designed to be user-friendly, fully configurable, and AOT compatible. Built on top of Microsoft's built-in OpenAPI document generation, the library offers a range of extension methods and transformers to enhance OpenAPI documents and operations.
 
 ## Installation
 
@@ -96,6 +96,14 @@ app.MapSwaggerUi(options =>
 ```
 
 There are many more options available to configure the Swagger UI. You can find a list of all available options in the `SwaggerOptions` and `SwaggerUiOptions` class.
+
+### More examples
+
+Require authentication for the Swagger UI:
+```csharp
+app.MapSwaggerUi().RequireAuthorization();
+```
+
 
 ## APIWeaver.OpenApi
 
