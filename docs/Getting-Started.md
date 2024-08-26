@@ -71,6 +71,7 @@ builder.Services.AddOpenApiDocuments(["v1", "v2"], options =>
 });
 ```
 
+
 ### Configure Swagger UI
 
 The Swagger UI can be configured using the `SwaggerOptions` class. This class has different properties and a fluent API to configure the UI. The UI configuration is based on the official Swagger UI configuration with some additional options. The following snippet shows how to configure the Swagger UI:
@@ -96,69 +97,38 @@ app.MapSwaggerUi(options =>
 
 There are many more options available to configure the Swagger UI. You can find a list of all available options in the `SwaggerOptions` and `SwaggerUiOptions` class.
 
-## 
+## APIWeaver.OpenApi
+
+The `APIWeaver.OpenApi` package provides useful extension methods and transformers for OpenAPI documents and operations.
 
 
+### Authentication
 
-
-
-
-
-
-
-
-
-<!-- ## APIWeaver configuration
-
-API Weaver is highly configurable and can be customized to fit your needs by using the `OpenApiOptions` class.  -->
-
-
-<!-- ### Transformers
-
-Transformers are a way to modify the generated OpenAPI segments like the document, operations, servers or schemes. There are three different ways how transformers can be added to the options:
+The `APIWeaver.OpenApi` package provides extension methods to add security schemes to your OpenAPI document. The following snippet shows how to add such a scheme to your OpenAPI document:
 
 ```csharp
-builder.Services.AddApiWeaver(options =>
+builder.Services.AddOpenApiDocument(options =>
 {
-    options.WithGeneratorOptions(generatorOptions =>
+    // Adds a security scheme to the OpenAPI document
+    // and update all operations with the security requirement
+    options.AddSecurityScheme("Bearer", scheme =>
     {
-        // 1. Add a transformer using a async function
-        generatorOptions.OperationTransformers.Add(async context =>
+        scheme.In = ParameterLocation.Header;
+        scheme.Type = SecuritySchemeType.OAuth2;
+        scheme.Flows = new OpenApiOAuthFlows
         {
-            var customService = context.ServiceProvider.GetRequiredService<ICustomService>();
-            var operationId = await customService.GetOperationIdAsync(context.OpenApiOperation, context.CancellationToken);
-            context.OpenApiOperation.OperationId = operationId;
-        });
-
-        // 2. Add a transformer using a sync function
-        generatorOptions.DocumentTransformers.Add(context =>
-        {
-            context.OpenApiDocument.Info.Description = "Some additional description";
-        });
-        
-        // 3. Add a transformer using a implementation of IServerTransformer
-        generatorOptions.ServerTransformers.Add(new CustomServerTransformer());
+            ClientCredentials = new OpenApiOAuthFlow
+            {
+                TokenUrl = new Uri("https://localhost:5001/oauth2/token")
+            }
+        };
     });
+
+    // Adds 401 and 403 responses
+    options.AddAuthResponse();
 });
 ```
 
-More is coming soon...
-
-## Swagger UI configuration
-
-The Swagger UI can be configured using the `SwaggerOptions` class. This class has different properties and a fluent API to configure the UI. The UI configuration is based on the official [Swagger UI configuration](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md). The following snippet shows how to configure the Swagger UI:
-
-```csharp
-app.UseSwaggerUi(options =>
-{
-    options.Title = "Swagger UI";
-    options.WithUiOptions(swaggerUiOptions =>
-    {
-        swaggerUiOptions.TryItOutEnabled = true;
-        swaggerUiOptions.DisplayOperationId = true;
-    });
-    options.WithOAuth2Options(oAuth2Options => oAuth2Options.ClientSecret = "my-client-secret");
-});
-``` -->
+The `AddSecurityScheme` method adds a security scheme to the OpenAPI document and updates all operations with the security requirement. The `AddAuthResponse` method checks if the endpoint requires authentication ands adds the `401- Unauthorized` response to the related operation. If the endpoint requires authorization (roles, policies, default or fallback policies), the `403- Forbidden` response is added to the operation.
 
 More is coming soon...
