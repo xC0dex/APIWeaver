@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\APIWeaver\APIWeaver.csproj" />
+    <ProjectReference Include="..\APIWeaver.Demo.Shared\APIWeaver.Demo.Shared.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.0"/>
+  </ItemGroup>
+
+</Project>

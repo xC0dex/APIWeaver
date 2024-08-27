@@ -1,8 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Bogus;
 
-namespace APIWeaver.MinimalApi.Demo;
+namespace APIWeaver.Demo.Shared;
 
 public sealed class BookStore
 {
@@ -44,39 +42,4 @@ public sealed class BookStore
         _books.Add(book);
         return book;
     }
-}
-
-public class Book
-{
-    public required Guid BookId { get; set; }
-
-    public required string Title { get; set; }
-
-    public string? Description { get; set; }
-
-    [Range(69, 420)]
-    public required int Pages { get; set; }
-
-    public BookType? BookType { get; set; }
-
-    // [Obsolete]
-    public Author? Author { get; set; }
-}
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum BookType
-{
-    Newsletter,
-    Documentation
-}
-
-public class Author
-{
-    public required string Name { get; set; }
-}
-
-public class DummyResponse
-{
-    [Required]
-    public Author Author { get; set; } = null!;
 }

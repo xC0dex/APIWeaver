@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{BBD49ECA-C
 		demo\Directory.Build.props = demo\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.MinimalApi.Demo", "demo\APIWeaver.MinimalApi.Demo\APIWeaver.MinimalApi.Demo.csproj", "{6688140D-3DBB-422E-B199-4F1FCAB00059}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Demo.Minimal", "demo\APIWeaver.Demo.Minimal\APIWeaver.Demo.Minimal.csproj", "{6688140D-3DBB-422E-B199-4F1FCAB00059}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Swagger", "src\APIWeaver.Swagger\APIWeaver.Swagger.csproj", "{8BA6D753-69C7-4E08-9659-28563A2FBBFB}"
 EndProject
@@ -33,11 +33,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apis", "apis", "{DDE3C770-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Swagger.Api", "tests\apis\APIWeaver.Swagger.Api\APIWeaver.Swagger.Api.csproj", "{B95DF0A8-54E8-44B8-8416-9D62C3C3E954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.ControllerApi.Demo", "demo\APIWeaver.ControllerApi.Demo\APIWeaver.ControllerApi.Demo.csproj", "{CED28A60-261E-4E23-8066-0F4166712451}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Demo.Controller", "demo\APIWeaver.Demo.Controller\APIWeaver.Demo.Controller.csproj", "{CED28A60-261E-4E23-8066-0F4166712451}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.OpenApi", "src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj", "{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver", "src\APIWeaver\APIWeaver.csproj", "{F141B23F-63A9-48E6-A450-965FF1E08F0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIWeaver.Demo.Shared", "demo\APIWeaver.Demo.Shared\APIWeaver.Demo.Shared.csproj", "{D2027918-2870-4149-83E5-DC99839C6E62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,7 @@ Global
 		{CED28A60-261E-4E23-8066-0F4166712451} = {BBD49ECA-CB62-4820-B425-296EFCFE7EC2}
 		{D77BB546-2BDC-4FB1-96C7-8997F82DBF0E} = {CC045423-814B-40D9-B087-5AC3C8848B09}
 		{F141B23F-63A9-48E6-A450-965FF1E08F0D} = {CC045423-814B-40D9-B087-5AC3C8848B09}
+		{D2027918-2870-4149-83E5-DC99839C6E62} = {BBD49ECA-CB62-4820-B425-296EFCFE7EC2}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6688140D-3DBB-422E-B199-4F1FCAB00059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,5 +89,9 @@ Global
 		{F141B23F-63A9-48E6-A450-965FF1E08F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F141B23F-63A9-48E6-A450-965FF1E08F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F141B23F-63A9-48E6-A450-965FF1E08F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2027918-2870-4149-83E5-DC99839C6E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2027918-2870-4149-83E5-DC99839C6E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2027918-2870-4149-83E5-DC99839C6E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2027918-2870-4149-83E5-DC99839C6E62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
