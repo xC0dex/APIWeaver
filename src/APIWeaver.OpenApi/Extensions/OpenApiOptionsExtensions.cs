@@ -1,7 +1,5 @@
 using APIWeaver.Transformers;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver;
 

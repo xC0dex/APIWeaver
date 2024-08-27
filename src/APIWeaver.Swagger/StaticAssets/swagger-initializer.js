@@ -8,7 +8,7 @@ fetch('./configuration.json')
 
         options.stylesheets.forEach((href) => document.head.insertAdjacentHTML('beforeend', `<link rel="stylesheet" type="text/css" href="${href}" />`));
         options.scripts.forEach((src) => document.body.insertAdjacentHTML('beforeend', `<script src="${src}"></script>`));
-        
+
         options.dom_id = '#swagger-ui';
         options.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
         options.plugins = [SwaggerUIBundle.plugins.DownloadUrl];

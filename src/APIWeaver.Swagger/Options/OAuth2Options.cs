@@ -6,19 +6,19 @@ namespace APIWeaver;
 public sealed class OAuth2Options
 {
     /// <summary>
-    /// The client ID for your application. You must first create an application at the service provider and obtain this value.
+    /// The client ID for your application.
     /// </summary>
-    public string ClientId { get; set; } = null!;
+    public string? ClientId { get; set; }
 
     /// <summary>
-    /// The client secret for your application. You must first create an application at the service provider and obtain this value.
+    /// The client secret for your application.
     /// </summary>
-    public string ClientSecret { get; set; } = null!;
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// The realm of the client application.
     /// </summary>
-    public string Realm { get; set; } = null!;
+    public string? Realm { get; set; }
 
     /// <summary>
     /// The application name.
@@ -38,7 +38,7 @@ public sealed class OAuth2Options
     /// <summary>
     /// Additional query parameters added to authorizationUrl and tokenUrl.
     /// </summary>
-    public Dictionary<string, string> AdditionalQueryStringParams { get; set; } = new();
+    public IDictionary<string, string>? AdditionalQueryStringParams { get; set; }
 
     /// <summary>
     /// If true, the "Authorize" button will be hidden for operations that do not have any OAuth2 scopes.

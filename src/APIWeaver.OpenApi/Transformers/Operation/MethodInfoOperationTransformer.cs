@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Transformers;
 

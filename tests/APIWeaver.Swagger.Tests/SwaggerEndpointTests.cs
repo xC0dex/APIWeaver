@@ -2,18 +2,18 @@ using System.Text.Json.Serialization;
 
 namespace APIWeaver.Swagger.Tests;
 
-public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebApplicationFactory<Program>>
+public sealed class SwaggerEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly WebApplicationFactory<Program> _factory;
 
-    private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+    private static readonly JsonSerializerOptions Options = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public SwaggerConfigurationMiddlewareTests(WebApplicationFactory<Program> factory)
+    public SwaggerEndpointTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerOptions>(configuration =>
         {
@@ -46,7 +46,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     }
 
     [Fact]
-    public async Task Middleware_ShouldNotBeCalled_WhenEndpointPrefixNotRequested()
+    public async Task Endpoint_ShouldNotBeCalled_WhenEndpointPrefixNotRequested()
     {
         // Act
         var response = await _client.GetAsync("/");
@@ -57,7 +57,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     }
 
     [Fact]
-    public async Task Middleware_ShouldRedirect_WhenEndpointPrefixRequested()
+    public async Task Endpoint_ShouldRedirect_WhenEndpointPrefixRequested()
     {
         // Arrange
         var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -73,7 +73,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     }
 
     [Fact]
-    public async Task Middleware_ShouldReturnIndex_WhenRequested()
+    public async Task Endpoint_ShouldReturnIndex_WhenRequested()
     {
         // Act
         var response = await _client.GetAsync("/swagger");
@@ -108,7 +108,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     }
     
     [Fact]
-    public async Task Middleware_ShouldReturnValidConfiguration_WhenRequested()
+    public async Task Endpoint_ShouldReturnValidConfiguration_WhenRequested()
     {
         // Act
         var response = await _client.GetAsync("/swagger/configuration.json");
@@ -147,7 +147,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     }
 
     [Fact]
-    public async Task Middleware_ShouldAddSwaggerDocument_WhenOnlyOpenApiDocumentProvided()
+    public async Task Endpoint_ShouldAddSwaggerDocument_WhenOnlyOpenApiDocumentProvided()
     {
         // Arrange
         var testFactory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(services =>
@@ -167,7 +167,7 @@ public sealed class SwaggerConfigurationMiddlewareTests : IClassFixture<WebAppli
     }
 
     [Fact]
-    public async Task Middleware_ShouldHandleCustomEndpoint_WhenEndpointPrefixModified()
+    public async Task Endpoint_ShouldHandleCustomEndpoint_WhenEndpointPrefixModified()
     {
         // Arrange
         const string endpointPrefix = "open-api";

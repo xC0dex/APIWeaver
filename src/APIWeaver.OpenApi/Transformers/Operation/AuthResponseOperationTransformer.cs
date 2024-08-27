@@ -1,78 +1,38 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver.Transformers;
 
-/// <summary>
-/// Transforms the operation to add responses for unauthorized and forbidden requests.
-/// </summary>
-public sealed class AuthResponseOperationTransformer : IOpenApiOperationTransformer
+internal sealed class AuthResponseOperationTransformer : IOpenApiOperationTransformer
 {
-    /// <inheritdoc />
     public async Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
-        var isAuthorized = await context.HasAuthorizationAsync();
-        if (isAuthorized)
+        var hasAuthorization = await AddUnauthorizedResponseAsync(operation, context);
+        if (hasAuthorization)
         {
-            AddResponse(operation, StatusCodes.Status401Unauthorized, "Unauthorized - A valid bearer token is required.");
-
-            var hasRequirements = await HasRequirementsAsync(context);
-            if (hasRequirements)
-            {
-                AddResponse(operation, StatusCodes.Status403Forbidden, "Forbidden - The authenticated user does not have the required permissions.");
-            }
+            await AddForbiddenResponseAsync(operation, context);
         }
     }
 
-    private static async Task<bool> HasRequirementsAsync(OpenApiOperationTransformerContext context)
+    private static async Task<bool> AddUnauthorizedResponseAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context)
     {
-        var authorizeAttributes = context.Description.ActionDescriptor.EndpointMetadata.OfType<AuthorizeAttribute>().ToArray();
-        // Check if any authorize attribute has roles
-        if (authorizeAttributes.Any(attr => !string.IsNullOrEmpty(attr.Roles)))
+        var statusCode = StatusCodes.Status401Unauthorized.ToString();
+        var containsResponse = operation.Responses.ContainsKey(statusCode);
+        if (!containsResponse && await context.HasAuthorizationAsync())
         {
+            operation.Responses.Add(statusCode, new OpenApiResponse {Description = "Unauthorized - A valid bearer token is required."});
             return true;
         }
 
-        var policyProvider = context.ApplicationServices.GetService<IAuthorizationPolicyProvider>();
-        if (policyProvider is null)
-        {
-            return false;
-        }
-
-        // Check if any policy defined in authorize attributes has at least one requirement
-        foreach (var authorizeAttribute in authorizeAttributes)
-        {
-            if (!string.IsNullOrEmpty(authorizeAttribute.Policy))
-            {
-                var policy = await policyProvider.GetPolicyAsync(authorizeAttribute.Policy);
-                if (policy is not null && policy.Requirements.AnyRequirement())
-                {
-                    return true;
-                }
-            }
-        }
-
-        // Check if the default policy has at least one requirement
-        var defaultPolicy = await policyProvider.GetDefaultPolicyAsync();
-        if (defaultPolicy.Requirements.AnyRequirement())
-        {
-            return true;
-        }
-
-        // Check if the fallback policy has at least one requirement
-        var fallbackPolicy = await policyProvider.GetFallbackPolicyAsync();
-        return fallbackPolicy is not null && fallbackPolicy.Requirements.AnyRequirement();
+        return containsResponse;
     }
 
-    private static void AddResponse(OpenApiOperation operation, int statusCode, string description)
+    private static async Task AddForbiddenResponseAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context)
     {
-        var statusCodeString = statusCode.ToString();
-        if (!operation.Responses.ContainsKey(statusCodeString))
+        var statusCode = StatusCodes.Status403Forbidden.ToString();
+        var containsResponse = operation.Responses.ContainsKey(statusCode);
+        if (!containsResponse && await context.HasAnyRequirementsAsync())
         {
-            operation.Responses.Add(statusCodeString, new OpenApiResponse {Description = description});
+            operation.Responses.Add(statusCode, new OpenApiResponse {Description = "Forbidden - The permission requirements are not met."});
         }
     }
 }

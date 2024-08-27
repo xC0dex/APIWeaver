@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
@@ -8,26 +10,26 @@ using Microsoft.Extensions.Options;
 namespace APIWeaver;
 
 /// <summary>
-/// Extension methods for <see cref="IApplicationBuilder" />.
+/// Extension methods for <see cref="IEndpointRouteBuilder" />.
 /// </summary>
-public static class WebApplicationExtensions
+public static class EndpointRouteBuilderExtensions
 {
     private const string SwaggerUiAssets = "SwaggerUiAssets";
 
     /// <summary>
     /// Configures the application to use Swagger UI.
     /// </summary>
-    /// <param name="app"><see cref="WebApplication" />.</param>
+    /// <param name="builder"><see cref="IEndpointRouteBuilder" />.</param>
     /// <param name="options">An action to configure the Swagger UI options.</param>
-    public static IEndpointConventionBuilder MapSwaggerUi(this WebApplication app, Action<SwaggerOptions>? options = null)
+    public static IEndpointConventionBuilder MapSwaggerUi(this IEndpointRouteBuilder builder, Action<SwaggerOptions>? options = null)
     {
-        var swaggerOptions = app.Services.GetRequiredService<IOptions<SwaggerOptions>>().Value;
+        var swaggerOptions = builder.ServiceProvider.GetRequiredService<IOptions<SwaggerOptions>>().Value;
         options?.Invoke(swaggerOptions);
         var requestPath = $"/{swaggerOptions.RoutePrefix}";
 
         if (swaggerOptions.Title is null)
         {
-            var hostEnvironment = app.Services.GetRequiredService<IHostEnvironment>();
+            var hostEnvironment = builder.ServiceProvider.GetRequiredService<IHostEnvironment>();
             var title = $"{hostEnvironment.ApplicationName} | Swagger UI";
             swaggerOptions.Title = title;
         }
@@ -35,7 +37,7 @@ public static class WebApplicationExtensions
         // If no URLs are provided, use the OpenAPI documents registered in the options
         if (swaggerOptions.Urls.Count == 0)
         {
-            var openApiOptions = app.Services.GetRequiredService<IOptions<OpenApiHelperOptions>>().Value;
+            var openApiOptions = builder.ServiceProvider.GetRequiredService<IOptions<OpenApiHelperOptions>>().Value;
             foreach (var document in openApiOptions.Documents)
             {
                 var route = swaggerOptions.OpenApiRoutePattern.Replace("{documentName}", document);
@@ -43,14 +45,22 @@ public static class WebApplicationExtensions
             }
         }
 
-        var swaggerGroup = app.MapGroup($"{requestPath}").ExcludeFromDescription();
+        var fileProvider = new EmbeddedFileProvider(typeof(EndpointRouteBuilderExtensions).Assembly, SwaggerUiAssets);
+        var fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+
+        var swaggerGroup = builder.MapGroup($"{requestPath}").ExcludeFromDescription();
         swaggerGroup.MapGet("configuration.json", () => Results.Json(swaggerOptions, SwaggerOptionsSerializerContext.Default));
         swaggerGroup.MapGet("/", () => Results.Redirect($"{requestPath}/index.html"));
-
-        app.UseStaticFiles(new StaticFileOptions
+        swaggerGroup.MapGet("{**path}", (string path) =>
         {
-            RequestPath = requestPath,
-            FileProvider = new EmbeddedFileProvider(typeof(WebApplicationExtensions).Assembly, SwaggerUiAssets)
+            var file = fileProvider.GetFileInfo(path);
+            if (file.Exists)
+            {
+                var contentType = fileExtensionContentTypeProvider.TryGetContentType(path, out var type) ? type : "application/octet-stream";
+                return Results.Stream(file.CreateReadStream(), contentType);
+            }
+
+            return Results.NotFound();
         });
 
         return swaggerGroup;

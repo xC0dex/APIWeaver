@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-
 namespace APIWeaver;
 
 internal static class AuthorizationPolicyProviderExtensions
