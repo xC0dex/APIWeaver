@@ -52,6 +52,11 @@ app.MapSwaggerUi(options =>
         .WithTryItOut(false)
         .WithDarkMode(false)
         .WithDeepLinking(false);
+    options.OAuth2Options = new OAuth2Options
+    {
+        ClientId = "client_id",
+        ClientSecret = "client_secret"
+    };
 }).AllowAnonymous();
 
 app.UseAuthentication();
