@@ -4,44 +4,18 @@ namespace APIWeaver.Swagger.Tests;
 
 public sealed class SwaggerEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly HttpClient _client;
-    private readonly WebApplicationFactory<Program> _factory;
-
     private static readonly JsonSerializerOptions Options = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
+    private readonly HttpClient _client;
+    private readonly WebApplicationFactory<Program> _factory;
+
     public SwaggerEndpointTests(WebApplicationFactory<Program> factory)
     {
-        _factory = factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerOptions>(configuration =>
-        {
-            configuration.Title = "My Swagger UI";
-            configuration.DeepLinking = true;
-            configuration.DisplayOperationId = true;
-            configuration.DefaultModelsExpandDepth = 2;
-            configuration.DefaultModelExpandDepth = 2;
-            configuration.DisplayRequestDuration = true;
-            configuration.MaxDisplayedTags = 5;
-            configuration.ShowExtensions = true;
-            configuration.ShowCommonExtensions = true;
-            configuration.TryItOutEnabled = true;
-            configuration.RequestSnippetsEnabled = true;
-            configuration.OAuth2RedirectUrl = "my-oauth2-redirect.html";
-            configuration.ValidatorUrl = "my-validator-url";
-            configuration.WithOAuth2Options(o =>
-            {
-                o.ClientId = "my-client-id";
-                o.ClientSecret = "my-client-secret";
-                o.Realm = "my-realm";
-                o.AppName = "my-app-name";
-                o.ScopeSeparator = " ";
-                o.Scopes = ["offline"];
-                o.AdditionalQueryStringParams = new Dictionary<string, string> {{"audience", "my-audience"}};
-                o.UseBasicAuthenticationWithAccessCodeGrant = true;
-            });
-        })));
+        _factory = factory;
         _client = _factory.CreateClient();
     }
 
@@ -106,21 +80,83 @@ public sealed class SwaggerEndpointTests : IClassFixture<WebApplicationFactory<P
                                 """;
         content.ReplaceLineEndings().Should().Be(expected);
     }
-    
+
     [Fact]
-    public async Task Endpoint_ShouldReturnValidConfiguration_WhenRequested()
+    public async Task Endpoint_ShouldReturnNotFound_WhenFileDoesNotExist()
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync("/swagger/no-file");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Endpoint_ShouldReturnNawdotFound_WhenFileDoesNotExist()
     {
         // Act
         var response = await _client.GetAsync("/swagger/configuration.json");
         await using var content = await response.Content.ReadAsStreamAsync();
-        
-        var configuration = await JsonSerializer.DeserializeAsync(content, typeof(SwaggerOptions), SwaggerOptionsSerializerContext.Default) as SwaggerOptions;
+        var configuration = await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, Options);
+
+        // Assert
+        configuration!.Title.Should().Be("APIWeaver.Swagger.Api | Swagger UI");
+    }
+
+    [Fact]
+    public async Task Endpoint_ShouldReturnValidConfiguration_WhenRequested()
+    {
+        // Arrange
+        var factory = _factory.WithWebHostBuilder(b => b.ConfigureTestServices(x => x.Configure<SwaggerOptions>(configuration =>
+        {
+            configuration
+                .WithTitle("My Swagger UI")
+                .WithDeepLinking(true)
+                .WithDisplayOperationId(true)
+                .WithDefaultModelsExpandDepth(2)
+                .WithDefaultModelExpandDepth(2)
+                .WithDisplayRequestDuration(true)
+                .WithMaxDisplayedTags(5)
+                .WithShowExtensions(true)
+                .WithShowCommonExtensions(true)
+                .WithTryItOut(true)
+                .WithRequestSnippets(true)
+                .WithOAuth2RedirectUrl("my-oauth2-redirect.html")
+                .WithValidatorUrl("my-validator-url")
+                .WithDarkMode(false)
+                .AddScript("my-script.js")
+                .AddStylesheet("my-stylesheet.css")
+                .WithOAuth2Options(o =>
+                {
+                    o.ClientId = "my-client-id";
+                    o.ClientSecret = "my-client-secret";
+                    o.Realm = "my-realm";
+                    o.AppName = "my-app-name";
+                    o.ScopeSeparator = " ";
+                    o.Scopes = ["offline"];
+                    o.AdditionalQueryStringParams = new Dictionary<string, string> {{"audience", "my-audience"}};
+                    o.UseBasicAuthenticationWithAccessCodeGrant = true;
+                });
+        })));
+        var client = factory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync("/swagger/configuration.json");
+        await using var content = await response.Content.ReadAsStreamAsync();
+
+        var configuration = await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, Options);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         configuration.Should().NotBeNull();
         configuration!.Title.Should().Be("My Swagger UI");
         configuration.RoutePrefix.Should().Be("swagger");
+        configuration.DarkMode.Should().BeFalse();
+        configuration.Scripts.Should().Contain("my-script.js");
+        configuration.Stylesheets.Should().Contain("my-stylesheet.css");
 
         configuration.DeepLinking.Should().BeTrue();
         configuration.DisplayOperationId.Should().BeTrue();
