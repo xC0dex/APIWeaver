@@ -1,0 +1,19 @@
+changelog:
+  exclude:
+    labels:
+      - dependency
+      - chore
+      - documentation
+  categories:
+    - title: Features
+      labels:
+        - feature
+    - title: Fixes
+      labels:
+        - bug
+    - title: Breaking Changes
+      labels:
+        - breaking change
+    - title: Other Changes
+      labels:
+        - "*"
