@@ -56,7 +56,7 @@ jobs:
   
   analyze:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork == false
+    if: github.event.repository.fork
     needs:
       - build-test
     steps:
