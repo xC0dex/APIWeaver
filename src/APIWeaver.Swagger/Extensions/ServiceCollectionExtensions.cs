@@ -1,4 +1,3 @@
-using APIWeaver.Swagger;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 

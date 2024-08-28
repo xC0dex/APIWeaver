@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj"/>
+    <ProjectReference Include="..\apis\APIWeaver.OpenApi.TestApi\APIWeaver.OpenApi.TestApi.csproj" />
   </ItemGroup>
 
 </Project>

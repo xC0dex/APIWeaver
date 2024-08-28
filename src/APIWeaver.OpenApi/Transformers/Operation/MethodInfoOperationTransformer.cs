@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 
-namespace APIWeaver.Transformers;
+namespace APIWeaver;
 
 /// <summary>
 /// Transforms the operation ID of an <see cref="OpenApiOperation" /> to the name of the method and controller that handles the request.

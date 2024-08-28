@@ -1,5 +1,4 @@
 using APIWeaver;
-using APIWeaver.Transformers;
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
 

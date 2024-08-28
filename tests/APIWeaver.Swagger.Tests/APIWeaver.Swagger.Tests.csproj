@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\apis\APIWeaver.Swagger.Api\APIWeaver.Swagger.Api.csproj"/>
+    <ProjectReference Include="..\apis\APIWeaver.Swagger.TestApi\APIWeaver.Swagger.TestApi.csproj" />
   </ItemGroup>
 
 </Project>
