@@ -1,32 +1,49 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIWeaver.OpenApi.TestApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
+    private static readonly string[] Summaries =
+    [
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    ];
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    private static readonly WeatherForecast[] Forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+        })
+        .ToArray();
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    [HttpGet("default")]
+    public IEnumerable<WeatherForecast> GetDefault()
     {
-        _logger = logger;
+        return Forecasts;
+    }
+    
+    [HttpGet("authorize")]
+    [Authorize]
+    public IEnumerable<WeatherForecast> GetAuthorize()
+    {
+        return Forecasts;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet("anonymous")]
+    [AllowAnonymous]
+    public IEnumerable<WeatherForecast> GetAnonymous()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        return Forecasts;
+    }
+    
+    [HttpGet("role")]
+    [Authorize(Roles = "role")]
+    public IEnumerable<WeatherForecast> GetRoles()
+    {
+        return Forecasts;
     }
 }

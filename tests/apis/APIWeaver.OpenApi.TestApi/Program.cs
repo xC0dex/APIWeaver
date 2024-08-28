@@ -1,23 +1,40 @@
+using APIWeaver;
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddAuthentication().AddJwtBearer();
+
+
+builder.Services.AddOpenApi(options =>
+{
+    options.AddSecurityScheme("Bearer", scheme =>
+    {
+        scheme.In = ParameterLocation.Header;
+        scheme.Type = SecuritySchemeType.OAuth2;
+        scheme.Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri("https://example.com/oauth2/authorize"),
+                TokenUrl = new Uri("https://example.com/oauth2/token"),
+            }
+        };
+    });
+    options.AddAuthResponse();
+});
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi().AllowAnonymous();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+public partial class Program;
