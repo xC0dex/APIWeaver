@@ -102,7 +102,7 @@ public static class OpenApiOptionsExtensions
             var hasAuthorization = await context.HasAuthorizationAsync();
             if (hasAuthorization)
             {
-                var referenceScheme = new OpenApiSecurityScheme {Reference = new OpenApiReference {Id = schemeName, Type = ReferenceType.SecurityScheme}};
+                var referenceScheme = new OpenApiSecurityScheme { Reference = new OpenApiReference { Id = schemeName, Type = ReferenceType.SecurityScheme } };
                 operation.Security.Add(new OpenApiSecurityRequirement
                 {
                     [referenceScheme] = []

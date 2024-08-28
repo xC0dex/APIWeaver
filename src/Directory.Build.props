@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>APIWeaver</RootNamespace>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
