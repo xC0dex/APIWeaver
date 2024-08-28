@@ -19,7 +19,7 @@ internal sealed class AuthResponseOperationTransformer : IOpenApiOperationTransf
         var containsResponse = operation.Responses.ContainsKey(statusCode);
         if (!containsResponse && await context.HasAuthorizationAsync())
         {
-            operation.Responses.Add(statusCode, new OpenApiResponse {Description = "Unauthorized - A valid bearer token is required."});
+            operation.Responses.Add(statusCode, new OpenApiResponse { Description = "Unauthorized - A valid bearer token is required." });
             return true;
         }
 
@@ -32,7 +32,7 @@ internal sealed class AuthResponseOperationTransformer : IOpenApiOperationTransf
         var containsResponse = operation.Responses.ContainsKey(statusCode);
         if (!containsResponse && await context.HasAnyRequirementsAsync())
         {
-            operation.Responses.Add(statusCode, new OpenApiResponse {Description = "Forbidden - The permission requirements are not met."});
+            operation.Responses.Add(statusCode, new OpenApiResponse { Description = "Forbidden - The permission requirements are not met." });
         }
     }
 }
