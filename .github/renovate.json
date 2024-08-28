@@ -8,5 +8,8 @@
    ],
     "ignorePresets": [
         ":ignoreModulesAndTests"
+    ],
+    "ignorePaths": [
+        "**/global.json"
     ]
 }
