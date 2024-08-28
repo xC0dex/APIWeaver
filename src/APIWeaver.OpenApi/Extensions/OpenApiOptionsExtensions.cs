@@ -1,4 +1,3 @@
-using APIWeaver.Transformers;
 using Microsoft.AspNetCore.Http;
 
 namespace APIWeaver;
@@ -112,12 +111,12 @@ public static class OpenApiOptionsExtensions
         });
         return options;
     }
-    
+
     /// <summary>
-    /// Adds <see cref="StatusCodes.Status401Unauthorized"/> and <see cref="StatusCodes.Status403Forbidden"/> responses to the operation if the operation requires authentication or authorization.
+    /// Adds <see cref="StatusCodes.Status401Unauthorized" /> and <see cref="StatusCodes.Status403Forbidden" /> responses to the operation if the operation requires authentication or authorization.
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
-    /// <remarks> This method adds the <see cref="AuthResponseOperationTransformer"/> to the transformers.</remarks>
+    /// <remarks> This method adds the <see cref="AuthResponseOperationTransformer" /> to the transformers.</remarks>
     public static OpenApiOptions AddAuthResponse(this OpenApiOptions options)
     {
         options.AddOperationTransformer<AuthResponseOperationTransformer>();

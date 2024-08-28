@@ -1,5 +1,3 @@
-using APIWeaver.Swagger;
-
 namespace APIWeaver;
 
 /// <summary>

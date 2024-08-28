@@ -103,7 +103,7 @@ public sealed class SwaggerEndpointTests : IClassFixture<WebApplicationFactory<P
         var configuration = await JsonSerializer.DeserializeAsync<SwaggerOptions>(content, Options);
 
         // Assert
-        configuration!.Title.Should().Be("APIWeaver.Swagger.Api | Swagger UI");
+        configuration!.Title.Should().Be("APIWeaver.Swagger.TestApi | Swagger UI");
     }
 
     [Fact]

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace APIWeaver.Transformers;
+namespace APIWeaver;
 
 internal sealed class AuthResponseOperationTransformer : IOpenApiOperationTransformer
 {

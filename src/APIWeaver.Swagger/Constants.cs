@@ -1,4 +1,4 @@
-namespace APIWeaver.Swagger;
+namespace APIWeaver;
 
 internal struct Constants
 {
