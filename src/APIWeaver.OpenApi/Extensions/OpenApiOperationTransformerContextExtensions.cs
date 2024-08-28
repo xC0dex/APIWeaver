@@ -14,7 +14,7 @@ internal static class OpenApiOperationTransformerContextExtensions
         var isAuthorized = authorizeAttributes.Any() || hasFallbackPolicy;
         return isAuthorized && !anonymousAttributes.Any();
     }
-    
+
     internal static async Task<bool> HasAnyRequirementsAsync(this OpenApiOperationTransformerContext context)
     {
         var authorizeAttributes = context.Description.ActionDescriptor.EndpointMetadata.OfType<AuthorizeAttribute>().ToArray();
