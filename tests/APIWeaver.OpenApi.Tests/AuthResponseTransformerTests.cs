@@ -13,7 +13,7 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         await using var stream = await response.Content.ReadAsStreamAsync();
         var streamReader = new OpenApiStreamReader();
         var document = streamReader.Read(stream, out var diagnostic);
-        
+
         // Assert
         diagnostic.Errors.Should().BeEmpty();
 
@@ -21,23 +21,23 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         var responses = defaultPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(1);
         responses.Should().ContainKey("200");
-        
+
         var anonymousPath = document.Paths["/api/anonymous"];
         responses = anonymousPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(1);
         responses.Should().ContainKey("200");
-        
+
         var authorizePath = document.Paths["/api/authorize"];
         responses = authorizePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(2);
         responses.Should().ContainKeys("200", "401");
-        
+
         var rolePath = document.Paths["/api/role"];
         responses = rolePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(3);
         responses.Should().ContainKeys("200", "401", "403");
     }
-    
+
     [Fact]
     public async Task AddAuthResponse_ShouldAddAuthResponseToOperations_WhenCalledWithFallbackPolicy()
     {
@@ -56,7 +56,7 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         await using var stream = await response.Content.ReadAsStreamAsync();
         var streamReader = new OpenApiStreamReader();
         var document = streamReader.Read(stream, out var diagnostic);
-        
+
         // Assert
         diagnostic.Errors.Should().BeEmpty();
 
@@ -64,23 +64,23 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         var responses = defaultPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(2);
         responses.Should().ContainKey("200", "401");
-        
+
         var anonymousPath = document.Paths["/api/anonymous"];
         responses = anonymousPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(1);
         responses.Should().ContainKey("200");
-        
+
         var authorizePath = document.Paths["/api/authorize"];
         responses = authorizePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(2);
         responses.Should().ContainKeys("200", "401");
-        
+
         var rolePath = document.Paths["/api/role"];
         responses = rolePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(3);
         responses.Should().ContainKeys("200", "401", "403");
     }
-    
+
     [Fact]
     public async Task AddAuthResponse_ShouldAddAuthResponseToOperations_WhenCalledWithFallbackPolicyAndRequirements()
     {
@@ -99,7 +99,7 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         await using var stream = await response.Content.ReadAsStreamAsync();
         var streamReader = new OpenApiStreamReader();
         var document = streamReader.Read(stream, out var diagnostic);
-        
+
         // Assert
         diagnostic.Errors.Should().BeEmpty();
 
@@ -107,23 +107,23 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         var responses = defaultPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(3);
         responses.Should().ContainKey("200", "401", "403");
-        
+
         var anonymousPath = document.Paths["/api/anonymous"];
         responses = anonymousPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(1);
         responses.Should().ContainKey("200");
-        
+
         var authorizePath = document.Paths["/api/authorize"];
         responses = authorizePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(2);
         responses.Should().ContainKeys("200", "401");
-        
+
         var rolePath = document.Paths["/api/role"];
         responses = rolePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(3);
         responses.Should().ContainKeys("200", "401", "403");
     }
-    
+
     [Fact]
     public async Task AddAuthResponse_ShouldAddAuthResponseToOperations_WhenCalledWithDefaultPolicyAndRequirements()
     {
@@ -142,7 +142,7 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         await using var stream = await response.Content.ReadAsStreamAsync();
         var streamReader = new OpenApiStreamReader();
         var document = streamReader.Read(stream, out var diagnostic);
-        
+
         // Assert
         diagnostic.Errors.Should().BeEmpty();
 
@@ -150,17 +150,17 @@ public class AuthResponseTransformerTests(WebApplicationFactory<Program> factory
         var responses = defaultPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(1);
         responses.Should().ContainKey("200");
-        
+
         var anonymousPath = document.Paths["/api/anonymous"];
         responses = anonymousPath.Operations.First().Value.Responses;
         responses.Should().HaveCount(1);
         responses.Should().ContainKey("200");
-        
+
         var authorizePath = document.Paths["/api/authorize"];
         responses = authorizePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(3);
         responses.Should().ContainKeys("200", "401", "403");
-        
+
         var rolePath = document.Paths["/api/role"];
         responses = rolePath.Operations.First().Value.Responses;
         responses.Should().HaveCount(3);
