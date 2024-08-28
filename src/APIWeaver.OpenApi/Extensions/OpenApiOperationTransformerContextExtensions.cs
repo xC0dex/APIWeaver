@@ -50,6 +50,12 @@ internal static class OpenApiOperationTransformerContextExtensions
             return true;
         }
 
+        // If endpoint has authorize attributes but no requirements and no default policy is there, return false 
+        if (authorizeAttributes.Length > 0)
+        {
+            return false;
+        }
+
         // Check if the fallback policy has at least one requirement
         var fallbackPolicy = await policyProvider.GetFallbackPolicyAsync();
         return fallbackPolicy is not null && fallbackPolicy.Requirements.AnyRequirement();

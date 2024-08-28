@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace APIWeaver.OpenApi.TestApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-[Authorize]
+[Route("api")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries =
@@ -26,6 +25,13 @@ public class WeatherForecastController : ControllerBase
     {
         return Forecasts;
     }
+    
+    [HttpGet("authorize")]
+    [Authorize]
+    public IEnumerable<WeatherForecast> GetAuthorize()
+    {
+        return Forecasts;
+    }
 
     [HttpGet("anonymous")]
     [AllowAnonymous]
@@ -35,6 +41,7 @@ public class WeatherForecastController : ControllerBase
     }
     
     [HttpGet("role")]
+    [Authorize(Roles = "role")]
     public IEnumerable<WeatherForecast> GetRoles()
     {
         return Forecasts;
