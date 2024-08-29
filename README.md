@@ -7,11 +7,19 @@
 
 APIWeaver is a powerful and lightweight library that integrates Swagger UI and OpenAPI support into your .NET 9 applications. It is designed to be user-friendly, fully configurable, and AOT compatible. Built on top of Microsoft's built-in OpenAPI document generation, the library offers a range of extension methods and transformers to enhance OpenAPI documents and operations.
 
-## Getting Started
+## Features
+
+- Fully functional and configurable Swagger UI
+- Dark mode support 🌙
+- Native AOT compatible
+- Useful extension methods & transformers for OpenAPI documents and operations
+- High test coverage ensures reliability 🔍
+
+## 🚀 Getting Started
 
 Getting up and running with APIWeaver is simple:
 
-1. **Install the NuGet package**
+1. **Install the package**
 
 ```shell
 dotnet add package APIWeaver
@@ -25,12 +33,10 @@ using APIWeaver;
 
 3. **Configure your application**
 
-Add the following lines to your `Program.cs` file to set up APIWeaver:
+Add the following lines to your `Program.cs` file to set up the Swagger UI:
 
 ```csharp
 builder.Services.AddOpenApiDocument();
-
-// other code
 
 if (app.Environment.IsDevelopment())
 {
@@ -39,33 +45,19 @@ if (app.Environment.IsDevelopment())
 }
 ```
 
-That's it! Your application now has a fully functional, native AOT-compatible Swagger UI. To view it, simply navigate to `/swagger` in your browser 🥳.
+And that's it! 🎉 Your application now has a fully functional, AOT-compatible Swagger UI. Head to `/swagger` in your browser to check it out.
 For more advanced configuration options, check out the [documentation](docs/Getting-Started.md).
 
-## Currently supported features
-
-- Fully functional and configurable Swagger UI
-- Dark mode 🌙
-- Native AOT compatible
-- Useful extension methods
-- Useful transformers for OpenAPI documents and operations
-
-## Roadmap
-
+## 🛠️ Roadmap
 - More useful transformers for OpenAPI documents and operations.
 - Support for more OpenAPI UIs
 - Later: API client generation based on the generated OpenAPI document
 
-## Work in progress
-
-This project is currently under **active development**, with ongoing improvements, new features and potential API changes. If you have any feedback, feature requests or issues, please feel free to open an issue or a pull request.
-
-
 ## Contribution and Collaboration
 
-Your contributions to this project are welcomed and encouraged. Your active involvement can significantly impact its success!
+Contributions are welcome! Feel free to open issues or pull requests.
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 This means APIWeaver will always remain free.
