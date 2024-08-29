@@ -50,7 +50,10 @@ For more examples and advanced configuration, check out the [documentation](docs
 - More useful transformers for OpenAPI documents and operations
 - Support for additional OpenAPI UIs
 
-## Contribution and Collaboration
+## 💬 Feedback & Suggestions
+Your feedback is invaluable in making APIWeaver even better! If you have ideas for new features, improvements, or other thoughts, please feel free to share them.
+
+## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or pull requests.
 
