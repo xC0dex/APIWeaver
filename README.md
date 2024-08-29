@@ -13,7 +13,7 @@ APIWeaver is a powerful and lightweight library that integrates Swagger UI and O
 - Dark mode support 🌙
 - Native AOT compatibility
 - Useful extension methods & transformers for OpenAPI documents and operations
-- High test coverage ensures reliability 🔍
+- High test coverage ensures reliability
 
 ## 🚀 Getting Started
 
