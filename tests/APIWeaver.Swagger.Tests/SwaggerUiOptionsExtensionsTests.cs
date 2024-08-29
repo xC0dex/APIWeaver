@@ -23,7 +23,8 @@ public class SwaggerUiOptionsExtensionsTests
             .WithTryItOut(true)
             .WithRequestSnippets(true)
             .WithOAuth2RedirectUrl("custom-html")
-            .WithValidatorUrl("url");
+            .WithValidatorUrl("url")
+            .WithOpenApiRoutePattern("pattern");
 
         // Assert
         options.Urls.Should().BeEquivalentTo([new Url("name", "endpoint")]);
@@ -39,5 +40,6 @@ public class SwaggerUiOptionsExtensionsTests
         options.RequestSnippetsEnabled.Should().BeTrue();
         options.OAuth2RedirectUrl.Should().Be("custom-html");
         options.ValidatorUrl.Should().Be("url");
+        options.OpenApiRoutePattern.Should().Be("pattern");
     }
 }
