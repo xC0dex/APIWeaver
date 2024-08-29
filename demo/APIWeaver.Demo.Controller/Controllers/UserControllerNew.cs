@@ -9,11 +9,10 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [Route("v{version:apiVersion}/users")]
 public class UserControllerNew : ControllerBase
 {
-
     [HttpPost("dummy/{id:guid}")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<UserDto> GetUser(Guid id, [FromHeader][Required] int age, [FromQuery] string? name, [FromBody] UserDto userDto)
+    public ActionResult<UserDto> GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] UserDto userDto)
     {
         var user = new UserDto
         {

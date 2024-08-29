@@ -18,7 +18,7 @@ builder.Services.AddOpenApi(options =>
             AuthorizationCode = new OpenApiOAuthFlow
             {
                 AuthorizationUrl = new Uri("https://example.com/oauth2/authorize"),
-                TokenUrl = new Uri("https://example.com/oauth2/token"),
+                TokenUrl = new Uri("https://example.com/oauth2/token")
             }
         };
     });
