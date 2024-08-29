@@ -2,7 +2,7 @@
   
   <PropertyGroup>
     <Description>
-      APIWeaver is a powerful and lightweight library designed to provide a seamless integration Swagger UI into your .NET 9+ apps.
+      APIWeaver is a powerful and lightweight library that integrates Swagger UI and OpenAPI support into your .NET 9 applications.
     </Description>
   </PropertyGroup>
 

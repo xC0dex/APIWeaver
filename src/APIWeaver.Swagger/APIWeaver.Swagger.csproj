@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <Description>
-      APIWeaver.Swagger is a comprehensive library that integrates Swagger UI support into .NET 9 API projects.
-      It provides customizable options for the Swagger UI, including OAuth2 support and additional UI configurations.
+      APIWeaver.Swagger is a powerful and lightweight library that integrates Swagger UI support into your .NET 9 applications.
     </Description>
   </PropertyGroup>
 
