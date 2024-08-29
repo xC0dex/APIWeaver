@@ -38,7 +38,7 @@ jobs:
         run: dotnet restore
 
       - name: Check format
-        run: dotnet format --include ./src/ --verify-no-changes --verbosity diagnostic
+        run: dotnet format --no-restore --verify-no-changes
         
       - name: Download Node.js modules
         uses: actions/download-artifact@v4
