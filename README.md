@@ -11,13 +11,11 @@ APIWeaver is a powerful and lightweight library that integrates Swagger UI and O
 
 - Fully functional and configurable Swagger UI
 - Dark mode support 🌙
-- Native AOT compatible
+- Native AOT compatibility
 - Useful extension methods & transformers for OpenAPI documents and operations
 - High test coverage ensures reliability 🔍
 
 ## 🚀 Getting Started
-
-Getting up and running with APIWeaver is simple:
 
 1. **Install the package**
 
@@ -33,7 +31,7 @@ using APIWeaver;
 
 3. **Configure your application**
 
-Add the following lines to your `Program.cs` file to set up the Swagger UI:
+AAdd the following to your `Program.cs`:
 
 ```csharp
 builder.Services.AddOpenApiDocument();
@@ -46,12 +44,11 @@ if (app.Environment.IsDevelopment())
 ```
 
 And that's it! 🎉 Your application now has a fully functional, AOT-compatible Swagger UI. Head to `/swagger` in your browser to check it out.
-For more advanced configuration options, check out the [documentation](docs/Getting-Started.md).
+For more examples and advanced configuration, check out the [documentation](docs/Getting-Started.md).
 
 ## 🛠️ Roadmap
-- More useful transformers for OpenAPI documents and operations.
-- Support for more OpenAPI UIs
-- Later: API client generation based on the generated OpenAPI document
+- More useful transformers for OpenAPI documents and operations
+- Support for additional OpenAPI UIs
 
 ## Contribution and Collaboration
 
