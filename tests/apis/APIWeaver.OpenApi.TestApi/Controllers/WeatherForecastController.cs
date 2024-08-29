@@ -13,11 +13,11 @@ public class WeatherForecastController : ControllerBase
     ];
 
     private static readonly WeatherForecast[] Forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
+    {
+        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+        TemperatureC = Random.Shared.Next(-20, 55),
+        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+    })
         .ToArray();
 
     [HttpGet("default")]
@@ -25,7 +25,7 @@ public class WeatherForecastController : ControllerBase
     {
         return Forecasts;
     }
-    
+
     [HttpGet("authorize")]
     [Authorize]
     public IEnumerable<WeatherForecast> GetAuthorize()
@@ -39,7 +39,7 @@ public class WeatherForecastController : ControllerBase
     {
         return Forecasts;
     }
-    
+
     [HttpGet("role")]
     [Authorize(Roles = "role")]
     public IEnumerable<WeatherForecast> GetRoles()

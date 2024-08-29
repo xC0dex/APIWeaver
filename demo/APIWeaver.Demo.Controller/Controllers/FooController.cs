@@ -6,7 +6,7 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [ApiVersion(1, Deprecated = true)]
 [Route("v{version:apiVersion}/foo")]
-public class FooController: ControllerBase
+public class FooController : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
