@@ -31,7 +31,7 @@ using APIWeaver;
 
 3. **Configure your application**
 
-AAdd the following to your `Program.cs`:
+Add the following to your `Program.cs`:
 
 ```csharp
 builder.Services.AddOpenApiDocument();
@@ -43,7 +43,7 @@ if (app.Environment.IsDevelopment())
 }
 ```
 
-And that's it! 🎉 Your application now has a fully functional, AOT-compatible Swagger UI. Head to `/swagger` in your browser to check it out.
+That's it! 🎉 Your app now has a fully functional, AOT-compatible Swagger UI. Open `/swagger` in your browser to check it out.
 For more examples and advanced configuration, check out the [documentation](docs/Getting-Started.md).
 
 ## 🛠️ Roadmap
