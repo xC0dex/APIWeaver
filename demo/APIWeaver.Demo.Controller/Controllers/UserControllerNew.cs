@@ -7,9 +7,8 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [ApiVersion(2)]
 [Route("v{version:apiVersion}/users")]
-public class UserControllerNew: ControllerBase
+public class UserControllerNew : ControllerBase
 {
-    
     [HttpPost("dummy/{id:guid}")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

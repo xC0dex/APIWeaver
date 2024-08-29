@@ -49,9 +49,13 @@ public static class EndpointRouteBuilderExtensions
         var fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
 
         var swaggerGroup = builder.MapGroup($"{requestPath}").ExcludeFromDescription();
+#pragma warning disable IL2026 // Its safe to disable these 2 warnings because we are using the source generator
+#pragma warning disable IL3050
         swaggerGroup.MapGet("configuration.json", () => Results.Json(swaggerOptions, SwaggerOptionsSerializerContext.Default));
         swaggerGroup.MapGet("/", () => Results.Redirect($"{requestPath}/index.html"));
         swaggerGroup.MapGet("{**path}", (string path) =>
+#pragma warning restore IL3050
+#pragma warning restore IL2026
         {
             var file = fileProvider.GetFileInfo(path);
             if (file.Exists)
@@ -62,6 +66,7 @@ public static class EndpointRouteBuilderExtensions
 
             return Results.NotFound();
         });
+
 
         return swaggerGroup;
     }

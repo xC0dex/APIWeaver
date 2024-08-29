@@ -21,29 +21,17 @@ public class WeatherForecastController : ControllerBase
         .ToArray();
 
     [HttpGet("default")]
-    public IEnumerable<WeatherForecast> GetDefault()
-    {
-        return Forecasts;
-    }
-    
+    public IEnumerable<WeatherForecast> GetDefault() => Forecasts;
+
     [HttpGet("authorize")]
     [Authorize]
-    public IEnumerable<WeatherForecast> GetAuthorize()
-    {
-        return Forecasts;
-    }
+    public IEnumerable<WeatherForecast> GetAuthorize() => Forecasts;
 
     [HttpGet("anonymous")]
     [AllowAnonymous]
-    public IEnumerable<WeatherForecast> GetAnonymous()
-    {
-        return Forecasts;
-    }
-    
+    public IEnumerable<WeatherForecast> GetAnonymous() => Forecasts;
+
     [HttpGet("role")]
     [Authorize(Roles = "role")]
-    public IEnumerable<WeatherForecast> GetRoles()
-    {
-        return Forecasts;
-    }
+    public IEnumerable<WeatherForecast> GetRoles() => Forecasts;
 }

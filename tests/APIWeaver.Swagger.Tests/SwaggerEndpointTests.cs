@@ -137,7 +137,7 @@ public sealed class SwaggerEndpointTests : IClassFixture<WebApplicationFactory<P
                     o.AppName = "my-app-name";
                     o.ScopeSeparator = " ";
                     o.Scopes = ["offline"];
-                    o.AdditionalQueryStringParams = new Dictionary<string, string> {{"audience", "my-audience"}};
+                    o.AdditionalQueryStringParams = new Dictionary<string, string> { { "audience", "my-audience" } };
                     o.UseBasicAuthenticationWithAccessCodeGrant = true;
                 });
         })));
