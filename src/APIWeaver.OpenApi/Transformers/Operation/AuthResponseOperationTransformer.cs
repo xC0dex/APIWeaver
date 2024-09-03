@@ -19,7 +19,7 @@ internal sealed class AuthResponseOperationTransformer : IOpenApiOperationTransf
         var containsResponse = operation.Responses.ContainsKey(statusCode);
         if (!containsResponse && await context.HasAuthorizationAsync())
         {
-            operation.Responses.Add(statusCode, new OpenApiResponse { Description = "Unauthorized - A valid bearer token is required." });
+            operation.Responses.Add(statusCode, new OpenApiResponse { Description = "Unauthorized - Access token is missing or invalid." });
             return true;
         }
 
