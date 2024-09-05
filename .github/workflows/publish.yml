@@ -37,11 +37,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.x
-          
+
       - name: Restore dependencies
         working-directory: src/${{ matrix.project }}
         run: dotnet restore
-        
+
       - name: Pack ${{ matrix.project }}
         working-directory: src/${{ matrix.project }}
         run: dotnet pack -c Release --no-restore --output nupkgs /p:Version=$VERSION
