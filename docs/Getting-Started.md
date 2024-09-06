@@ -147,14 +147,14 @@ using static APIWeaver.BuildHelper;
 
 ...
 
-if (!IsGetDocumentInvoke)
+if (!IsGenerationContext)
 {
     builder.Services.AddSingleton<IMyService, MyService>();
 }
 
 var app = builder.Build();
 
-if (IsGetDocumentInvoke)
+if (IsGenerationContext)
 {
     app.Run();
 }

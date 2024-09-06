@@ -18,7 +18,7 @@ builder.Services.AddApiVersioning(options =>
     });
 
 // Only add authentication and authorization services if the current invocation is not for document generation. (Only for demonstration purposes)
-if (!IsGetDocumentInvoke)
+if (!IsGenerationContext)
 {
     builder.Services.AddAuthentication().AddJwtBearer();
     builder.Services.AddAuthorizationBuilder()
@@ -49,7 +49,7 @@ builder.Services.AddOpenApiDocument("v1", options =>
 var app = builder.Build();
 
 // If the current invocation is for document generation, run the application and exit.
-if (IsGetDocumentInvoke)
+if (IsGenerationContext)
 {
     app.Run();
 }
