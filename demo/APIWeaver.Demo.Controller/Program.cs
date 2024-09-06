@@ -1,10 +1,10 @@
 using APIWeaver;
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
+using static APIWeaver.BuildHelper;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-
 
 builder.Services.AddApiVersioning(options =>
     {
@@ -17,11 +17,14 @@ builder.Services.AddApiVersioning(options =>
         options.SubstituteApiVersionInUrl = true;
     });
 
-builder.Services.AddAuthentication().AddJwtBearer();
+// Only add authentication and authorization services if the current invocation is not for document generation. (Only for demonstration purposes)
+if (!IsGetDocumentInvoke)
+{
+    builder.Services.AddAuthentication().AddJwtBearer();
+    builder.Services.AddAuthorizationBuilder()
+        .AddFallbackPolicy("foo", policy => policy.RequireRole("foo"));
+}
 
-
-builder.Services.AddAuthorizationBuilder()
-    .AddFallbackPolicy("foo", policy => policy.RequireRole("foo"));
 
 builder.Services.AddOpenApiDocument("v1", options =>
 {
@@ -44,6 +47,13 @@ builder.Services.AddOpenApiDocument("v1", options =>
 });
 
 var app = builder.Build();
+
+// If the current invocation is for document generation, run the application and exit.
+if (IsGetDocumentInvoke)
+{
+    app.Run();
+}
+
 app.MapOpenApi().AllowAnonymous();
 app.MapSwaggerUi(options =>
 {
