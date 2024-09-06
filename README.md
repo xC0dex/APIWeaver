@@ -48,10 +48,9 @@ For more examples and advanced configuration, check out the [documentation](docs
 
 ## 🛠️ Roadmap
 - More useful transformers for OpenAPI documents and operations
-- Support for additional OpenAPI UIs
 
 ## 💬 Feedback & Suggestions
-Your feedback is invaluable in making APIWeaver even better! If you have ideas for new features, improvements, or other thoughts, please feel free to share them.
+Your feedback is important to make APIWeaver even better! If you have ideas for new features, improvements, or other thoughts, please feel free to share them.
 
 ## 🤝 Contributing
 
