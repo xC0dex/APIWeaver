@@ -109,7 +109,6 @@ app.MapSwaggerUi().RequireAuthorization();
 
 The `APIWeaver.OpenApi` package provides useful extension methods and transformers for OpenAPI documents and operations.
 
-
 ### Authentication
 
 The `APIWeaver.OpenApi` package provides extension methods to add security schemes to your OpenAPI document. The following snippet shows how to add such a scheme to your OpenAPI document:
@@ -139,5 +138,26 @@ builder.Services.AddOpenApiDocument(options =>
 
 The `AddSecurityScheme` method adds a security scheme to the OpenAPI document and updates all operations with the security requirement. The `AddAuthResponse` method checks if the endpoint requires authentication ands adds the `401 - Unauthorized` response to the related operation. If the endpoint requires authorization (roles, policies, default or fallback policies), the `403 - Forbidden` response is added to the operation.
 
+
+### Other extensions
+
+If you use the `Microsoft.Extensions.ApiDescription.Server` package with build-time document generation, you may want to use the static `BuildHelper` class, which provides a property that indicates whether the current execution context is the document generator. You can use it as follows:
+```csharp
+using static APIWeaver.BuildHelper;
+
+...
+
+if (!IsGetDocumentInvoke)
+{
+    builder.Services.AddSingleton<IMyService, MyService>();
+}
+
+var app = builder.Build();
+
+if (IsGetDocumentInvoke)
+{
+    app.Run();
+}
+```
 
 More is coming soon...
