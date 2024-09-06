@@ -72,7 +72,7 @@ jobs:
           dotnet-version: 9.x
 
       - name: Install sonar scanner
-        run: dotnet tool install -g dotnet-sonarscanner --version 8.0.1
+        run: dotnet tool install -g dotnet-sonarscanner --version 8.0.2
 
       - name: Restore dependencies
         run: dotnet restore
@@ -85,7 +85,7 @@ jobs:
 
       - name: Analyze solution
         run: |
-          dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.scanAll=true /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml"
+          dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.scanAll=true /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml" /d:sonar.verbose=true
           dotnet build -c Release --no-restore --no-incremental
           dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"
         env:
