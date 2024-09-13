@@ -37,6 +37,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.x
+          
+      - name: Install clang and zlib1g-dev # Required for AOT
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends clang zlib1g-dev
 
       - name: Restore dependencies
         run: dotnet restore
@@ -45,13 +50,23 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Test solution
-        run: dotnet test -c Release --no-restore --no-build --results-directory "test-results" --collect "XPlat Code Coverage;Format=opencover"
+        run: dotnet test -c Release --no-build --results-directory "test-results" --collect "XPlat Code Coverage;Format=opencover"
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: test-results
+
+      - name: Try publish generator
+        working-directory: src/APIWeaver.Generator
+        run: dotnet publish -c Release --no-build -o /publish-generator
+
+      - name: Upload published generator
+        uses: actions/upload-artifact@v4
+        with:
+          name: aot-generator
+          path: publish-generator
   
   analyze:
     runs-on: ubuntu-latest
