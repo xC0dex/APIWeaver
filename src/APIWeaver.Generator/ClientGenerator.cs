@@ -12,9 +12,9 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
         var document = documentProvider.GetDocument();
 
         var operationsByTag = SortOperationsByTag(document);
-        
+
         logger.LogInformation("Found {TagCount} tags in the OpenAPI document", operationsByTag.Count);
-        
+
         foreach (var (tag, operations) in operationsByTag)
         {
             var configuration = options.Value;
@@ -27,7 +27,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             builder.AppendLine();
             builder.AppendLine($"public class {clientName}: {clientInterfaceName}");
             builder.AppendLine("{");
-            
+
             builder.AppendLine("}");
 
             var fileName = Path.Combine(configuration.OutputPath, $"{clientName}.cs");

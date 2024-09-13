@@ -15,4 +15,4 @@ internal sealed class GeneratorConfiguration
 
 [JsonSerializable(typeof(GeneratorConfiguration))]
 [JsonSourceGenerationOptions(DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
-internal sealed partial class ConfigurationSerializerContext: JsonSerializerContext;
+internal sealed partial class ConfigurationSerializerContext : JsonSerializerContext;
