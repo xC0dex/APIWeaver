@@ -1,7 +1,4 @@
 using System.Text;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 
 namespace APIWeaver;
 
@@ -11,7 +8,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
     {
         var document = documentProvider.GetDocument();
 
-        var operationsByTag = SortOperationsByTag(document);
+        var operationsByTag = document.GetOperationsByTag();
 
         logger.LogInformation("Found {TagCount} tags in the OpenAPI document", operationsByTag.Count);
 
@@ -34,25 +31,5 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             File.WriteAllText(fileName, builder.ToString(), Encoding.UTF8);
         }
     }
-
-    private static Dictionary<string, List<OpenApiOperation>> SortOperationsByTag(OpenApiDocument document)
-    {
-        var operationsByTag = new Dictionary<string, List<OpenApiOperation>>();
-        foreach (var path in document.Paths)
-        {
-            foreach (var operation in path.Value.Operations)
-            {
-                var tag = operation.Value.Tags.FirstOrDefault()?.Name ?? throw new InvalidOperationException("Operation must have at least one tag");
-                if (!operationsByTag.TryGetValue(tag, out var value))
-                {
-                    value = [];
-                    operationsByTag[tag] = value;
-                }
-
-                value.Add(operation.Value);
-            }
-        }
-
-        return operationsByTag;
-    }
+    
 }

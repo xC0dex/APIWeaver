@@ -1,16 +1,14 @@
 ﻿using System.Text.Json;
 using APIWeaver;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 var services = new ServiceCollection();
 
 // Add global logger
-using var loggerFactory = LoggerFactory.Create(x =>
+using var loggerFactory = LoggerFactory.Create(builder =>
 {
-    x.SetMinimumLevel(args.Contains("--verbose") ? LogLevel.Debug : LogLevel.Warning);
-    x.AddSimpleConsole();
+    builder.SetMinimumLevel(args.Contains("--verbose") ? LogLevel.Debug : LogLevel.Warning);
+    builder.AddSimpleConsole();
 });
 
 var logger = loggerFactory.CreateLogger("APIWeaver.Generator");
@@ -23,7 +21,7 @@ if (args.Length == 0)
     return;
 }
 
-if (!args[0].EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+if (!args[0].AsSpan().EndsWith(".json", StringComparison.OrdinalIgnoreCase))
 {
     logger.LogError("Configuration file must have a .json extension");
     return;
