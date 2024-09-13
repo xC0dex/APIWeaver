@@ -55,7 +55,7 @@ jobs:
   
   analyze:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork == false && github.ref == 'refs/heads/main'
+    if: github.event.repository.fork == false && github.base_ref == 'main'
     needs:
       - build-test
     steps:
