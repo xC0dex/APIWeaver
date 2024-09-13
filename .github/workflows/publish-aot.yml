@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - 'ubuntu-latest'
+#          - 'ubuntu-latest'
           - 'windows-latest'
     steps:
       - name: Checkout
@@ -31,15 +31,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends clang zlib1g-dev
 
-#      - name: Install clang and zlib1g-dev # Required for AOT
-#        if: runner.os == 'Windows'
-#        run: |
-#          RUN curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtools.exe
-#          RUN vs_buildtools.exe --installPath C:\BuildTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.Windows10SDK.19041 --quiet --wait --norestart --nocache
-
       - name: Publish ${{ matrix.os }}
         working-directory: src/APIWeaver.Generator
-        run: dotnet publish -c Release -o publish
+        run: dotnet publish -c Release -r linux-x64 -o publish
 
       - name: Upload generator artifact
         uses: actions/upload-artifact@v4
