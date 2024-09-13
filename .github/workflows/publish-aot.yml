@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os:
-#          - 'ubuntu-latest'
+          - 'ubuntu-latest'
           - 'windows-latest'
     steps:
       - name: Checkout
@@ -25,7 +25,7 @@ jobs:
         with:
           dotnet-version: 9.x
 
-      - name: Install clang and zlib1g-dev # Required for AOT
+      - name: Install clang and zlib1g-dev # Required for AOT on linux
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
@@ -33,7 +33,7 @@ jobs:
 
       - name: Publish ${{ matrix.os }}
         working-directory: src/APIWeaver.Generator
-        run: dotnet publish -c Release -r linux-x64 -o publish
+        run: dotnet publish -c Release -o publish
 
       - name: Upload generator artifact
         uses: actions/upload-artifact@v4
