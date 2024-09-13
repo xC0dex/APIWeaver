@@ -60,7 +60,7 @@ jobs:
 
       - name: Try publish generator
         working-directory: src/APIWeaver.Generator
-        run: dotnet publish -c Release -o /publish-generator
+        run: dotnet publish --no-restore -c Release -o publish-generator
 
       - name: Upload published generator
         uses: actions/upload-artifact@v4
