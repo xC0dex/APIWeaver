@@ -47,6 +47,7 @@ That's it! 🎉 Your app now has a fully functional, AOT-compatible Swagger UI. 
 For more examples and advanced configuration, check out the [documentation](docs/Getting-Started.md).
 
 ## 🛠️ Roadmap
+- Minimal generator for API Clients
 - More useful transformers for OpenAPI documents and operations
 
 ## 💬 Feedback & Suggestions
