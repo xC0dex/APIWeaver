@@ -2,8 +2,6 @@ name: ci
 
 on:
   push:
-    branches:
-      - main
     paths:
       - 'src/**'
       - 'tests/**'
@@ -57,7 +55,7 @@ jobs:
   
   analyze:
     runs-on: ubuntu-latest
-    if: github.event.repository.fork == false
+    if: github.event.repository.fork == false && github.ref == 'refs/heads/main'
     needs:
       - build-test
     steps:
