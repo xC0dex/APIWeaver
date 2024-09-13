@@ -47,7 +47,7 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Test solution
-        run: dotnet test -c Release --no-restore --no-build --results-directory "test-results" --collect "XPlat Code Coverage;Format=opencover"
+        run: dotnet test -c Release --no-build --results-directory "test-results" --collect "XPlat Code Coverage;Format=opencover"
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace APIWeaver.ControllerApi.Demo.Controllers;
 
 [ApiController]
-[ApiVersion(1, Deprecated = true)]
+[ApiVersion(1)]
 [Route("v{version:apiVersion}/[controller]")]
-public class FooController : ControllerBase
+public class BookController : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult GetUser()
+    public IActionResult GetBook()
     {
         var user = new UserDto
         {

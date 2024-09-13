@@ -4,6 +4,9 @@
 # Rider .idea folder
 .idea/
 
+# Generated api clients
+**/APIWeaver.Demo.Client/**/*.cs
+
 # User-specific files
 *.rsuser
 *.suo

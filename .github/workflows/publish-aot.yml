@@ -1,0 +1,43 @@
+name: publish aot
+
+on:
+  push:
+    paths:
+      - 'src/APIWeaver.Generator/**'
+      - 'tests/**'
+      - '.github/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-latest'
+          - 'windows-latest'
+          - 'macos-latest'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
+      - name: Install clang and zlib1g-dev # Required for AOT on linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends clang zlib1g-dev
+
+      - name: Publish ${{ matrix.os }}
+        working-directory: src/APIWeaver.Generator
+        run: dotnet publish -c Release -o publish
+
+      - name: Upload generator artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: generator-${{ matrix.os }}
+          path: src/APIWeaver.Generator/publish
