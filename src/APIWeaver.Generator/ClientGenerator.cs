@@ -4,9 +4,9 @@ namespace APIWeaver;
 
 internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfiguration> options, OpenApiDocumentProvider documentProvider)
 {
-    public void Generate()
+    public async Task GenerateAsync()
     {
-        var document = documentProvider.GetDocument();
+        var document = await documentProvider.GetDocumentAsync();
 
         var operationsByTag = document.GetOperationsByTag();
 
@@ -28,7 +28,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             builder.AppendLine("}");
 
             var fileName = Path.Combine(configuration.OutputPath, $"{clientName}.cs");
-            File.WriteAllText(fileName, builder.ToString(), Encoding.UTF8);
+            await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8);
         }
     }
     

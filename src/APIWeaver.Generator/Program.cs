@@ -27,23 +27,31 @@ if (!args[0].AsSpan().EndsWith(".json", StringComparison.OrdinalIgnoreCase))
     return;
 }
 
-// Load configuration
-var configurationPath = args[0];
-using var fileStream = new FileStream(configurationPath, FileMode.Open, FileAccess.Read);
-var configuration = JsonSerializer.Deserialize<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration);
-
-if (configuration is null)
+try
 {
-    logger.LogError("Failed to deserialize configuration");
-    return;
+    // Load configuration
+    var configurationPath = args[0];
+    await using var fileStream = new FileStream(configurationPath, FileMode.Open, FileAccess.Read);
+    var configuration = await JsonSerializer.DeserializeAsync<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration);
+
+    if (configuration is null)
+    {
+        logger.LogError("Failed to deserialize configuration");
+        return;
+    }
+
+    var configurationOptions = Options.Create(configuration);
+
+    services.AddSingleton(configurationOptions);
+    services.AddSingleton<OpenApiDocumentProvider>();
+    services.AddSingleton<ClientGenerator>();
+
+    await using var provider = services.BuildServiceProvider();
+
+
+    await provider.GetRequiredService<ClientGenerator>().GenerateAsync();
 }
-
-var configurationOptions = Options.Create(configuration);
-
-services.AddSingleton(configurationOptions);
-services.AddSingleton<OpenApiDocumentProvider>();
-services.AddSingleton<ClientGenerator>();
-
-using var provider = services.BuildServiceProvider();
-
-provider.GetRequiredService<ClientGenerator>().Generate();
+catch (Exception exception)
+{
+    logger.LogError(exception, "An error occurred");
+}
