@@ -5,7 +5,40 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/v1/foo": {
+    "/v1/Book": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_GetBook",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Foo": {
       "get": {
         "tags": [
           "Foo"
@@ -260,6 +293,9 @@
     }
   },
   "tags": [
+    {
+      "name": "Book"
+    },
     {
       "name": "Foo"
     },
