@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Readers;
 
 namespace APIWeaver;
 
-internal sealed class OpenApiDocumentProvider(IOptions<GeneratorConfiguration> options, ILogger<OpenApiDocumentProvider> logger)
+internal sealed class OpenApiDocumentProvider(IOptions<GeneratorConfiguration> options, ILogger logger)
 {
     public OpenApiDocument GetDocument()
     {

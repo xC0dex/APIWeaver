@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 
 namespace APIWeaver;
 
-internal sealed class ClientGenerator(ILogger<ClientGenerator> logger, IOptions<GeneratorConfiguration> options, OpenApiDocumentProvider documentProvider)
+internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfiguration> options, OpenApiDocumentProvider documentProvider)
 {
     public void Generate()
     {

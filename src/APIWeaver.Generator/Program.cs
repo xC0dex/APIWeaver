@@ -1,24 +1,50 @@
 ﻿using System.Text.Json;
 using APIWeaver;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-if (args.Length != 1)
+var services = new ServiceCollection();
+
+// Add global logger
+using var loggerFactory = LoggerFactory.Create(x =>
 {
-    throw new ArgumentException("Expected a single argument with the path to the configuration file");
+    x.SetMinimumLevel(args.Contains("--verbose") ? LogLevel.Debug : LogLevel.Warning);
+    x.AddSimpleConsole();
+});
+
+var logger = loggerFactory.CreateLogger("APIWeaver.Generator");
+services.AddSingleton(logger);
+
+// Validate arguments
+if (args.Length == 0)
+{
+    logger.LogError("Configuration file path must be provided");
+    return;
 }
 
+if (!args[0].EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+{
+    logger.LogError("Configuration file must have a .json extension");
+    return;
+}
+
+// Load configuration
 var configurationPath = args[0];
-using var stream = new FileStream(configurationPath, FileMode.Open, FileAccess.Read);
-var configuration = JsonSerializer.Deserialize<GeneratorConfiguration>(stream, ConfigurationSerializerContext.Default.GeneratorConfiguration) ?? throw new InvalidOperationException("Failed to read configuration");
+using var fileStream = new FileStream(configurationPath, FileMode.Open, FileAccess.Read);
+var configuration = JsonSerializer.Deserialize<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration);
+
+if (configuration is null)
+{
+    logger.LogError("Failed to deserialize configuration");
+    return;
+}
 
 var configurationOptions = Options.Create(configuration);
 
-var services = new ServiceCollection();
 services.AddSingleton(configurationOptions);
 services.AddSingleton<OpenApiDocumentProvider>();
 services.AddSingleton<ClientGenerator>();
-services.AddConsoleLogging();
 
 using var provider = services.BuildServiceProvider();
 
