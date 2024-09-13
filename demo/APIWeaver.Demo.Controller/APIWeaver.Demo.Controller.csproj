@@ -18,4 +18,11 @@
     <ProjectReference Include="..\..\src\APIWeaver\APIWeaver.csproj" />
   </ItemGroup>
   
+  <ItemGroup>
+    <Content Remove="GeneratorConfiguration.json" />
+    <None Include="GeneratorConfiguration.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
 </Project>
