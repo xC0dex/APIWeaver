@@ -35,7 +35,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
         });
     }
 
-    private List<Method> GetMethodData(List<OpenApiOperation> operations)
+    private List<Method> GetMethodData(Dictionary<OperationType, OpenApiOperation> operations)
     {
         var methods = new List<Method>();
 
@@ -43,8 +43,9 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
         {
             var method = new Method
             {
-                Name = GetMethodName(operation),
-                GenericResponseTypes = GetResponseTypes(operation).ToList()
+                Name = GetMethodName(operation.Value),
+                GenericResponseTypes = GetResponseTypes(operation.Value).ToList(),
+                HttpMethod = operation.Key
             };
             methods.Add(method);
         }
@@ -75,14 +76,16 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
     }
 }
 
-public class Method
+internal class Method
 {
-    public List<GenericResponseType> GenericResponseTypes { get; set; } = [];
+    public required List<GenericResponseType> GenericResponseTypes { get; init; }
 
-    public string Name { get; set; }
+    public required string Name { get; init; }
+
+    public required OperationType HttpMethod { get; init; }
 }
 
-public class GenericResponseType
+internal class GenericResponseType
 {
     public required string Name { get; init; }
 }
