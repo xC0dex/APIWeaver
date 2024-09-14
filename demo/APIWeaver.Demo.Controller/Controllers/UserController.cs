@@ -8,13 +8,13 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [ApiVersion(1, Deprecated = true)]
 [Route("v{version:apiVersion}/users")]
-[Authorize(Roles = "foo")]
 public class UserController : ControllerBase
 {
     [HttpPost("{id:guid}")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<UserDto> GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name, [FromBody] UserDto userDto)
+    [AllowAnonymous]
+    public ActionResult<UserDto> GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name)
     {
         var user = new UserDto
         {

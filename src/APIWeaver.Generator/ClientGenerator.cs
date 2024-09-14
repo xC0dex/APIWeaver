@@ -16,16 +16,12 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
         {
             var configuration = options.Value;
             var clientName = configuration.NamePattern.Replace("{tag}", tag);
-            var clientInterfaceName = $"I{clientName}";
             var builder = new StringBuilder();
-            builder.AppendLine($"namespace {configuration.Namespace};");
-            builder.AppendLine();
-            builder.AppendLine($"public interface {clientInterfaceName};");
-            builder.AppendLine();
-            builder.AppendLine($"public class {clientName}: {clientInterfaceName}");
-            builder.AppendLine("{");
-
-            builder.AppendLine("}");
+            builder.AppendCode($"namespace {configuration.Namespace};");
+            builder.AppendCode();
+            builder.AppendCode($"public class {clientName}");
+            builder.AppendCode("{");
+            builder.AppendCode("}");
 
             var fileName = Path.Combine(configuration.OutputPath, $"{clientName}.cs");
             await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8);

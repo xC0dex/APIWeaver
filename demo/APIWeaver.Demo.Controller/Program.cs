@@ -20,9 +20,9 @@ builder.Services.AddApiVersioning(options =>
 // Only add authentication and authorization services if the current invocation is not for document generation. (Only for demonstration purposes)
 if (!IsGenerationContext)
 {
-    builder.Services.AddAuthentication().AddJwtBearer();
-    builder.Services.AddAuthorizationBuilder()
-        .AddFallbackPolicy("foo", policy => policy.RequireRole("foo"));
+    // builder.Services.AddAuthentication().AddJwtBearer();
+    // builder.Services.AddAuthorizationBuilder()
+    //     .AddFallbackPolicy("foo", policy => policy.RequireRole("foo"));
 }
 
 
