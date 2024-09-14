@@ -27,20 +27,20 @@ internal sealed class MethodSourceCodeBuilder
         var builder = new StringBuilder();
         builder.AppendLine();
         builder.Append(BuildSignature(method));
-        builder.AppendCodeLine("{", _baseIndent);
+        builder.AppendIndentLine("{", _baseIndent);
         _baseIndent++;
         builder.Append(BuildBody(method));
         _baseIndent--;
-        builder.AppendCode("}", _baseIndent);
+        builder.AppendIndent("}", _baseIndent);
         return builder.ToString();
     }
 
     private string BuildSignature(Method method)
     {
         var builder = new StringBuilder();
-        builder.AppendCode("public async ", _baseIndent);
-        builder.AppendCode(BuildReturnType(method));
-        builder.AppendCode($" {method.Name}");
+        builder.AppendIndent("public async ", _baseIndent);
+        builder.AppendIndent(BuildReturnType(method));
+        builder.AppendIndent($" {method.Name}");
         builder.Append('<');
         for (var i = 0; i < method.GenericResponseTypes.Count; i++)
         {
@@ -82,9 +82,9 @@ internal sealed class MethodSourceCodeBuilder
     private string BuildBody(Method method)
     {
         var builder = new StringBuilder();
-        builder.AppendCodeLine("using var request = new HttpRequestMessage();", _baseIndent);
-        builder.AppendCodeLine($"request.Method = HttpMethod.{method.HttpMethod};", _baseIndent);
-        builder.AppendCodeLine("return default;", _baseIndent);
+        builder.AppendIndentLine("using var request = new HttpRequestMessage();", _baseIndent);
+        builder.AppendIndentLine($"request.Method = HttpMethod.{method.HttpMethod};", _baseIndent);
+        builder.AppendIndentLine("return default;", _baseIndent);
         return builder.ToString();
     }
 }

@@ -35,7 +35,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
         });
     }
 
-    private List<Method> GetMethodData(Dictionary<OperationType, OpenApiOperation> operations)
+    private static List<Method> GetMethodData(Dictionary<OperationType, OpenApiOperation> operations)
     {
         var methods = new List<Method>();
 
