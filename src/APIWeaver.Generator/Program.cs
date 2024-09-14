@@ -16,7 +16,7 @@ services.AddSingleton(logger);
 try
 {
     var configurationHelper = new ConfigurationHelper(logger);
-    var configurationOptions = await configurationHelper.LoadConfigurationAsync(args);
+    var configurationOptions = await configurationHelper.LoadConfigurationAsync(args).ConfigureAwait(false);
     if (configurationOptions is null)
     {
         return;
@@ -28,7 +28,7 @@ try
     await using var provider = services.BuildServiceProvider();
 
     // Generate client
-    await provider.GetRequiredService<ClientGenerator>().GenerateAsync();
+    await provider.GetRequiredService<ClientGenerator>().GenerateAsync().ConfigureAwait(false);
 }
 catch (Exception exception)
 {

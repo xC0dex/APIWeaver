@@ -14,7 +14,7 @@ public class UserController : ControllerBase
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [AllowAnonymous]
-    public ActionResult<UserDto> GetUser(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name)
+    public ActionResult<UserDto> GetUserById(Guid id, [FromHeader] [Required] int age, [FromQuery] string? name)
     {
         var user = new UserDto
         {

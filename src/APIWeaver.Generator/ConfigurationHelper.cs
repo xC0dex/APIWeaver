@@ -21,7 +21,7 @@ internal sealed class ConfigurationHelper(ILogger logger)
         // Load configuration
         var configurationPath = args[0];
         await using var fileStream = new FileStream(configurationPath, FileMode.Open, FileAccess.Read);
-        var configuration = await JsonSerializer.DeserializeAsync<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration);
+        var configuration = await JsonSerializer.DeserializeAsync<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration).ConfigureAwait(false);
 
         if (configuration is null)
         {
