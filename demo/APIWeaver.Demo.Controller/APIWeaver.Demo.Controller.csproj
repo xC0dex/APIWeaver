@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\APIWeaver.Generator\APIWeaver.Generator.csproj" PrivateAssets="all" IncludeAssets="build" />
     <ProjectReference Include="..\..\src\APIWeaver\APIWeaver.csproj"/>
   </ItemGroup>
 
