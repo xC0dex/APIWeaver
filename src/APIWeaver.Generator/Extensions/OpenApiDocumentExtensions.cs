@@ -2,9 +2,9 @@ namespace APIWeaver;
 
 internal static class OpenApiDocumentExtensions
 {
-    internal static Dictionary<string, List<OpenApiOperation>> GetOperationsByTag(this OpenApiDocument document)
+    internal static Dictionary<string, Dictionary<OperationType, OpenApiOperation>> GetOperationsByTag(this OpenApiDocument document)
     {
-        var operationsByTag = new Dictionary<string, List<OpenApiOperation>>();
+        var operationsByTag = new Dictionary<string, Dictionary<OperationType, OpenApiOperation>>();
         foreach (var path in document.Paths)
         {
             foreach (var operation in path.Value.Operations)
@@ -16,7 +16,7 @@ internal static class OpenApiDocumentExtensions
                     operationsByTag[tag] = value;
                 }
 
-                value.Add(operation.Value);
+                value.Add(operation.Key, operation.Value);
             }
         }
 

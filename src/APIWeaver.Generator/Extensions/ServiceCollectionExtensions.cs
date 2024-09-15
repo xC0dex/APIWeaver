@@ -4,13 +4,10 @@ namespace APIWeaver;
 
 internal static class ServiceCollectionExtensions
 {
-    internal static IServiceCollection AddConsoleLogging(this IServiceCollection services)
+    internal static IServiceCollection AddGenerator(this IServiceCollection services)
     {
-        services.AddLogging(x =>
-        {
-            x.SetMinimumLevel(LogLevel.Information);
-            x.AddSimpleConsole();
-        });
+        services.AddSingleton<OpenApiDocumentProvider>();
+        services.AddSingleton<ClientGenerator>();
         return services;
     }
 }

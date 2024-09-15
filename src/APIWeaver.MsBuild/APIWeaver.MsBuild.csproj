@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <Description>APIWeaver.MsBuild is a powerful and lightweight library that integrates the APIWeaver.Generator into your .NET 9 applications.</Description>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(Configuration) == 'Release'">
+    <None Include="$(AssemblyName).props" Pack="true" PackagePath="build"/>
+    <None Include="$(AssemblyName).props" Pack="true" PackagePath="buildMultiTargeting"/>
+    <Content Include="../../generator-windows-latest/**/*" Pack="true" PackagePath="tools/windows"/>
+    <Content Include="../../generator-linux-latest/**/*" Pack="true" PackagePath="tools/linux"/>
+    <Content Include="../../generator-macos-latest/**/*" Pack="true" PackagePath="tools/macos"/>
+  </ItemGroup>
+
+</Project>

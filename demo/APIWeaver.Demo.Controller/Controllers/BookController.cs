@@ -9,8 +9,9 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 public class BookController : ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public IActionResult GetBook()
     {
         var user = new UserDto
