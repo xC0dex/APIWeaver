@@ -30,7 +30,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
 
             builder.Append('}');
 
-            var fileName = Path.Combine(configuration.OutputPath, $"{clientName}.cs");
+            var fileName = Path.Combine(configuration.FullOutputPath, $"{clientName}.cs");
             await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8, token);
         });
     }

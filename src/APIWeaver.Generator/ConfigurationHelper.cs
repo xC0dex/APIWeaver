@@ -29,6 +29,16 @@ internal sealed class ConfigurationHelper(ILogger logger)
             return null;
         }
 
+        var executionContext = Path.GetDirectoryName(Path.GetFullPath(configurationPath));
+
+        if (executionContext is null)
+        {
+            logger.LogError("Failed to determine execution context");
+            return null;
+        }
+        
+        configuration.ExecutionContext = executionContext;
+
         return Options.Create(configuration);
     }
 }
