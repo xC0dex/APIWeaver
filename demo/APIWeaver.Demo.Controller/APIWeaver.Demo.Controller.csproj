@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <Target Name="BuildClient" AfterTargets="build" Condition="$(Configuration) == 'Debug'">
-    <Exec Command="dotnet run --no-build --project ..\..\src\APIWeaver.Generator\APIWeaver.Generator.csproj GeneratorConfiguration.json"/>
+    <Exec Command="dotnet run --no-build --project ..\..\src\APIWeaver.Generator\APIWeaver.Generator.csproj GeneratorConfiguration.json --verbose"/>
     <!--    <Exec Command="$(ApiWeaver) GeneratorConfiguration.json &#45;&#45;verbose" />-->
   </Target>
   

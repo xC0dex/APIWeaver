@@ -1,4 +1,5 @@
-﻿using APIWeaver;
+﻿using System.Diagnostics;
+using APIWeaver;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
@@ -28,7 +29,10 @@ try
     await using var provider = services.BuildServiceProvider();
 
     // Generate client
+    var timestamp = Stopwatch.GetTimestamp();
     await provider.GetRequiredService<ClientGenerator>().GenerateAsync().ConfigureAwait(false);
+    var elapsedTime = Stopwatch.GetElapsedTime(timestamp);
+    logger.LogInformation("Generation completed in {Elapsed}ms", elapsedTime.TotalMilliseconds);
 }
 catch (Exception exception)
 {
