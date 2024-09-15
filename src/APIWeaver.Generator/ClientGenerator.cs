@@ -33,15 +33,14 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             var fileName = Path.Combine(configuration.FullOutputPath, $"{clientName}.cs");
             await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8, token).ConfigureAwait(false);
         }).ConfigureAwait(false);
-        
+
         var responseTypes = responseCache.GetUniqueCombinations();
 
         var builder = new StringBuilder();
         builder.AppendLine($"namespace {configuration.Namespace};");
-        
+
         foreach (var responseType in responseTypes)
         {
-           
             builder.AppendLine();
             builder.Append("public readonly struct Response");
             builder.Append('<');
@@ -61,7 +60,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             builder.Append('}');
             builder.AppendLine();
         }
-        
+
         var fileName = Path.Combine(configuration.FullOutputPath, "Response.cs");
         await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8).ConfigureAwait(false);
     }
