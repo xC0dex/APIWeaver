@@ -1,6 +1,6 @@
 {
   "openApiDocumentPath": "C:\\Users\\justi\\git\\github\\APIWeaver\\demo\\APIWeaver.Demo.Controller\\APIWeaver.Demo.Controller.json",
-  "outputPath": "C:\\Users\\justi\\git\\github\\APIWeaver\\demo\\APIWeaver.Demo.Client",
-  "namespace": "APIWeaver.Demo.Client",
+  "outputPath": "C:\\Users\\justi\\git\\github\\APIWeaver\\demo\\APIWeaver.Demo.GeneratedClient",
+  "namespace": "APIWeaver.Demo.GeneratedClient",
   "namePattern": "{tag}ApiClient"
 }

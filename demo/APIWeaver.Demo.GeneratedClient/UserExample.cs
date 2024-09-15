@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
-namespace APIWeaver.Demo.Client;
+namespace APIWeaver.Demo.GeneratedClient;
 
 public sealed class UserClientExample(HttpClient httpClient)
 {
@@ -55,52 +55,52 @@ public sealed class UserClientExample(HttpClient httpClient)
     }
 
 
-    public async Task<Response<TOk, TNotFound>> GetUserAsync<TOk, TNotFound>(Guid id, int age, string? name)
-    {
-        using var request = new HttpRequestMessage();
-
-        request.Method = HttpMethod.Post;
-        request.RequestUri = new Uri($"/v1/users/{id}", UriKind.Relative);
-
-        request.Headers.Add("age", age.ToString());
-        if (name is not null)
-        {
-            request.Headers.Add("name", name);
-        }
-
-        using var httpResponse = await httpClient.SendAsync(request);
-        await using var stream = await httpResponse.Content.ReadAsStreamAsync();
-
-        switch (httpResponse.StatusCode)
-        {
-            case HttpStatusCode.OK:
-            {
-                var content = await JsonSerializer.DeserializeAsync<TOk>(stream);
-
-                return new Response<TOk, TNotFound>
-                {
-                    StatusCode = httpResponse.StatusCode,
-                    Ok = content
-                };
-            }
-            case HttpStatusCode.NotFound:
-            {
-                var content = await JsonSerializer.DeserializeAsync<TNotFound>(stream);
-
-                return new Response<TOk, TNotFound>
-                {
-                    StatusCode = httpResponse.StatusCode,
-                    NotFound = content
-                };
-            }
-        }
-
-        return new Response<TOk, TNotFound>
-        {
-            StatusCode = httpResponse.StatusCode,
-            Error = new Error("Unexpected status code")
-        };
-    }
+    // public async Task<Response<TOk, TNotFound>> GetUserAsync<TOk, TNotFound>(Guid id, int age, string? name)
+    // {
+    //     using var request = new HttpRequestMessage();
+    //
+    //     request.Method = HttpMethod.Post;
+    //     request.RequestUri = new Uri($"/v1/users/{id}", UriKind.Relative);
+    //
+    //     request.Headers.Add("age", age.ToString());
+    //     if (name is not null)
+    //     {
+    //         request.Headers.Add("name", name);
+    //     }
+    //
+    //     using var httpResponse = await httpClient.SendAsync(request);
+    //     await using var stream = await httpResponse.Content.ReadAsStreamAsync();
+    //
+    //     switch (httpResponse.StatusCode)
+    //     {
+    //         case HttpStatusCode.OK:
+    //         {
+    //             var content = await JsonSerializer.DeserializeAsync<TOk>(stream);
+    //
+    //             return new Response<TOk, TNotFound>
+    //             {
+    //                 StatusCode = httpResponse.StatusCode,
+    //                 Ok = content
+    //             };
+    //         }
+    //         case HttpStatusCode.NotFound:
+    //         {
+    //             var content = await JsonSerializer.DeserializeAsync<TNotFound>(stream);
+    //
+    //             return new Response<TOk, TNotFound>
+    //             {
+    //                 StatusCode = httpResponse.StatusCode,
+    //                 NotFound = content
+    //             };
+    //         }
+    //     }
+    //
+    //     return new Response<TOk, TNotFound>
+    //     {
+    //         StatusCode = httpResponse.StatusCode,
+    //         Error = new Error("Unexpected status code")
+    //     };
+    // }
 
 
     public async Task<Response<TOk, TNotFound>> PostUserAotAsync<TOk, TNotFound, TBody>(TBody body, JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound, JsonTypeInfo<TBody> typeInfoBody)
@@ -159,8 +159,8 @@ public sealed class ProblemDetails
 public readonly struct Response<TOk, TNotFound>
 {
     [MemberNotNullWhen(true, nameof(Ok))]
-    public bool IsSuccess => (int)StatusCode is >= 200 and < 300; 
-        
+    public bool IsSuccess => (int) StatusCode is >= 200 and < 300;
+
     public required HttpStatusCode StatusCode { get; init; }
 
     public TOk? Ok { get; init; }

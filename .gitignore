@@ -5,7 +5,7 @@
 .idea/
 
 # Generated api clients
-**/APIWeaver.Demo.Client/**/*Client.cs
+**/APIWeaver.Demo.GeneratedClient/**/*Client.cs
 
 # User-specific files
 *.rsuser
