@@ -42,10 +42,10 @@ internal sealed class MethodSourceCodeBuilder
         builder.AppendIndent(BuildReturnType(method));
         builder.AppendIndent($" {method.Name}");
         builder.Append('<');
-        for (var i = 0; i < method.GenericResponseTypes.Count; i++)
+        for (var i = 0; i < method.ResponseTypes.Length; i++)
         {
-            builder.Append($"T{method.GenericResponseTypes[i].Name}");
-            if (i < method.GenericResponseTypes.Count - 1)
+            builder.Append($"T{method.ResponseTypes[i]}");
+            if (i < method.ResponseTypes.Length - 1)
             {
                 builder.Append(", ");
             }
@@ -65,10 +65,10 @@ internal sealed class MethodSourceCodeBuilder
         builder.Append('<');
         builder.Append("Response");
         builder.Append('<');
-        for (var i = 0; i < method.GenericResponseTypes.Count; i++)
+        for (var i = 0; i < method.ResponseTypes.Length; i++)
         {
-            builder.Append($"T{method.GenericResponseTypes[i].Name}");
-            if (i < method.GenericResponseTypes.Count - 1)
+            builder.Append($"T{method.ResponseTypes[i]}");
+            if (i < method.ResponseTypes.Length - 1)
             {
                 builder.Append(", ");
             }

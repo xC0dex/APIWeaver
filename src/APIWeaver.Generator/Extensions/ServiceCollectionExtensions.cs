@@ -8,6 +8,7 @@ internal static class ServiceCollectionExtensions
     {
         services.AddSingleton<OpenApiDocumentProvider>();
         services.AddSingleton<ClientGenerator>();
+        services.AddSingleton<ResponseCache>();
         return services;
     }
 }

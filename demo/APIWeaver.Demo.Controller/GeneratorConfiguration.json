@@ -1,5 +1,5 @@
 {
-  "openApiDocumentPath": "APIWeaver.Demo.Controller.json",
+  "documentPath": "APIWeaver.Demo.Controller.json",
   "outputPath": "../APIWeaver.Demo.GeneratedClient",
   "namespace": "APIWeaver.Demo.GeneratedClient",
   "namePattern": "{tag}ApiClient"
