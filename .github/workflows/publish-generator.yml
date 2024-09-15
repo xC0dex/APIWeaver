@@ -1,12 +1,7 @@
-name: publish aot
+name: publish-generator
 
 on:
-  push:
-    paths:
-      - 'src/APIWeaver.Generator/**'
-      - 'tests/**'
-      - '.github/**'
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   publish:

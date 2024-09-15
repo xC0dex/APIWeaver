@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <IsWindows>$([System.OperatingSystem]::IsWindows())</IsWindows>
+    <IsLinux>$([System.OperatingSystem]::IsLinux())</IsLinux>
+    <IsMacOS>$([System.OperatingSystem]::IsMacOS())</IsMacOS>
+    <ApiWeaverGenerator>APIWeaver.Generator</ApiWeaverGenerator>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ApiWeaver Condition="'$(IsWindows)' == 'true'">$(MSBuildThisFileDirectory)../tools/windows/$(ApiWeaverGenerator).exe</ApiWeaver>
+    <ApiWeaver Condition="'$(IsLinux)' == 'true'">$(MSBuildThisFileDirectory)../tools/linux/$(ApiWeaverGenerator)</ApiWeaver>
+    <ApiWeaver Condition="'$(IsMacOS)' == 'true'">$(MSBuildThisFileDirectory)../tools/macos/$(ApiWeaverGenerator)</ApiWeaver>
+  </PropertyGroup>
+</Project>
