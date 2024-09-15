@@ -50,6 +50,6 @@ jobs:
         working-directory: src/${{ matrix.project }}
         run: dotnet pack -c Release --no-restore --output nupkgs /p:Version=$VERSION
 
-      #- name: Publish ${{ matrix.project }}
-      #  working-directory: src/${{ matrix.project }}
-      #  run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
+      - name: Publish ${{ matrix.project }}
+        working-directory: src/${{ matrix.project }}
+        run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
