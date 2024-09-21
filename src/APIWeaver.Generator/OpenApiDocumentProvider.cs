@@ -11,7 +11,7 @@ internal sealed class OpenApiDocumentProvider(IOptions<GeneratorConfiguration> o
         await using var fileStream = new FileStream(documentPath, FileMode.Open, FileAccess.Read);
 
         var reader = new OpenApiStreamReader();
-        var result = await reader.ReadAsync(fileStream).ConfigureAwait(false);
+        var result = await reader.ReadAsync(fileStream);
 
         var diagnostic = result.OpenApiDiagnostic;
         if (diagnostic.Errors.Count > 0 || diagnostic.Warnings.Count > 0)

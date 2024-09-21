@@ -6,7 +6,7 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
 {
     public async Task GenerateAsync()
     {
-        var document = await documentProvider.GetDocumentAsync().ConfigureAwait(false);
+        var document = await documentProvider.GetDocumentAsync();
 
         var operationsByTag = document.GetOperationsByTag();
 
@@ -31,12 +31,19 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             builder.Append('}');
 
             var fileName = Path.Combine(configuration.FullOutputPath, $"{clientName}.cs");
-            await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8, token).ConfigureAwait(false);
-        }).ConfigureAwait(false);
+            await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8, token);
+        });
 
+        await GenerateResponseTypeAsync(configuration);
+    }
+
+    private async Task GenerateResponseTypeAsync(GeneratorConfiguration configuration)
+    {
         var responseTypes = responseCache.GetUniqueCombinations();
 
         var builder = new StringBuilder();
+        builder.AppendLine("using System.Net;");
+        builder.AppendLine();
         builder.AppendLine($"namespace {configuration.Namespace};");
 
         foreach (var responseType in responseTypes)
@@ -56,13 +63,32 @@ internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfigur
             builder.Append('>');
             builder.AppendLine();
             builder.Append('{');
+
             builder.AppendLine();
+            const int indent = 1;
+
+            builder.AppendIndentLine("public bool IsSuccess => (int) StatusCode is >= 200 and < 300;", indent);
+            builder.AppendIndentLine(indent);
+            builder.AppendIndentLine("public required HttpStatusCode StatusCode { get; init; }", indent);
+            builder.AppendIndentLine(indent);
+            for (var i = 0; i < responseType.Length; i++)
+            {
+                builder.AppendIndent("public ", indent);
+                builder.Append($"T{responseType[i]}?");
+                builder.Append($" {responseType[i]}");
+                builder.Append(" { get; init; }");
+                builder.AppendIndentLine(indent);
+                builder.AppendIndentLine(indent);
+            }
+
+            builder.AppendIndentLine("public Stream? BodyStream { get; init; }", 1);
+
             builder.Append('}');
             builder.AppendLine();
         }
 
         var fileName = Path.Combine(configuration.FullOutputPath, "Response.cs");
-        await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8).ConfigureAwait(false);
+        await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8);
     }
 
     private List<Method> GetMethodData(Dictionary<OperationType, OpenApiOperation> operations)

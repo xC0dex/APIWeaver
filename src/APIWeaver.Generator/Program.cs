@@ -17,7 +17,7 @@ services.AddSingleton(logger);
 try
 {
     var configurationHelper = new ConfigurationHelper(logger);
-    var configurationOptions = await configurationHelper.LoadConfigurationAsync(args).ConfigureAwait(false);
+    var configurationOptions = await configurationHelper.LoadConfigurationAsync(args);
     if (configurationOptions is null)
     {
         return;
@@ -30,7 +30,7 @@ try
 
     // Generate client
     var timestamp = Stopwatch.GetTimestamp();
-    await provider.GetRequiredService<ClientGenerator>().GenerateAsync().ConfigureAwait(false);
+    await provider.GetRequiredService<ClientGenerator>().GenerateAsync();
     var elapsedTime = Stopwatch.GetElapsedTime(timestamp);
     logger.LogInformation("Generation completed in {Elapsed}ms", elapsedTime.TotalMilliseconds);
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -49,7 +50,7 @@ public sealed class UserClientExample(HttpClient httpClient)
         return new Response<TOk, TNotFound>
         {
             StatusCode = httpResponse.StatusCode,
-            Error = new Error("Unexpected status code")
+            BodyStream = await httpResponse.Content.ReadAsStreamAsync()
         };
     }
 
@@ -138,11 +139,12 @@ public sealed class UserClientExample(HttpClient httpClient)
             }
         }
 
-        return new Response<TOk, TNotFound>
+        var response = new ExampleResponse<TOk, TNotFound>
         {
             StatusCode = httpResponse.StatusCode,
-            Error = new Error("Unexpected status code")
+            BodyStream = await httpResponse.Content.ReadAsStreamAsync()
         };
+        return default;
     }
 }
 
@@ -155,18 +157,17 @@ public sealed class ProblemDetails
     public int? Status { get; init; }
 }
 
-// public readonly struct Response<TOk, TNotFound>
-// {
-//     [MemberNotNullWhen(true, nameof(Ok))]
-//     public bool IsSuccess => (int) StatusCode is >= 200 and < 300;
-//
-//     public required HttpStatusCode StatusCode { get; init; }
-//
-//     public TOk? Ok { get; init; }
-//
-//     public TNotFound? NotFound { get; init; }
-//
-//     public Error? Error { get; init; }
-// }
+public readonly struct ExampleResponse<TOk, TNotFound>
+{
+    [MemberNotNullWhen(true, nameof(Ok))]
+    
+    public bool IsSuccess => (int) StatusCode is >= 200 and < 300;
 
-public sealed record Error(string Message, Exception? Exception = null);
+    public required HttpStatusCode StatusCode { get; init; }
+
+    public TOk? Ok { get; init; }
+
+    public TNotFound? NotFound { get; init; }
+
+    public Stream? BodyStream { get; init; }
+}
