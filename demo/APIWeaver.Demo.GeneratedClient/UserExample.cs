@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -156,18 +155,18 @@ public sealed class ProblemDetails
     public int? Status { get; init; }
 }
 
-public readonly struct Response<TOk, TNotFound>
-{
-    [MemberNotNullWhen(true, nameof(Ok))]
-    public bool IsSuccess => (int) StatusCode is >= 200 and < 300;
-
-    public required HttpStatusCode StatusCode { get; init; }
-
-    public TOk? Ok { get; init; }
-
-    public TNotFound? NotFound { get; init; }
-
-    public Error? Error { get; init; }
-}
+// public readonly struct Response<TOk, TNotFound>
+// {
+//     [MemberNotNullWhen(true, nameof(Ok))]
+//     public bool IsSuccess => (int) StatusCode is >= 200 and < 300;
+//
+//     public required HttpStatusCode StatusCode { get; init; }
+//
+//     public TOk? Ok { get; init; }
+//
+//     public TNotFound? NotFound { get; init; }
+//
+//     public Error? Error { get; init; }
+// }
 
 public sealed record Error(string Message, Exception? Exception = null);
