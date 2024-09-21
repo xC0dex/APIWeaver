@@ -9,6 +9,7 @@ internal static class ServiceCollectionExtensions
         services.AddSingleton<OpenApiDocumentProvider>();
         services.AddSingleton<ClientGenerator>();
         services.AddSingleton<ResponseCache>();
+        services.AddSingleton<CSharpClientProcessor>();
         return services;
     }
 }

@@ -1,8 +1,6 @@
-using System.Text;
-
 namespace APIWeaver;
 
-internal sealed class MethodSourceCodeBuilder
+internal sealed class MethodBuilder
 {
     private int _baseIndent = 1;
 

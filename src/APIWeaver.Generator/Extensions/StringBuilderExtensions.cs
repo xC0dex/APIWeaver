@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace APIWeaver;
 
 internal static class StringBuilderExtensions

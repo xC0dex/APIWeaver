@@ -12,6 +12,7 @@ public class BookController : ControllerBase
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType<UserDto>(StatusCodes.Status500InternalServerError)]
     public IActionResult GetBook()
     {
         var user = new UserDto
