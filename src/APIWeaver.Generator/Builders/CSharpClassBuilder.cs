@@ -3,6 +3,7 @@ namespace APIWeaver;
 internal sealed class CSharpClassBuilder
 {
     private readonly StringBuilder _builder = new();
+    private int _indent;
     
     public string Build(Class classToBuild)
     {
@@ -14,7 +15,11 @@ internal sealed class CSharpClassBuilder
         BuildTypeParameters(classToBuild);
         _builder.AppendLine();
         _builder.AppendLine("{");
+        _indent++;
         BuildProperties(classToBuild.Properties);
+        _builder.AppendIndentLine(_indent);
+        
+        _indent--;
         _builder.AppendLine("}");
         return _builder.ToString();
     }
@@ -45,7 +50,7 @@ internal sealed class CSharpClassBuilder
         
         foreach (var property in properties)
         {
-            _builder.AppendIndent(property.AccessModifier.ToStringFast(), 1);
+            _builder.AppendIndent(property.AccessModifier.ToStringFast(), _indent);
             _builder.Append(' ');
             if (property.Required)
             {
