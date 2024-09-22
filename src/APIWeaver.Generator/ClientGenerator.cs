@@ -1,3 +1,5 @@
+using APIWeaver.Generators.CSharp;
+
 namespace APIWeaver;
 
 internal sealed class ClientGenerator(
@@ -19,7 +21,7 @@ internal sealed class ClientGenerator(
                 logger.LogDebug("Generating client for {Name}", fileDefinition.Name);
             }
 
-            var sourceCode = new CSharpFileBuilder().Build(fileDefinition);
+            var sourceCode = new FileGenerator().Generate(fileDefinition);
             var fileName = Path.Combine(options.Value.FullOutputPath, $"{fileDefinition.Name}.cs");
             await File.WriteAllTextAsync(fileName, sourceCode, Encoding.UTF8, token);
         });

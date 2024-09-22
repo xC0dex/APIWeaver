@@ -123,6 +123,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
             responseCache.Add(responseTypes);
             var method = new Method
             {
+                AccessModifier = AccessModifier.Public,
                 Name = GetMethodName(operation.Value),
                 ResponseTypes = responseTypes,
                 HttpMethod = operation.Key

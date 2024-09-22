@@ -1,17 +1,17 @@
-namespace APIWeaver;
+namespace APIWeaver.Generators.CSharp;
 
-internal sealed class CSharpFileBuilder
+internal sealed class FileGenerator
 {
     private readonly StringBuilder _builder = new();
 
-    public string Build(CSharpFile file)
+    public string Generate(CSharpFile fileToGenerate)
     {
         BuildFileHeader();
-        BuildUsings(file.Usings);
+        BuildUsings(fileToGenerate.Usings);
         _builder.AppendLine();
-        BuildNamespace(file.Namespace);
-        BuildPreProcessorDirectives(file.PreProcessorDirectives);
-        BuildClasses(file.Classes);
+        BuildNamespace(fileToGenerate.Namespace);
+        BuildPreProcessorDirectives(fileToGenerate.PreProcessorDirectives);
+        BuildClasses(fileToGenerate.Classes);
         return _builder.ToString();
     }
 
@@ -63,7 +63,7 @@ internal sealed class CSharpFileBuilder
     {
         foreach (var @class in classes)
         {
-            var code = new CSharpClassBuilder().Build(@class);
+            var code = new ClassGenerator().Generate(@class);
 
             _builder.AppendLine();
             _builder.Append(code);

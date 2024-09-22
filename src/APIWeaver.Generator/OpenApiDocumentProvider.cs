@@ -7,7 +7,11 @@ internal sealed class OpenApiDocumentProvider(IOptions<GeneratorConfiguration> o
     public async Task<OpenApiDocument> GetDocumentAsync()
     {
         var documentPath = options.Value.FullDocumentPath;
-        logger.LogInformation("Reading OpenAPI document from {Path}", documentPath);
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug("Reading OpenAPI document from {Path}", documentPath);
+        }
+
         await using var fileStream = new FileStream(documentPath, FileMode.Open, FileAccess.Read);
 
         var reader = new OpenApiStreamReader();
