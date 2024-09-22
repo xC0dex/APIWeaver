@@ -32,6 +32,12 @@ jobs:
           name: node-modules
           path: 'src/APIWeaver.Swagger/node_modules'
 
+      - name: Download APIWeaver Generator
+        uses: actions/download-artifact@v4
+        with:
+          pattern: generator-*
+      - run: ls -R 
+
       - name: Get version
         env:
           TAG: ${{ github.ref_name }}
