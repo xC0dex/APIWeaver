@@ -4,7 +4,16 @@ namespace APIWeaver;
 
 internal sealed class GeneratorConfiguration
 {
-    public required string OpenApiDocumentPath { get; init; }
+    [JsonIgnore]
+    internal string ExecutionContext { get; set; } = null!;
+
+    [JsonIgnore]
+    internal string FullDocumentPath => Path.Combine(ExecutionContext, DocumentPath);
+
+    [JsonIgnore]
+    internal string FullOutputPath => Path.Combine(ExecutionContext, OutputPath);
+
+    public required string DocumentPath { get; init; }
 
     public required string OutputPath { get; init; }
 

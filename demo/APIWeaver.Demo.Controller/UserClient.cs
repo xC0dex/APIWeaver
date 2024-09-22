@@ -73,4 +73,13 @@ public readonly struct Response<TOk, TNotFound>
     public Error? Error { get; init; }
 }
 
+public readonly struct Response<TOk, TNotFound, TSpecial>
+{
+    public TOk? Ok { get; init; }
+
+    public TNotFound? NotFound { get; init; }
+    
+    public Error? Error { get; init; }
+}
+
 public sealed record Error(string Message, Exception? Exception = null);

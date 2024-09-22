@@ -1,91 +1,36 @@
-using System.Text;
+using APIWeaver.Generators.CSharp;
 
 namespace APIWeaver;
 
-internal sealed class ClientGenerator(ILogger logger, IOptions<GeneratorConfiguration> options, OpenApiDocumentProvider documentProvider)
+internal sealed class ClientGenerator(
+    ILogger logger,
+    IOptions<GeneratorConfiguration> options,
+    OpenApiDocumentProvider documentProvider,
+    CSharpClientProcessor cSharpClientProcessor)
 {
     public async Task GenerateAsync()
     {
         var document = await documentProvider.GetDocumentAsync();
 
-        var operationsByTag = document.GetOperationsByTag();
+        var cSharpFilesDefinition = cSharpClientProcessor.PrepareClient(document);
 
-        logger.LogInformation("Found {TagCount} tags in the OpenAPI document", operationsByTag.Count);
-
-        await Parallel.ForEachAsync(operationsByTag, async (pair, token) =>
+        await Parallel.ForEachAsync(cSharpFilesDefinition, async (fileDefinition, token) =>
         {
-            var tag = pair.Key;
-            var operations = pair.Value;
-            var configuration = options.Value;
-            var clientName = configuration.NamePattern.Replace("{tag}", tag);
-            var builder = new StringBuilder();
-            builder.AppendLine($"namespace {configuration.Namespace};");
-            builder.AppendLine();
-            builder.AppendLine($"public class {clientName}");
-            builder.Append('{');
-
-            var methods = GetMethodData(operations);
-            var code = new MethodSourceCodeBuilder().Build(methods);
-            builder.AppendLine(code);
-
-            builder.Append('}');
-
-            var fileName = Path.Combine(configuration.OutputPath, $"{clientName}.cs");
-            await File.WriteAllTextAsync(fileName, builder.ToString(), Encoding.UTF8, token);
-        });
-    }
-
-    private static List<Method> GetMethodData(Dictionary<OperationType, OpenApiOperation> operations)
-    {
-        var methods = new List<Method>();
-
-        foreach (var operation in operations)
-        {
-            var method = new Method
+            if (logger.IsEnabled(LogLevel.Debug))
             {
-                Name = GetMethodName(operation.Value),
-                GenericResponseTypes = GetResponseTypes(operation.Value).ToList(),
-                HttpMethod = operation.Key
-            };
-            methods.Add(method);
-        }
+                logger.LogDebug("Generating {Name}", fileDefinition.Name);
+            }
 
-        return methods;
-    }
-
-    private static string GetMethodName(OpenApiOperation operation)
-    {
-        var operationSpan = operation.OperationId.AsSpan();
-        var index = operationSpan.LastIndexOf('_');
-        if (index != -1)
-        {
-            var slice = operationSpan[(index + 1)..];
-            return $"{slice}Async";
-        }
-
-        return operation.OperationId;
-    }
-
-    private static IEnumerable<GenericResponseType> GetResponseTypes(OpenApiOperation operation)
-    {
-        var responseType = operation.Responses;
-        return responseType.Where(x => x.Value.Content.ContainsKey("application/json")).Select(x => new GenericResponseType
-        {
-            Name = x.Key.ToName()
+            var sourceCode = new FileGenerator().Generate(fileDefinition);
+            var fileName = Path.Combine(options.Value.FullOutputPath, $"{fileDefinition.Name}.cs");
+            var fullPath = Path.GetFullPath(fileName);
+            
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("Writing to {FileName}", fullPath);
+            }
+            
+            await File.WriteAllTextAsync(fullPath, sourceCode, Encoding.UTF8, token);
         });
     }
-}
-
-internal class Method
-{
-    public required List<GenericResponseType> GenericResponseTypes { get; init; }
-
-    public required string Name { get; init; }
-
-    public required OperationType HttpMethod { get; init; }
-}
-
-internal class GenericResponseType
-{
-    public required string Name { get; init; }
 }

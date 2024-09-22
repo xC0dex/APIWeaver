@@ -50,7 +50,7 @@ public sealed class UserClientExample(HttpClient httpClient)
         return new Response<TOk, TNotFound>
         {
             StatusCode = httpResponse.StatusCode,
-            Error = new Error("Unexpected status code")
+            BodyStream = await httpResponse.Content.ReadAsStreamAsync()
         };
     }
 
@@ -115,7 +115,6 @@ public sealed class UserClientExample(HttpClient httpClient)
 
         using var httpResponse = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
         await using var stream = await httpResponse.Content.ReadAsStreamAsync();
-
         switch (httpResponse.StatusCode)
         {
             case HttpStatusCode.OK:
@@ -139,11 +138,12 @@ public sealed class UserClientExample(HttpClient httpClient)
             }
         }
 
-        return new Response<TOk, TNotFound>
+        var response = new ExampleResponse<TOk, TNotFound>
         {
             StatusCode = httpResponse.StatusCode,
-            Error = new Error("Unexpected status code")
+            BodyStream = await httpResponse.Content.ReadAsStreamAsync()
         };
+        return default;
     }
 }
 
@@ -156,9 +156,10 @@ public sealed class ProblemDetails
     public int? Status { get; init; }
 }
 
-public readonly struct Response<TOk, TNotFound>
+public readonly struct ExampleResponse<TOk, TNotFound>
 {
     [MemberNotNullWhen(true, nameof(Ok))]
+    
     public bool IsSuccess => (int) StatusCode is >= 200 and < 300;
 
     public required HttpStatusCode StatusCode { get; init; }
@@ -167,7 +168,5 @@ public readonly struct Response<TOk, TNotFound>
 
     public TNotFound? NotFound { get; init; }
 
-    public Error? Error { get; init; }
+    public Stream? BodyStream { get; init; }
 }
-
-public sealed record Error(string Message, Exception? Exception = null);

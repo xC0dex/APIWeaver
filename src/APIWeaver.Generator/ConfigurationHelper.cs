@@ -21,13 +21,23 @@ internal sealed class ConfigurationHelper(ILogger logger)
         // Load configuration
         var configurationPath = args[0];
         await using var fileStream = new FileStream(configurationPath, FileMode.Open, FileAccess.Read);
-        var configuration = await JsonSerializer.DeserializeAsync<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration).ConfigureAwait(false);
+        var configuration = await JsonSerializer.DeserializeAsync<GeneratorConfiguration>(fileStream, ConfigurationSerializerContext.Default.GeneratorConfiguration);
 
         if (configuration is null)
         {
             logger.LogError("Failed to deserialize configuration");
             return null;
         }
+
+        var executionContext = Path.GetDirectoryName(Path.GetFullPath(configurationPath));
+
+        if (executionContext is null)
+        {
+            logger.LogError("Failed to determine execution context");
+            return null;
+        }
+
+        configuration.ExecutionContext = executionContext;
 
         return Options.Create(configuration);
     }

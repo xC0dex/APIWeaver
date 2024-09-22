@@ -7,7 +7,7 @@ var services = new ServiceCollection();
 // Add global logger
 using var loggerFactory = LoggerFactory.Create(builder =>
 {
-    builder.SetMinimumLevel(args.Contains("--verbose") ? LogLevel.Debug : LogLevel.Warning);
+    builder.SetMinimumLevel(args.Contains("--verbose") ? LogLevel.Debug : LogLevel.Information);
     builder.AddSimpleConsole();
 });
 
@@ -17,7 +17,7 @@ services.AddSingleton(logger);
 try
 {
     var configurationHelper = new ConfigurationHelper(logger);
-    var configurationOptions = await configurationHelper.LoadConfigurationAsync(args).ConfigureAwait(false);
+    var configurationOptions = await configurationHelper.LoadConfigurationAsync(args);
     if (configurationOptions is null)
     {
         return;
@@ -28,11 +28,11 @@ try
 
     await using var provider = services.BuildServiceProvider();
 
-    // Generate client
+    // Generate clients
     var timestamp = Stopwatch.GetTimestamp();
-    await provider.GetRequiredService<ClientGenerator>().GenerateAsync().ConfigureAwait(false);
+    await provider.GetRequiredService<ClientGenerator>().GenerateAsync();
     var elapsedTime = Stopwatch.GetElapsedTime(timestamp);
-    logger.LogInformation("Generation completed in {Elapsed}ms", elapsedTime.TotalMilliseconds);
+    logger.LogDebug("Generation completed in {Elapsed}ms", (int)elapsedTime.TotalMilliseconds);
 }
 catch (Exception exception)
 {
