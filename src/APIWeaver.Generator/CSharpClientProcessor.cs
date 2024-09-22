@@ -60,7 +60,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         {
             var responseTypeParameters = responseType.Select(type => new TypeParameter
             {
-                Name = $"T{type.Name}",
+                Name = $"T{type.Name}"
             }).ToList();
 
             var properties = new List<Property>

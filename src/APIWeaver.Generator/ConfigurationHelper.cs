@@ -36,7 +36,7 @@ internal sealed class ConfigurationHelper(ILogger logger)
             logger.LogError("Failed to determine execution context");
             return null;
         }
-        
+
         configuration.ExecutionContext = executionContext;
 
         return Options.Create(configuration);

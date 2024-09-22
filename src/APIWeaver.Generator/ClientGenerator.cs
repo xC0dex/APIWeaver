@@ -18,6 +18,7 @@ internal sealed class ClientGenerator(
             {
                 logger.LogDebug("Generating client for {Name}", fileDefinition.Name);
             }
+
             var sourceCode = new CSharpFileBuilder().Build(fileDefinition);
             var fileName = Path.Combine(options.Value.FullOutputPath, $"{fileDefinition.Name}.cs");
             await File.WriteAllTextAsync(fileName, sourceCode, Encoding.UTF8, token);

@@ -28,10 +28,11 @@ internal sealed class CSharpFileBuilder
 
     private void BuildUsings(List<string> usings)
     {
-        if(usings.Count == 0)
+        if (usings.Count == 0)
         {
             return;
         }
+
         _builder.AppendLine();
         foreach (var @using in usings)
         {
@@ -43,19 +44,20 @@ internal sealed class CSharpFileBuilder
     {
         _builder.AppendLine($"namespace {@namespace};");
     }
-    
+
     private void BuildPreProcessorDirectives(List<string> preProcessorDirectives)
     {
         if (preProcessorDirectives.Count == 0)
         {
             return;
         }
+
         _builder.AppendLine();
         foreach (var directive in preProcessorDirectives)
         {
             _builder.AppendLine($"#{directive}");
         }
-    }   
+    }
 
     private void BuildClasses(List<Class> classes)
     {

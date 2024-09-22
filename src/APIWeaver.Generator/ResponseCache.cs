@@ -11,8 +11,5 @@ internal sealed class ResponseCache
         _cache.Add(value);
     }
 
-    internal List<ResponseType[]> GetUniqueCombinations()
-    {
-        return _cache.Distinct(ResponseTypeArrayComparer.Default).ToList();
-    }
+    internal List<ResponseType[]> GetUniqueCombinations() => _cache.Distinct(ResponseTypeArrayComparer.Default).ToList();
 }

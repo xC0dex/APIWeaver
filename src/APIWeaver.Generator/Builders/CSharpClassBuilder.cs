@@ -4,7 +4,7 @@ internal sealed class CSharpClassBuilder
 {
     private readonly StringBuilder _builder = new();
     private int _indent;
-    
+
     public string Build(Class classToBuild)
     {
         _builder.AppendIndent(classToBuild.AccessModifier.ToStringFast());
@@ -18,7 +18,7 @@ internal sealed class CSharpClassBuilder
         _indent++;
         BuildProperties(classToBuild.Properties);
         _builder.AppendIndentLine(_indent);
-        
+
         _indent--;
         _builder.AppendLine("}");
         return _builder.ToString();
@@ -37,17 +37,18 @@ internal sealed class CSharpClassBuilder
                     _builder.Append(", ");
                 }
             }
+
             _builder.Append('>');
         }
     }
-    
+
     private void BuildProperties(List<Property>? properties)
     {
         if (properties is null)
         {
             return;
         }
-        
+
         foreach (var property in properties)
         {
             _builder.AppendIndent(property.AccessModifier.ToStringFast(), _indent);
@@ -57,12 +58,13 @@ internal sealed class CSharpClassBuilder
                 _builder.Append("required");
                 _builder.Append(' ');
             }
-            
+
             _builder.Append(property.Type);
             if (property.Nullable)
             {
                 _builder.Append('?');
             }
+
             _builder.Append(' ');
             _builder.Append(property.Name);
             if (property.ExpressionBody is not null)
@@ -73,6 +75,7 @@ internal sealed class CSharpClassBuilder
                 _builder.AppendIndentLine();
                 continue;
             }
+
             // TODO: REPLACE WITH ACTUAL GETTER SETTER
             _builder.Append(" { get; init; }");
             _builder.AppendIndentLine();
