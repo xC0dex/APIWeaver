@@ -7,6 +7,7 @@ namespace APIWeaver.ControllerApi.Demo.Controllers;
 [ApiController]
 [ApiVersion(1)]
 [Route("v{version:apiVersion}/[controller]")]
+[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 public class BookController(BookStore bookStore) : ControllerBase
 {
     [HttpGet]

@@ -12,6 +12,9 @@
         ],
         "operationId": "Book_GetBooks",
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -53,6 +56,9 @@
           "required": true
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "201": {
             "description": "Created",
             "content": {
@@ -114,6 +120,9 @@
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -193,6 +202,9 @@
           "required": true
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -252,6 +264,9 @@
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "204": {
             "description": "No Content"
           },
