@@ -30,7 +30,7 @@ internal sealed class IndentedStringBuilder(int indent)
     {
         _builder.Append(value);
     }
-    
+
     public void Append(char value)
     {
         _builder.Append(value);

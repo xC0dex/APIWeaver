@@ -46,9 +46,9 @@ internal sealed class ClassGenerator
         }
 
         var code = new PropertyGenerator().Generate(properties);
-        _builder.Append(code);  
+        _builder.Append(code);
     }
-    
+
     private void BuildMethods(List<Method>? methods)
     {
         if (methods is null)
@@ -58,7 +58,5 @@ internal sealed class ClassGenerator
 
         var code = new MethodGenerator().Generate(methods);
         _builder.Append(code);
-        
-       
     }
 }

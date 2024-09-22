@@ -130,13 +130,12 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
                 AccessModifier = AccessModifier.Public,
                 Name = GetMethodName(operation.Value),
                 ResponseTypes = responseTypes,
-                BodyFunc  = builder =>
+                BodyFunc = builder =>
                 {
                     // TODO: Pass all required OpenApi Information to the builder like the prepared header values, etc
                     new ApiClientMethodBodyGenerator().Generate(builder);
                 },
                 Parameters = parameters
-                
             };
             methods.Add(method);
         }
@@ -157,7 +156,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
             };
             parameters.Add(parameter);
         }
-        
+
         parameters.Add(new Parameter
         {
             Name = "cancellationToken",

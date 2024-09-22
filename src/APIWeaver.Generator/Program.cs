@@ -32,7 +32,7 @@ try
     var timestamp = Stopwatch.GetTimestamp();
     await provider.GetRequiredService<ClientGenerator>().GenerateAsync();
     var elapsedTime = Stopwatch.GetElapsedTime(timestamp);
-    logger.LogDebug("Generation completed in {Elapsed}ms", (int)elapsedTime.TotalMilliseconds);
+    logger.LogDebug("Generation completed in {Elapsed}ms", (int) elapsedTime.TotalMilliseconds);
 }
 catch (Exception exception)
 {

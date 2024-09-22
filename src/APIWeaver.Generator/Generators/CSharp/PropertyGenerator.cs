@@ -16,6 +16,7 @@ internal sealed class PropertyGenerator
                 _builder.AppendLine();
             }
         }
+
         return _builder.ToString();
     }
 

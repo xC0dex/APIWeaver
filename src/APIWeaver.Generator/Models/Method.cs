@@ -3,7 +3,7 @@ namespace APIWeaver;
 internal sealed record Method
 {
     public required AccessModifier AccessModifier { get; init; }
-    
+
     public required ResponseType[] ResponseTypes { get; init; }
 
     public required string Name { get; init; }
