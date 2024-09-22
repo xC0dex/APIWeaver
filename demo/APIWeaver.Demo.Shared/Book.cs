@@ -12,3 +12,7 @@ public class Book
 
     public BookType? BookType { get; set; }
 }
+
+// [JsonSerializable(typeof(Book))]
+// [JsonSourceGenerationOptions(UseStringEnumConverter = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+// public partial class BookSerializerContext : JsonSerializerContext;

@@ -10,44 +10,71 @@
         "tags": [
           "Book"
         ],
-        "operationId": "Book_GetBook",
+        "operationId": "Book_GetBooks",
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Book"
+                  }
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_CreateBook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            }
           },
-          "404": {
-            "description": "Not Found",
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "201": {
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/Book"
                 }
               }
             }
@@ -71,86 +98,16 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              }
-            }
           }
         }
       }
     },
-    "/v1/Foo": {
+    "/v1/Book/{id}": {
       "get": {
         "tags": [
-          "Foo"
+          "Book"
         ],
-        "operationId": "Foo_GetUser",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/users/{id}": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "operationId": "User_GetUserById",
+        "operationId": "Book_GetBook",
         "parameters": [
           {
             "name": "id",
@@ -160,49 +117,28 @@
               "type": "string",
               "format": "uuid"
             }
-          },
-          {
-            "name": "userDto",
-            "in": "header",
-            "schema": {
-              "$ref": "#/components/schemas/UserDto"
-            }
-          },
-          {
-            "name": "age",
-            "in": "header",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 69
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": "lol"
-            }
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/Book"
                 }
               }
             }
@@ -228,34 +164,111 @@
             }
           }
         }
-      }
-    },
-    "/v1/users": {
-      "get": {
+      },
+      "put": {
         "tags": [
-          "User"
+          "Book"
         ],
-        "operationId": "User_GetUser",
+        "operationId": "Book_UpdateBook",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/Book"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserDto"
+                  "$ref": "#/components/schemas/Book"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_DeleteBook",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "204": {
+            "description": "No Content"
           },
           "404": {
             "description": "Not Found",
@@ -283,6 +296,38 @@
   },
   "components": {
     "schemas": {
+      "Book": {
+        "required": [
+          "bookId",
+          "title",
+          "pages"
+        ],
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookType": {
+            "$ref": "#/components/schemas/NullableOfBookType"
+          }
+        }
+      },
+      "NullableOfBookType": {
+        "type": "integer",
+        "nullable": true
+      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -308,50 +353,12 @@
             "nullable": true
           }
         }
-      },
-      "UserDto": {
-        "required": [
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "age": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "oauth2",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://example.com/oauth2/authorize",
-            "tokenUrl": "https://example.com/oauth2/token",
-            "scopes": { }
-          }
-        }
       }
     }
   },
   "tags": [
     {
       "name": "Book"
-    },
-    {
-      "name": "Foo"
-    },
-    {
-      "name": "User"
     }
   ]
 }

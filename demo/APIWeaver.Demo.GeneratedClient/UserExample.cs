@@ -1,58 +1,55 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
 
 namespace APIWeaver.Demo.GeneratedClient;
 
-public sealed class UserClientExample(HttpClient httpClient)
+public sealed class UserClientExample
 {
-    public async Task<Response<TOk, TNotFound>> GetUserAotAsync<TOk, TNotFound>(Guid id, int age, string? name, JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound)
-    {
-        using var request = new HttpRequestMessage();
-        request.Method = HttpMethod.Post;
-        request.RequestUri = new Uri($"/v1/users/{id}", UriKind.Relative);
-
-        request.Headers.Add("age", age.ToString());
-        if (name is not null)
-        {
-            request.Headers.Add("name", name);
-        }
-
-        using var httpResponse = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-        await using var stream = await httpResponse.Content.ReadAsStreamAsync();
-
-        switch (httpResponse.StatusCode)
-        {
-            case HttpStatusCode.OK:
-            {
-                var content = await JsonSerializer.DeserializeAsync(stream, typeInfoOk);
-
-                return new Response<TOk, TNotFound>
-                {
-                    StatusCode = httpResponse.StatusCode,
-                    Ok = content
-                };
-            }
-            case HttpStatusCode.NotFound:
-            {
-                var content = await JsonSerializer.DeserializeAsync(stream, typeInfoNotFound);
-
-                return new Response<TOk, TNotFound>
-                {
-                    StatusCode = httpResponse.StatusCode,
-                    NotFound = content
-                };
-            }
-        }
-
-        return new Response<TOk, TNotFound>
-        {
-            StatusCode = httpResponse.StatusCode,
-            BodyStream = await httpResponse.Content.ReadAsStreamAsync()
-        };
-    }
+    // public async Task<Response<TOk, TNotFound>> GetUserAotAsync<TOk, TNotFound>(Guid id, int age, string? name, JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound)
+    // {
+    //     using var request = new HttpRequestMessage();
+    //     request.Method = HttpMethod.Post;
+    //     request.RequestUri = new Uri($"/v1/users/{id}", UriKind.Relative);
+    //
+    //     request.Headers.Add("age", age.ToString());
+    //     if (name is not null)
+    //     {
+    //         request.Headers.Add("name", name);
+    //     }
+    //
+    //     using var httpResponse = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+    //     await using var stream = await httpResponse.Content.ReadAsStreamAsync();
+    //
+    //     switch (httpResponse.StatusCode)
+    //     {
+    //         case HttpStatusCode.OK:
+    //         {
+    //             var content = await JsonSerializer.DeserializeAsync(stream, typeInfoOk);
+    //
+    //             return new Response<TOk, TNotFound>
+    //             {
+    //                 StatusCode = httpResponse.StatusCode,
+    //                 Ok = content
+    //             };
+    //         }
+    //         case HttpStatusCode.NotFound:
+    //         {
+    //             var content = await JsonSerializer.DeserializeAsync(stream, typeInfoNotFound);
+    //
+    //             return new Response<TOk, TNotFound>
+    //             {
+    //                 StatusCode = httpResponse.StatusCode,
+    //                 NotFound = content
+    //             };
+    //         }
+    //     }
+    //
+    //     return new Response<TOk, TNotFound>
+    //     {
+    //         StatusCode = httpResponse.StatusCode,
+    //         BodyStream = await httpResponse.Content.ReadAsStreamAsync()
+    //     };
+    // }
 
 
     // public async Task<Response<TOk, TNotFound>> GetUserAsync<TOk, TNotFound>(Guid id, int age, string? name)
@@ -103,48 +100,48 @@ public sealed class UserClientExample(HttpClient httpClient)
     // }
 
 
-    public async Task<Response<TOk, TNotFound>> PostUserAotAsync<TOk, TNotFound, TBody>(TBody body, JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound, JsonTypeInfo<TBody> typeInfoBody)
-    {
-        using var request = new HttpRequestMessage();
-        request.Method = HttpMethod.Post;
-
-        var jsonContent = JsonContent.Create(body, typeInfoBody);
-        request.Content = jsonContent;
-
-        request.RequestUri = new Uri("/v1/users/", UriKind.Relative);
-
-        using var httpResponse = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-        await using var stream = await httpResponse.Content.ReadAsStreamAsync();
-        switch (httpResponse.StatusCode)
-        {
-            case HttpStatusCode.OK:
-            {
-                var responseContent = await JsonSerializer.DeserializeAsync(stream, typeInfoOk);
-                return new Response<TOk, TNotFound>
-                {
-                    StatusCode = httpResponse.StatusCode,
-                    Ok = responseContent
-                };
-            }
-            case HttpStatusCode.NotFound:
-            {
-                var content = await JsonSerializer.DeserializeAsync(stream, typeInfoNotFound);
-
-                return new Response<TOk, TNotFound>
-                {
-                    StatusCode = httpResponse.StatusCode,
-                    NotFound = content
-                };
-            }
-        }
-
-        var response = new ExampleResponse<TOk, TNotFound>
-        {
-            StatusCode = httpResponse.StatusCode,
-            BodyStream = await httpResponse.Content.ReadAsStreamAsync()
-        };
-        return default;
-    }
+//     public async Task<Response<TOk, TNotFound>> PostUserAotAsync<TOk, TNotFound, TBody>(TBody body, JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound, JsonTypeInfo<TBody> typeInfoBody)
+//     {
+//         using var request = new HttpRequestMessage();
+//         request.Method = HttpMethod.Post;
+//
+//         var jsonContent = JsonContent.Create(body, typeInfoBody);
+//         request.Content = jsonContent;
+//
+//         request.RequestUri = new Uri("/v1/users/", UriKind.Relative);
+//
+//         using var httpResponse = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+//         await using var stream = await httpResponse.Content.ReadAsStreamAsync();
+//         switch (httpResponse.StatusCode)
+//         {
+//             case HttpStatusCode.OK:
+//             {
+//                 var responseContent = await JsonSerializer.DeserializeAsync(stream, typeInfoOk);
+//                 return new Response<TOk, TNotFound>
+//                 {
+//                     StatusCode = httpResponse.StatusCode,
+//                     Ok = responseContent
+//                 };
+//             }
+//             case HttpStatusCode.NotFound:
+//             {
+//                 var content = await JsonSerializer.DeserializeAsync(stream, typeInfoNotFound);
+//
+//                 return new Response<TOk, TNotFound>
+//                 {
+//                     StatusCode = httpResponse.StatusCode,
+//                     NotFound = content
+//                 };
+//             }
+//         }
+//
+//         var response = new ExampleResponse<TOk, TNotFound>
+//         {
+//             StatusCode = httpResponse.StatusCode,
+//             BodyStream = await httpResponse.Content.ReadAsStreamAsync()
+//         };
+//         return default;
+//     }
 }
 
 public sealed class ProblemDetails

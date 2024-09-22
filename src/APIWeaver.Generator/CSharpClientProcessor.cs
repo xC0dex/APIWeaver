@@ -114,7 +114,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         return classes;
     }
 
-    private List<Method> PrepareMethods(Dictionary<OperationType, OpenApiOperation> operations)
+    private List<Method> PrepareMethods(List<KeyValuePair<OperationType, OpenApiOperation>> operations)
     {
         var methods = new List<Method>();
 
