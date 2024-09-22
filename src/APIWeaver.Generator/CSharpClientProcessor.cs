@@ -11,7 +11,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         foreach (var (operationTag, openApiOperations) in operationsByTag)
         {
             var clientName = options.Value.NamePattern.Replace("{tag}", operationTag);
-            var methods = GetMethodData(openApiOperations);
+            var methods = PrepareMethods(openApiOperations);
             List<Parameter> constructorParameters =
             [
                 new()
@@ -34,7 +34,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
             {
                 PreProcessorDirectives = ["nullable enable"],
                 Name = clientName,
-                Usings = [],
+                Usings = ["System.Text.Json.Serialization.Metadata"],
                 Namespace = options.Value.Namespace,
                 Classes = [apiClient]
             };
@@ -72,7 +72,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
                     Name = "IsSuccess",
                     Required = false,
                     Nullable = false,
-                    ExpressionBody = "(int) StatusCode is >= 200 and < 300"
+                    ExpressionBody = "(int) StatusCode is >= 200 and <= 299"
                 },
                 new()
                 {
@@ -113,7 +113,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         return classes;
     }
 
-    private List<Method> GetMethodData(Dictionary<OperationType, OpenApiOperation> operations)
+    private List<Method> PrepareMethods(Dictionary<OperationType, OpenApiOperation> operations)
     {
         var methods = new List<Method>();
 
@@ -121,17 +121,38 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         {
             var responseTypes = GetResponseTypes(operation.Value).ToArray();
             responseCache.Add(responseTypes);
+            var parameters = PrepareMethodParameters(responseTypes);
             var method = new Method
             {
                 AccessModifier = AccessModifier.Public,
                 Name = GetMethodName(operation.Value),
                 ResponseTypes = responseTypes,
-                HttpMethod = operation.Key
+                BodyFunc  = (builder, method1) => {},
+                HttpMethod = operation.Key,
+                Parameters = parameters
+                
             };
             methods.Add(method);
         }
 
         return methods;
+    }
+
+    private List<Parameter> PrepareMethodParameters(ResponseType[] responseTypes)
+    {
+        var parameters = new List<Parameter>();
+        foreach (var responseType in responseTypes)
+        {
+            var parameter = new Parameter
+            {
+                Name = $"typeInfo{responseType.Name}",
+                Type = $"JsonTypeInfo<T{responseType.Name}>",
+                Nullable = false
+            };
+            parameters.Add(parameter);
+        }
+
+        return parameters;
     }
 
     private static string GetMethodName(OpenApiOperation operation)

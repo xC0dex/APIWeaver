@@ -49,6 +49,26 @@ internal sealed class MethodGenerator
 
         _builder.Append('>');
         _builder.Append('(');
+        for (var i = 0; i < method.Parameters.Count; i++)
+        {
+            _builder.Append($"{method.Parameters[i].Type}");
+            if (method.Parameters[i].Nullable)
+            {
+                _builder.Append('?');
+            }
+            _builder.Append(' ');
+            _builder.Append($"{method.Parameters[i].Name}");
+            if(method.Parameters[i].Default is not null)
+            {
+                _builder.Append(" = ");
+                _builder.Append(method.Parameters[i].Default!);
+            }
+           
+            if (i < method.Parameters.Count - 1)
+            {
+                _builder.Append(", ");
+            }
+        }
         _builder.Append(')');
     }
 
@@ -74,9 +94,7 @@ internal sealed class MethodGenerator
     private void GenerateBody(Method method)
     {
         _builder.IncreaseIndent();
-        _builder.AppendLine("using var request = new HttpRequestMessage();");
-        _builder.AppendLine($"request.Method = HttpMethod.{method.HttpMethod};");
-        _builder.AppendLine("return default;");
+        method.BodyFunc.Invoke(_builder, method);
         _builder.DecreaseIndent();
     }
 }

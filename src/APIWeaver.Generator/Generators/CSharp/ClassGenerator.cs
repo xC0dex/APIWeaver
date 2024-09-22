@@ -3,7 +3,6 @@ namespace APIWeaver.Generators.CSharp;
 internal sealed class ClassGenerator
 {
     private readonly StringBuilder _builder = new();
-    private int _indent;
 
     public string Generate(Class classToGenerate)
     {
@@ -15,10 +14,8 @@ internal sealed class ClassGenerator
         BuildTypeParameters(classToGenerate);
         _builder.AppendLine();
         _builder.AppendLine("{");
-        _indent++;
         BuildProperties(classToGenerate.Properties);
         BuildMethods(classToGenerate.Methods);
-        _indent--;
         _builder.AppendLine("}");
         return _builder.ToString();
     }

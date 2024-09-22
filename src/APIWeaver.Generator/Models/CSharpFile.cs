@@ -1,6 +1,6 @@
 namespace APIWeaver;
 
-internal sealed class CSharpFile
+internal sealed record CSharpFile
 {
     public required List<string> Usings { get; init; }
 

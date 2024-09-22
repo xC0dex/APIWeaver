@@ -1,6 +1,6 @@
 namespace APIWeaver;
 
-internal sealed class Class
+internal sealed record Class
 {
     public required AccessModifier AccessModifier { get; init; }
 

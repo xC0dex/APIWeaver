@@ -8,5 +8,5 @@ internal sealed class Parameter
 
     public required string Name { get; init; }
 
-    public string? DefaultValue { get; init; }
+    public string? Default { get; init; }
 }
