@@ -54,7 +54,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         yield return responseTypeFile;
     }
 
-    private static List<Class> PrepareResponseClasses(List<ResponseType[]> responseTypes)
+    private static List<Class> PrepareResponseClasses(IEnumerable<ResponseType[]> responseTypes)
     {
         var classes = responseTypes.Select(responseType =>
         {
