@@ -16,5 +16,8 @@ internal enum ClassType
     Struct,
 
     [Description("readonly struct")]
-    ReadonlyStruct
+    ReadonlyStruct,
+    
+    [Description("interface")]
+    Interface
 }

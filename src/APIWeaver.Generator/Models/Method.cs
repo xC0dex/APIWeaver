@@ -8,9 +8,7 @@ internal sealed record Method
 
     public required string Name { get; init; }
 
-    public required OperationType HttpMethod { get; init; }
-
-    public required Action<IndentedStringBuilder, Method> BodyFunc { get; init; }
+    public required Action<IndentedStringBuilder>? BodyFunc { get; init; }
 
     public required List<Parameter> Parameters { get; init; }
 

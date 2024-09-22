@@ -1,4 +1,5 @@
 using System.Net;
+using APIWeaver.Generators.CSharp;
 
 namespace APIWeaver;
 
@@ -121,14 +122,19 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         {
             var responseTypes = GetResponseTypes(operation.Value).ToArray();
             responseCache.Add(responseTypes);
+            // TODO: Get header, query and route values
+            // Pass it to PrepareMethodParameters
             var parameters = PrepareMethodParameters(responseTypes);
             var method = new Method
             {
                 AccessModifier = AccessModifier.Public,
                 Name = GetMethodName(operation.Value),
                 ResponseTypes = responseTypes,
-                BodyFunc  = (builder, method1) => {},
-                HttpMethod = operation.Key,
+                BodyFunc  = builder =>
+                {
+                    // TODO: Pass all required OpenApi Information to the builder like the prepared header values, etc
+                    new ApiClientMethodBodyGenerator().Generate(builder);
+                },
                 Parameters = parameters
                 
             };
@@ -151,6 +157,14 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
             };
             parameters.Add(parameter);
         }
+        
+        parameters.Add(new Parameter
+        {
+            Name = "cancellationToken",
+            Type = "CancellationToken",
+            Nullable = false,
+            Default = "default"
+        });
 
         return parameters;
     }

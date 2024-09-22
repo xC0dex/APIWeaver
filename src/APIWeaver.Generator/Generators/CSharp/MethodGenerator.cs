@@ -6,7 +6,6 @@ internal sealed class MethodGenerator
 
     public string Generate(List<Method> methods)
     {
-        
         for (var i = 0; i < methods.Count; i++)
         {
             _builder.AppendIndent();
@@ -17,12 +16,19 @@ internal sealed class MethodGenerator
                 _builder.AppendLine();
             }
         }
+
         return _builder.ToString();
     }
-    
-    public void Generate(Method method)
+
+    private void Generate(Method method)
     {
         GenerateSignature(method);
+        if (method.BodyFunc is null)
+        {
+            _builder.Append(';');
+            return;
+        }
+
         _builder.AppendLine("{");
         GenerateBody(method);
         _builder.AppendLine("}");
@@ -56,19 +62,21 @@ internal sealed class MethodGenerator
             {
                 _builder.Append('?');
             }
+
             _builder.Append(' ');
             _builder.Append($"{method.Parameters[i].Name}");
-            if(method.Parameters[i].Default is not null)
+            if (method.Parameters[i].Default is not null)
             {
                 _builder.Append(" = ");
                 _builder.Append(method.Parameters[i].Default!);
             }
-           
+
             if (i < method.Parameters.Count - 1)
             {
                 _builder.Append(", ");
             }
         }
+
         _builder.Append(')');
     }
 
@@ -94,7 +102,7 @@ internal sealed class MethodGenerator
     private void GenerateBody(Method method)
     {
         _builder.IncreaseIndent();
-        method.BodyFunc.Invoke(_builder, method);
+        method.BodyFunc!.Invoke(_builder);
         _builder.DecreaseIndent();
     }
 }
