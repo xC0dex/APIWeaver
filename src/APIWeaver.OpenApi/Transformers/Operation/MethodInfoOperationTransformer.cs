@@ -18,7 +18,12 @@ public sealed class MethodInfoOperationTransformer : IOpenApiOperationTransforme
     {
         if (string.IsNullOrEmpty(operation.OperationId) && context.Description.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
         {
-            var methodName = actionDescriptor.MethodInfo.Name.TrimEnd("Async");
+            var methodName = actionDescriptor.MethodInfo.Name;
+            var methodNameAsSpan = methodName.AsSpan();
+            if (methodNameAsSpan.EndsWith("Async", StringComparison.InvariantCultureIgnoreCase))
+            {
+                methodName = methodNameAsSpan[..^5].ToString();
+            }
             var operationId = $"{actionDescriptor.ControllerName}_{methodName}";
             operation.OperationId = operationId;
         }

@@ -12,7 +12,35 @@ namespace APIWeaver.Demo.GeneratedClient;
 
 public sealed class BookApiClient
 {
-    public async Task<Response<TOk, TNotFound, TConflict, TInternalServerError>> GetBookAsync<TOk, TNotFound, TConflict, TInternalServerError>(JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound, JsonTypeInfo<TConflict> typeInfoConflict, JsonTypeInfo<TInternalServerError> typeInfoInternalServerError, CancellationToken cancellationToken = default)
+    public async Task<Response<TOk>> GetBooksAsync<TOk>(JsonTypeInfo<TOk> typeInfoOk, CancellationToken cancellationToken = default)
+    {
+        using var request = new HttpRequestMessage();
+        await Task.CompletedTask;
+        return default!;
+    }
+
+    public async Task<Response<TCreated, TConflict>> CreateBookAsync<TCreated, TConflict>(JsonTypeInfo<TCreated> typeInfoCreated, JsonTypeInfo<TConflict> typeInfoConflict, CancellationToken cancellationToken = default)
+    {
+        using var request = new HttpRequestMessage();
+        await Task.CompletedTask;
+        return default!;
+    }
+
+    public async Task<Response<TOk, TNotFound>> GetBookAsync<TOk, TNotFound>(JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound, CancellationToken cancellationToken = default)
+    {
+        using var request = new HttpRequestMessage();
+        await Task.CompletedTask;
+        return default!;
+    }
+
+    public async Task<Response<TOk, TNotFound>> UpdateBookAsync<TOk, TNotFound>(JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound, CancellationToken cancellationToken = default)
+    {
+        using var request = new HttpRequestMessage();
+        await Task.CompletedTask;
+        return default!;
+    }
+
+    public async Task<Response<TNotFound>> DeleteBookAsync<TNotFound>(JsonTypeInfo<TNotFound> typeInfoNotFound, CancellationToken cancellationToken = default)
     {
         using var request = new HttpRequestMessage();
         await Task.CompletedTask;

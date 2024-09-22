@@ -26,15 +26,15 @@ var bookstoreGroup = app.MapGroup("/books")
     .WithTags("bookstore");
 
 bookstoreGroup
-    .MapGet("/", ([FromServices] BookStore bookStore) => bookStore.GetBooks())
+    .MapGet("/", ([FromServices] BookStore bookStore) => bookStore.GetAll())
     .Produces<Book[]>();
 
 bookstoreGroup
-    .MapPost("/", ([FromServices] BookStore bookStore, Book book) => bookStore.AddBook(book))
+    .MapPost("/", ([FromServices] BookStore bookStore, Book book) => bookStore.Add(book))
     .Produces<Book>();
 
 bookstoreGroup
-    .MapPut("/{bookId:guid}", ([FromServices] BookStore bookStore, Guid bookId, Book book) => bookStore.UpdateBook(bookId, book))
+    .MapPut("/{bookId:guid}", ([FromServices] BookStore bookStore, Guid bookId, Book book) => bookStore.UpdateById(bookId, book))
     .Produces<Book>();
 
 app.Run();

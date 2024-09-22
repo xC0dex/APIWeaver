@@ -18,9 +18,22 @@ public sealed class BookStore
         _books = faker.Generate(10);
     }
 
-    public IEnumerable<Book> GetBooks() => _books;
+    public IEnumerable<Book> GetAll() => _books;
 
-    public Book? UpdateBook(Guid bookId, Book book)
+    public Book? GetById(Guid bookId) => _books.FirstOrDefault(x => x.BookId == bookId);
+
+    public Book? Add(Book book)
+    {
+        if (_books.Any(x => x.BookId == book.BookId))
+        {
+            return null;
+        }
+
+        _books.Add(book);
+        return book;
+    }
+
+    public Book? UpdateById(Guid bookId, Book book)
     {
         var index = _books.FindIndex(x => x.BookId == bookId);
         if (index != -1)
@@ -32,14 +45,15 @@ public sealed class BookStore
         return null;
     }
 
-    public Book? AddBook(Book book)
+    public bool DeleteById(Guid bookId)
     {
-        if (_books.Find(x => x.BookId == book.BookId) is not null)
+        var book = _books.FirstOrDefault(x => x.BookId == bookId);
+        if (book is not null)
         {
-            return null;
+            _books.Remove(book);
+            return true;
         }
 
-        _books.Add(book);
-        return book;
+        return false;
     }
 }

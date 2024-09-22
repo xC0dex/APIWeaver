@@ -10,33 +10,27 @@ namespace APIWeaver.Demo.GeneratedClient;
 
 #nullable enable
 
-public readonly struct Response<TOk, TNotFound, TConflict, TInternalServerError>
+public readonly struct Response<TOk>
 {
     public bool IsSuccess => (int) StatusCode is >= 200 and <= 299;
 
     public required HttpStatusCode StatusCode { get; init; }
 
     public TOk? Ok { get; init; }
-
-    public TNotFound? NotFound { get; init; }
-
-    public TConflict? Conflict { get; init; }
-
-    public TInternalServerError? InternalServerError { get; init; }
 
     public Stream? BodyStream { get; init; }
 }
 
 
-public readonly struct Response<TOk, TNotFound>
+public readonly struct Response<TCreated, TConflict>
 {
     public bool IsSuccess => (int) StatusCode is >= 200 and <= 299;
 
     public required HttpStatusCode StatusCode { get; init; }
 
-    public TOk? Ok { get; init; }
+    public TCreated? Created { get; init; }
 
-    public TNotFound? NotFound { get; init; }
+    public TConflict? Conflict { get; init; }
 
     public Stream? BodyStream { get; init; }
 }
