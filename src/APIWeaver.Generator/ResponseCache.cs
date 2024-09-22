@@ -4,15 +4,15 @@ namespace APIWeaver;
 
 internal sealed class ResponseCache
 {
-    private readonly ConcurrentBag<string[]> _cache = [];
+    private readonly ConcurrentBag<ResponseType[]> _cache = [];
 
-    internal void Add(string[] value)
+    internal void Add(ResponseType[] value)
     {
         _cache.Add(value);
     }
 
-    internal List<string[]> GetUniqueCombinations()
+    internal List<ResponseType[]> GetUniqueCombinations()
     {
-        return _cache.Distinct(StringArrayComparer.Default).ToList();
+        return _cache.Distinct(ResponseTypeArrayComparer.Default).ToList();
     }
 }

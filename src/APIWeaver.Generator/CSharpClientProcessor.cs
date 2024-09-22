@@ -54,13 +54,13 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         yield return responseTypeFile;
     }
 
-    private static List<Class> PrepareResponseClasses(List<string[]> responseTypes)
+    private static List<Class> PrepareResponseClasses(List<ResponseType[]> responseTypes)
     {
         var classes = responseTypes.Select(responseType =>
         {
             var responseTypeParameters = responseType.Select(type => new TypeParameter
             {
-                Name = $"T{type}",
+                Name = $"T{type.Name}",
             }).ToList();
 
             var properties = new List<Property>
@@ -69,7 +69,7 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
                 {
                     AccessModifier = AccessModifier.Public,
                     Type = "bool",
-                    Name = "IsOk",
+                    Name = "IsSuccess",
                     Required = false,
                     Nullable = false,
                     ExpressionBody = "(int) StatusCode is >= 200 and < 300"
@@ -85,8 +85,8 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
             };
             properties.AddRange(responseType.Select(type => new Property
             {
-                Name = type,
-                Type = $"T{type}",
+                Name = type.Name,
+                Type = $"T{type.Name}",
                 Nullable = true,
                 AccessModifier = AccessModifier.Public,
                 Required = false
@@ -146,9 +146,14 @@ internal sealed class CSharpClientProcessor(IOptions<GeneratorConfiguration> opt
         return operation.OperationId;
     }
 
-    private static IEnumerable<string> GetResponseTypes(OpenApiOperation operation)
+    private static IEnumerable<ResponseType> GetResponseTypes(OpenApiOperation operation)
     {
         var responseType = operation.Responses;
-        return responseType.Where(x => x.Value.Content.ContainsKey("application/json")).Select(x => x.Key.ToName());
+        var jsonResponses = responseType.Where(x => x.Value.Content.ContainsKey("application/json"));
+        return jsonResponses.Select(x => new ResponseType
+        {
+            Name = x.Key.ToName(),
+            StatusCode = int.Parse(x.Key)
+        });
     }
 }

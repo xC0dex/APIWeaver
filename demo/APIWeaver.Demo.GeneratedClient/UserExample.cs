@@ -115,7 +115,6 @@ public sealed class UserClientExample(HttpClient httpClient)
 
         using var httpResponse = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
         await using var stream = await httpResponse.Content.ReadAsStreamAsync();
-
         switch (httpResponse.StatusCode)
         {
             case HttpStatusCode.OK:

@@ -2,7 +2,7 @@ namespace APIWeaver;
 
 internal sealed class Method
 {
-    public required string[] ResponseTypes { get; init; }
+    public required ResponseType[] ResponseTypes { get; init; }
 
     public required string Name { get; init; }
 

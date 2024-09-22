@@ -14,6 +14,10 @@ internal sealed class ClientGenerator(
 
         await Parallel.ForEachAsync(cSharpFilesDefinition, async (fileDefinition, token) =>
         {
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("Generating client for {Name}", fileDefinition.Name);
+            }
             var sourceCode = new CSharpFileBuilder().Build(fileDefinition);
             var fileName = Path.Combine(options.Value.FullOutputPath, $"{fileDefinition.Name}.cs");
             await File.WriteAllTextAsync(fileName, sourceCode, Encoding.UTF8, token);
