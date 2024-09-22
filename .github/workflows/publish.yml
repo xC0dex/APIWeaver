@@ -32,11 +32,11 @@ jobs:
           name: node-modules
           path: 'src/APIWeaver.Swagger/node_modules'
 
-      - name: Download APIWeaver Generator
+      - name: Download APIWeaver.Generator
+        if: ${{ matrix.project }} == 'APIWeaver.MsBuild'
         uses: actions/download-artifact@v4
         with:
           pattern: generator-*
-      - run: ls -R 
 
       - name: Get version
         env:
