@@ -11,7 +11,7 @@
     <None Include="$(AssemblyName).props" Pack="true" PackagePath="build"/>
     <None Include="$(AssemblyName).props" Pack="true" PackagePath="buildMultiTargeting"/>
     <Content Include="../../generator-windows-latest/**/*" Pack="true" PackagePath="tools/windows"/>
-    <Content Include="../../generator-linux-latest/**/*" Pack="true" PackagePath="tools/linux"/>
+    <Content Include="../../generator-ubuntu-latest/**/*" Pack="true" PackagePath="tools/linux"/>
     <Content Include="../../generator-macos-latest/**/*" Pack="true" PackagePath="tools/macos"/>
   </ItemGroup>
 
