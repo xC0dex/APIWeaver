@@ -18,12 +18,19 @@ internal sealed class ClientGenerator(
         {
             if (logger.IsEnabled(LogLevel.Debug))
             {
-                logger.LogDebug("Generating client for {Name}", fileDefinition.Name);
+                logger.LogDebug("Generating {Name}", fileDefinition.Name);
             }
 
             var sourceCode = new FileGenerator().Generate(fileDefinition);
             var fileName = Path.Combine(options.Value.FullOutputPath, $"{fileDefinition.Name}.cs");
-            await File.WriteAllTextAsync(fileName, sourceCode, Encoding.UTF8, token);
+            var fullPath = Path.GetFullPath(fileName);
+            
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("Writing to {FileName}", fullPath);
+            }
+            
+            await File.WriteAllTextAsync(fullPath, sourceCode, Encoding.UTF8, token);
         });
     }
 }

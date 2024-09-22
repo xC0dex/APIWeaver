@@ -28,7 +28,7 @@ try
 
     await using var provider = services.BuildServiceProvider();
 
-    // Generate client
+    // Generate clients
     var timestamp = Stopwatch.GetTimestamp();
     await provider.GetRequiredService<ClientGenerator>().GenerateAsync();
     var elapsedTime = Stopwatch.GetElapsedTime(timestamp);
