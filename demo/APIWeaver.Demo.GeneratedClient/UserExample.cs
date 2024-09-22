@@ -3,7 +3,7 @@ using System.Net;
 
 namespace APIWeaver.Demo.GeneratedClient;
 
-public sealed class UserClientExample(HttpClient httpClient)
+public sealed class UserClientExample
 {
     // public async Task<Response<TOk, TNotFound>> GetUserAotAsync<TOk, TNotFound>(Guid id, int age, string? name, JsonTypeInfo<TOk> typeInfoOk, JsonTypeInfo<TNotFound> typeInfoNotFound)
     // {
