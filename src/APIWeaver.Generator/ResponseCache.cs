@@ -1,10 +1,8 @@
-using System.Collections.Concurrent;
-
 namespace APIWeaver;
 
 internal sealed class ResponseCache
 {
-    private readonly ConcurrentBag<ResponseType[]> _cache = [];
+    private readonly List<ResponseType[]> _cache = [];
 
     internal void Add(ResponseType[] value)
     {

@@ -162,9 +162,15 @@
             }
           },
           {
+            "name": "userDto",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/UserDto"
+            }
+          },
+          {
             "name": "age",
             "in": "header",
-            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32",
