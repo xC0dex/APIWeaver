@@ -8,7 +8,7 @@ var services = new ServiceCollection();
 using var loggerFactory = LoggerFactory.Create(builder =>
 {
     builder.SetMinimumLevel(args.Contains("--verbose") ? LogLevel.Debug : LogLevel.Information);
-    builder.AddSimpleConsole();
+    builder.AddSimpleConsole(options => options.SingleLine = true);
 });
 
 var logger = loggerFactory.CreateLogger("APIWeaver.Generator");
