@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0-rc.1.24452.1"/>
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.0-rc.1.24452.1">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0-rc.2.24474.3"/>
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.0-rc.2.24474.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
