@@ -37,7 +37,7 @@ builder.Services.AddOpenApiDocument("v1", options =>
     //             }
     //         };
     //     })
-        options.AddOperationTransformer<MethodInfoOperationTransformer>();
+        options.AddOperationTransformer<AdditionalDescriptionTransformer>();
 });
 
 var app = builder.Build();

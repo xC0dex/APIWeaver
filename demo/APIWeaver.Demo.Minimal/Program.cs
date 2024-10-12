@@ -5,7 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<BookStore>();
 
-builder.Services.AddOpenApiDocument(options => options.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API"));
+builder.Services.AddOpenApiDocument(options =>
+{
+    options.AddOperationTransformer<AdditionalDescriptionTransformer>();
+    options.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
+});
 
 var app = builder.Build();
 
@@ -30,7 +34,7 @@ bookstoreGroup
     .Produces<Book[]>();
 
 bookstoreGroup
-    .MapPost("/", ([FromServices] BookStore bookStore, Book book) => bookStore.Add(book))
+    .MapPost("/", ([FromServices] BookStore bookStore, Book myCustomBook) => bookStore.Add(myCustomBook))
     .Produces<Book>();
 
 bookstoreGroup
