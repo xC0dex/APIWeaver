@@ -16,13 +16,10 @@ public sealed class AdditionalDescriptionTransformer : IOpenApiOperationTransfor
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         // Add the name of the controller and action to the operation
-        if (context.Description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+        if (string.IsNullOrEmpty(operation.OperationId) && context.Description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
         {
-            if (string.IsNullOrEmpty(operation.OperationId))
-            {
-                var operationName = $"{controllerActionDescriptor.ControllerName}_{controllerActionDescriptor.ActionName}";
-                operation.OperationId = operationName;
-            }
+            var operationName = $"{controllerActionDescriptor.ControllerName}_{controllerActionDescriptor.ActionName}";
+            operation.OperationId = operationName;
         }
 
         // Add the name of the request body parameter to the request body
