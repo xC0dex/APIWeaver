@@ -8,7 +8,7 @@ public static class BuildHelper
     static BuildHelper()
     {
         var args = Environment.GetCommandLineArgs();
-        IsGenerationContext = Array.Exists(args, x => x.AsSpan().EndsWith("GetDocument.Insider.dll"));
+        IsGenerationContext = args.Any(x => x.AsSpan().EndsWith("GetDocument.Insider.dll"));
     }
 
     /// <summary>
