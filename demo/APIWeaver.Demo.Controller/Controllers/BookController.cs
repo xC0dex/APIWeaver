@@ -34,9 +34,9 @@ public class BookController(BookStore bookStore) : ControllerBase
     [HttpPost]
     [ProducesResponseType<Book>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public IActionResult CreateBook(Book book)
+    public IActionResult CreateBookAsync(Book myDummyBook)
     {
-        var createdBook = bookStore.Add(book);
+        var createdBook = bookStore.Add(myDummyBook);
         if (createdBook is null)
         {
             return Conflict("A book with the same ID already exists.");
