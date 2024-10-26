@@ -10,16 +10,15 @@ APIWeaver is a powerful and lightweight library built on top of Microsoft's Open
 ## Features
 
 - Native AOT compatibility
-- Useful extension methods & transformers for OpenAPI documents and operations
-- High test coverage ensures reliability
+- Useful extension methods & transformers for OpenAPI documents, operations and schemes
 
 ## 🚀 Getting Started
 
 Please check out the [documentation](docs/Getting-Started.md) to learn how the `APIWeaver.OpenApi` package works.
 
 ## 🛠️ Roadmap
-- More useful transformers for OpenAPI documents and operations (WIP)
-- Minimal, native AOT friendly generator for API Clients
+- WIP: More useful transformers for OpenAPI documents, operations and schemes
+- Later: Minimal, native AOT friendly generator for API Clients
 
 ## 💬 Feedback & Suggestions
 Your feedback is important to make APIWeaver even better! If you have ideas for new features, improvements, or other thoughts, please feel free to share them.
