@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)</OpenApiDocumentsDirectory>
-    <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,11 +12,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="1.2.22" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\APIWeaver.Generator\APIWeaver.Generator.csproj" PrivateAssets="all" IncludeAssets="build" />
-    <ProjectReference Include="..\..\src\APIWeaver\APIWeaver.csproj"/>
+    <ProjectReference Include="..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj" />
     <ProjectReference Include="..\APIWeaver.Demo.Shared\APIWeaver.Demo.Shared.csproj" />
   </ItemGroup>
 

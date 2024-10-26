@@ -1,11 +1,23 @@
 using APIWeaver;
 using APIWeaver.Demo.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<BookStore>();
 
-builder.Services.AddOpenApiDocument(options =>
+builder.Services.AddApiWeaver("v1", options =>
+{
+    options.AddExample(new Book
+    {
+        BookId = Guid.NewGuid(),
+        Title = "Hola",
+        Description = "A book about nothing",
+        BookType = BookType.Newsletter,
+        Pages = 187
+    });
+});
+builder.Services.AddOpenApi(options =>
 {
     options.AddOperationTransformer<AdditionalDescriptionTransformer>();
     options.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
@@ -13,18 +25,12 @@ builder.Services.AddOpenApiDocument(options =>
 
 var app = builder.Build();
 
-
-if (app.Environment.IsDevelopment())
+app.UseDeveloperExceptionPage();
+app.MapOpenApi();
+app.MapScalarApiReference(o =>
 {
-    app.UseDeveloperExceptionPage();
-    app.MapOpenApi();
-    app.MapSwaggerUi(x => x.OAuth2Options = new OAuth2Options
-    {
-        Realm = "realm",
-        ClientId = "clientId",
-        ClientSecret = "clientSecret"
-    });
-}
+    o.WithTheme(ScalarTheme.Mars);
+});
 
 var bookstoreGroup = app.MapGroup("/books")
     .WithTags("bookstore");

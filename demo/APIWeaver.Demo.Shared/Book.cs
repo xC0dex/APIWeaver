@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace APIWeaver.Demo.Shared;
 
 public class Book
@@ -9,7 +11,8 @@ public class Book
     public string? Description { get; set; }
 
     public required int Pages { get; set; }
-
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public BookType? BookType { get; set; }
 }
 
