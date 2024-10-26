@@ -40,7 +40,7 @@ public static class OpenApiOptionsExtensions
     }
     
     /// <summary>
-    /// Registers a given delegate as an schema transformer on the current <see cref="OpenApiOptions" /> instance.
+    /// Registers a given delegate as a schema transformer on the current <see cref="OpenApiOptions" /> instance.
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
     /// <param name="transformer">The synchronous delegate representing the schema transformer.</param>
