@@ -60,4 +60,9 @@ internal static class OpenApiOperationTransformerContextExtensions
         var fallbackPolicy = await policyProvider.GetFallbackPolicyAsync();
         return fallbackPolicy is not null && fallbackPolicy.Requirements.AnyRequirement();
     }
+    
+    internal static bool HasExample(this OpenApiOperationTransformerContext context)
+    {
+        return context.Description.ActionDescriptor.EndpointMetadata.OfType<ExampleMetadata>().Any();
+    }
 }

@@ -19,7 +19,7 @@ public class SecuritySchemeTransformerTests(WebApplicationFactory<Program> facto
 
         var defaultPath = document.Paths["/api/default"];
         var security = defaultPath.Operations.First().Value.Security;
-        security.Should().BeNull();
+        security.Should().BeEmpty();
 
         var authorizePath = document.Paths["/api/authorize"];
         security = authorizePath.Operations.First().Value.Security;
@@ -27,7 +27,7 @@ public class SecuritySchemeTransformerTests(WebApplicationFactory<Program> facto
 
         var anonymousPath = document.Paths["/api/anonymous"];
         security = anonymousPath.Operations.First().Value.Security;
-        security.Should().BeNull();
+        security.Should().BeEmpty();
 
         var rolePath = document.Paths["/api/role"];
         security = rolePath.Operations.First().Value.Security;
@@ -66,7 +66,7 @@ public class SecuritySchemeTransformerTests(WebApplicationFactory<Program> facto
 
         var anonymousPath = document.Paths["/api/anonymous"];
         security = anonymousPath.Operations.First().Value.Security;
-        security.Should().BeNull();
+        security.Should().BeEmpty();
 
         var rolePath = document.Paths["/api/role"];
         security = rolePath.Operations.First().Value.Security;

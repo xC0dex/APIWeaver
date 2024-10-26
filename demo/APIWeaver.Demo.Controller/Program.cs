@@ -1,6 +1,7 @@
 using APIWeaver;
 using APIWeaver.Demo.Shared;
 using Asp.Versioning;
+using Scalar.AspNetCore;
 using static APIWeaver.BuildHelper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,25 +20,21 @@ builder.Services.AddApiVersioning(options =>
 
 builder.Services.AddSingleton<BookStore>();
 
-
-builder.Services.AddOpenApiDocument("v1", options =>
+builder.Services.AddApiWeaver("v1", options =>
 {
-    // options
-    //     .AddAuthResponse()
-    //     .AddSecurityScheme("Bearer", scheme =>
-    //     {
-    //         scheme.In = ParameterLocation.Header;
-    //         scheme.Type = SecuritySchemeType.OAuth2;
-    //         scheme.Flows = new OpenApiOAuthFlows
-    //         {
-    //             AuthorizationCode = new OpenApiOAuthFlow
-    //             {
-    //                 AuthorizationUrl = new Uri("https://example.com/oauth2/authorize"),
-    //                 TokenUrl = new Uri("https://example.com/oauth2/token")
-    //             }
-    //         };
-    //     })
-        options.AddOperationTransformer<AdditionalDescriptionTransformer>();
+    options.AddExample(new Book
+    {
+        BookId = Guid.NewGuid(),
+        Title = "Hola",
+        Description = "A book about nothing",
+        BookType = BookType.Newsletter,
+        Pages = 187
+    });
+});
+builder.Services.AddOpenApi(options =>
+{
+    options.AddOperationTransformer<AdditionalDescriptionTransformer>();
+    options.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
 });
 
 var app = builder.Build();
@@ -48,18 +45,8 @@ if (IsGenerationContext)
     app.Run();
 }
 
-app.MapOpenApi().AllowAnonymous();
-app.MapSwaggerUi(options =>
-{
-    options
-        .WithTryItOut(false)
-        .WithDeepLinking(false);
-    options.OAuth2Options = new OAuth2Options
-    {
-        ClientId = "client_id",
-        ClientSecret = "client_secret"
-    };
-}).AllowAnonymous();
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseAuthentication();
 app.UseAuthorization();
