@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj" />
-    <ProjectReference Include="..\APIWeaver.Swagger\APIWeaver.Swagger.csproj" />
   </ItemGroup>
 
 </Project>

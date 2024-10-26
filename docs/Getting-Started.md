@@ -69,7 +69,10 @@ if (IsGenerationContext)
 }
 ```
 
-## APIWeaver.Swagger
+## APIWeaver.Swagger (Legacy)
+
+> \[!WARNING\]
+> The `APIWeaver.Swagger` package is considered legacy and does not receive further updates.
 
 The `APIWeaver.Swagger` package provides everything you need to integrate Swagger UI into your application. The package contains the following extension methods to register an OpenAPI document:
 
