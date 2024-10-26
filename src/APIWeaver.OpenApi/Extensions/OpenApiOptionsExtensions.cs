@@ -38,6 +38,22 @@ public static class OpenApiOptionsExtensions
         });
         return options;
     }
+    
+    /// <summary>
+    /// Registers a given delegate as an schema transformer on the current <see cref="OpenApiOptions" /> instance.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="transformer">The synchronous delegate representing the schema transformer.</param>
+    /// <returns>The <see cref="OpenApiOptions" /> instance for further customization.</returns>
+    public static OpenApiOptions AddSchemaTransformer(this OpenApiOptions options, Action<OpenApiSchema, OpenApiSchemaTransformerContext> transformer)
+    {
+        options.AddSchemaTransformer((operation, context, _) =>
+        {
+            transformer(operation, context);
+            return Task.CompletedTask;
+        });
+        return options;
+    }
 
     /// <summary>
     /// Adds the given security scheme to the current <see cref="OpenApiOptions" /> instance.
