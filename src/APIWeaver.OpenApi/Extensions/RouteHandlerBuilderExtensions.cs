@@ -16,6 +16,13 @@ internal static class RouteHandlerBuilderExtensions
         configureExample.Invoke(x);
         return builder;
     }
+    
+    public static IEndpointConventionBuilder WithAnotherExample<T>(this IEndpointConventionBuilder builder, Action<T> configureExample) where T : new()
+    {
+        var x = new T();
+        configureExample.Invoke(x);
+        return builder;
+    }
 }
 
 internal sealed class ExampleMetadata
