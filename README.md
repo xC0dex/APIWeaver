@@ -2,7 +2,7 @@
 
 [![Pipeline](https://github.com/xC0dex/APIWeaver/actions/workflows/ci.yml/badge.svg)](https://github.com/xC0dex/APIWeaver/actions/workflows/ci.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=xC0dex_APIWeaver&metric=coverage)](https://sonarcloud.io/summary/new_code?id=xC0dex_APIWeaver)
-[![NuGet Version](https://img.shields.io/nuget/v/APIWeaver.Swagger)](https://www.nuget.org/packages/APIWeaver.OpenApi/)
+[![NuGet Version](https://img.shields.io/nuget/v/APIWeaver.OpenApi)](https://www.nuget.org/packages/APIWeaver.OpenApi/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/APIWeaver.OpenApi)](https://www.nuget.org/packages/APIWeaver.OpenApi/)
 
 APIWeaver is a powerful and lightweight library built on top of Microsoft's OpenAPI document generation for .NET 9. It provides extension methods and transformers to easily customize your OpenAPI documents. It's designed to be user-friendly, fully configurable, and AOT compatible.
