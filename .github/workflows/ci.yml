@@ -55,10 +55,10 @@ jobs:
           name: coverage-report
           path: test-results
 
-      - name: Upload results to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # - name: Upload results to Codecov
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
   
   analyze:
     runs-on: ubuntu-latest
