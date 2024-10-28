@@ -13,6 +13,7 @@ internal static class BookEndpoints
         books
             .MapGet("/", ([FromServices] BookStore bookStore) => bookStore.GetAll())
             .Produces<Book[]>()
+            .ResponseDescription("An array of books")
             .WithDescription("Get all books");
 
         books
@@ -23,6 +24,8 @@ internal static class BookEndpoints
             })
             .Produces<Book>()
             .Produces(StatusCodes.Status404NotFound)
+            .ResponseDescription("A book")
+            .ResponseDescription("Book not found", StatusCodes.Status404NotFound)
             .WithDescription("Get a book by its ID");
 
         books

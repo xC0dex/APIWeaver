@@ -1,28 +1,20 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace APIWeaver;
 
-internal static class RouteHandlerBuilderExtensions
+/// <summary>
+/// Provides extension methods for the <see cref="RouteHandlerBuilder" /> class.
+/// </summary>
+public static class RouteHandlerBuilderExtensions
 {
-    public static IEndpointConventionBuilder WithExample(this IEndpointConventionBuilder builder)
-    {
-        builder.WithMetadata(ExampleMetadata.Default);
-        return builder;
-    }
-
-    public static IEndpointConventionBuilder WithExample<T>(this IEndpointConventionBuilder builder, Action<T> configureExample) where T : new()
-    {
-        var x = new T();
-        configureExample.Invoke(x);
-        return builder;
-    }
-}
-
-internal sealed class ExampleMetadata
-{
-    public static readonly ExampleMetadata Default = new();
-
-    private ExampleMetadata()
-    {
-    }
+    /// <summary>
+    /// Adds a response description to <see cref="OpenApiOperation" />.
+    /// </summary>
+    /// <param name="builder"><see cref="RouteHandlerBuilder" />.</param>
+    /// <param name="description">The description of the response.</param>
+    /// <param name="statusCode">The HTTP status code of the response. Default is <c>200</c>.</param>
+    /// <returns>The <see cref="RouteHandlerBuilder" /> with the added metadata.</returns>
+    public static RouteHandlerBuilder ResponseDescription(this RouteHandlerBuilder builder, string description, int statusCode = StatusCodes.Status200OK) =>
+        builder.WithMetadata(new ResponseDescriptionAttribute(description, statusCode));
 }

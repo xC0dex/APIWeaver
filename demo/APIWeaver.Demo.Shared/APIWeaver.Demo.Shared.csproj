@@ -4,4 +4,8 @@
       <PackageReference Include="Bogus" Version="35.6.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\APIWeaver.OpenApi\APIWeaver.OpenApi.csproj" />
+    </ItemGroup>
+
 </Project>

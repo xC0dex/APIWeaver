@@ -11,7 +11,7 @@ public class Book
     public string? Description { get; set; }
 
     public required int Pages { get; set; }
-    
+
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public BookType? BookType { get; set; }
 }
