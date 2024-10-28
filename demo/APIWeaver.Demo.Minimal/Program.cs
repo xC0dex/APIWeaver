@@ -1,5 +1,4 @@
 using APIWeaver;
-using APIWeaver.Demo.Minimal;
 using APIWeaver.Demo.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
@@ -10,15 +9,14 @@ builder.Services.AddSingleton<BookStore>();
 builder.Services.AddApiWeaver("v1", options =>
 {
     options
-        .AddExample<Book, BookExampleProvider>()
         .AddExample(new Book
-    {
-        BookId = Guid.NewGuid(),
-        Title = "Hola",
-        Description = "A book about nothing",
-        BookType = BookType.Newsletter,
-        Pages = 187
-    });
+        {
+            BookId = Guid.NewGuid(),
+            Title = "Hola",
+            Description = "A book about nothing",
+            BookType = BookType.Newsletter,
+            Pages = 187
+        });
 });
 builder.Services.AddOpenApi(options =>
 {
