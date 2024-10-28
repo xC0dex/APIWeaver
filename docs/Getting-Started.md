@@ -122,6 +122,44 @@ For Minimal APIs, you can add descriptions with the `ResponseDescription` extens
 .ResponseDescription("The book was not found", StatusCodes.Status404NotFound);
 ```
 
+### Server URL
+
+You can set the server URL for your OpenAPI document:
+
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    // Adds a server URL to the OpenAPI document
+    options.AddServer(new OpenApiServer
+    {
+        Url = "https://api.example.com",
+        Description = "The production API server."
+    });
+
+    // Replaces all existing server URLs with the specified URL
+    options.AddServer("https://api.example.com", true);
+
+    // Add multiple server URLs
+    options.AddServers("https://api.example.com", "https://api2.example.com");
+    // or
+    options.AddServers(
+    {
+        new OpenApiServer
+        {
+            Url = "https://api.example.com"
+        },
+        new OpenApiServer
+        {
+            Url = "https://api2.example.com",
+        }
+    });
+
+});
+```
+
+> [!NOTE]
+> The `AddServers` **always** replaces all existing server URLs with the specified URLs.
+
 ### Other extensions
 
 ```csharp

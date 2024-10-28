@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 
 namespace APIWeaver;
@@ -151,4 +152,71 @@ public static class OpenApiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
     public static OpenApiOptions AddRequestBodyParameterName(this OpenApiOptions options) => options.AddOperationTransformer<RequestBodyParameterNameTransformer>();
+
+    /// <summary>
+    /// Adds a server to the OpenAPI document with the specified URL.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="url">The URL of the server to add.</param>
+    /// <param name="replace">If true, replaces the existing servers; otherwise, adds to the existing servers.</param>
+    public static OpenApiOptions AddServer(this OpenApiOptions options, [StringSyntax(StringSyntaxAttribute.Uri)] string url, bool replace = false)
+    {
+        var server = new OpenApiServer
+        {
+            Url = url
+        };
+        return options.AddServer(server, replace);
+    }
+
+    /// <summary>
+    /// Adds a server to the OpenAPI document.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="server">The <see cref="OpenApiServer"/> instance to add.</param>
+    /// <param name="replace">If true, replaces the existing servers; otherwise, adds to the existing servers.</param>
+    public static OpenApiOptions AddServer(this OpenApiOptions options, OpenApiServer server, bool replace = false)
+    {
+        options.AddDocumentTransformer((document, _) =>
+        {
+            if (replace || document.Servers is null)
+            {
+                document.Servers = [];
+            }
+
+            document.Servers.Add(server);
+        });
+        return options;
+    }
+
+    /// <summary>
+    /// Adds a server to the OpenAPI document.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="urls">The list of server URLs to add.</param>
+    /// <remarks>Existing servers are replaced.</remarks>
+    public static OpenApiOptions AddServers(this OpenApiOptions options, [StringSyntax(StringSyntaxAttribute.Uri)] params IEnumerable<string> urls)
+    {
+        var servers = urls.Select(u => new OpenApiServer
+        {
+            Url = u
+        });
+        return options.AddServers(servers);
+    }
+
+    /// <summary>
+    /// Adds a server to the OpenAPI document.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="servers">The list of <see cref="OpenApiServer"/> instances to add.</param>
+    /// <remarks>Existing servers are replaced.</remarks>
+    public static OpenApiOptions AddServers(this OpenApiOptions options, params IEnumerable<OpenApiServer> servers)
+    {
+        options.AddDocumentTransformer((document, _) =>
+        {
+            document.Servers ??= [];
+
+            document.Servers = servers.ToList();
+        });
+        return options;
+    }
 }
