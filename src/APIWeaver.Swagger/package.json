@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "dependencies": {
-    "swagger-ui-dist": "5.17.14"
-  }
-}

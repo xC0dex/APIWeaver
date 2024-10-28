@@ -4,7 +4,6 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <Description>APIWeaver.MsBuild is a powerful and lightweight library that integrates the APIWeaver.Generator into your .NET applications.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IsAotCompatible>false</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup Condition="$(Configuration) == 'Release'">

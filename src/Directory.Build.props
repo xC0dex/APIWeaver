@@ -6,8 +6,6 @@
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>APIWeaver</RootNamespace>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(CI) == true">
@@ -25,6 +23,8 @@
     <LicenseUrl>https://github.com/xC0dex/APIWeaver/blob/main/LICENSE</LicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <ProductName>APIWeaver</ProductName>
+    <Authors>xC0dex</Authors>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -32,13 +32,13 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <ProductName>APIWeaver</ProductName>
-    <Authors>xC0dex</Authors>
-  </PropertyGroup>
-
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="/"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
   </ItemGroup>
 
 </Project>
