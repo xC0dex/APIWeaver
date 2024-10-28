@@ -1,6 +1,6 @@
 using APIWeaver;
+using APIWeaver.Demo.Minimal;
 using APIWeaver.Demo.Shared;
-using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,19 +33,6 @@ app.MapScalarApiReference(o =>
     o.WithTheme(ScalarTheme.Mars);
 });
 
-var bookstoreGroup = app.MapGroup("/books")
-    .WithTags("bookstore");
-
-bookstoreGroup
-    .MapGet("/", ([FromServices] BookStore bookStore) => bookStore.GetAll())
-    .Produces<Book[]>();
-
-bookstoreGroup
-    .MapPost("/", ([FromServices] BookStore bookStore, Book myCustomBook) => bookStore.Add(myCustomBook))
-    .Produces<Book>();
-
-bookstoreGroup
-    .MapPut("/{bookId:guid}", ([FromServices] BookStore bookStore, Guid bookId, Book book) => bookStore.UpdateById(bookId, book))
-    .Produces<Book>();
+app.MapBookEndpoints();
 
 app.Run();
