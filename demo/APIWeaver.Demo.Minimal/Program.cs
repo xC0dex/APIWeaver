@@ -8,14 +8,15 @@ builder.Services.AddSingleton<BookStore>();
 
 builder.Services.AddApiWeaver("v1", options =>
 {
-    options.AddExample(new Book
-    {
-        BookId = Guid.NewGuid(),
-        Title = "Hola",
-        Description = "A book about nothing",
-        BookType = BookType.Newsletter,
-        Pages = 187
-    });
+    options
+        .AddExample(new Book
+        {
+            BookId = Guid.NewGuid(),
+            Title = "Hola",
+            Description = "A book about nothing",
+            BookType = BookType.Newsletter,
+            Pages = 187
+        });
 });
 builder.Services.AddOpenApi(options =>
 {
