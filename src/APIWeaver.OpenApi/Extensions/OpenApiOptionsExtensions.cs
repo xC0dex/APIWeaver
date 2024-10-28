@@ -38,7 +38,7 @@ public static class OpenApiOptionsExtensions
         });
         return options;
     }
-    
+
     /// <summary>
     /// Registers a given delegate as a schema transformer on the current <see cref="OpenApiOptions" /> instance.
     /// </summary>
