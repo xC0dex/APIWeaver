@@ -57,10 +57,34 @@ builder.Services.AddApiWeaver(options =>
         Title = "APIWeaver",
         Description = "A book about APIWeaver",
         BookType = BookType.Documentation,
-        Pages = 187
+        Pages = 69
     });
 });
 ```
+
+It is also possible to implement the `IExampleProvider` interface to generate an example:
+
+```csharp
+internal sealed class BookExampleProvider: IExampleProvider<Book>
+{
+    public static Book GetExample() => new()
+    {
+        BookId = Guid.NewGuid(),
+        Title = "APIWeaver",
+        Description = "A book about APIWeaver",
+        BookType = BookType.Documentation,
+        Pages = 69
+    };
+}
+
+builder.Services.AddApiWeaver(options =>
+{
+    options.AddExample<Book, BookExampleProvider>();
+});
+```
+
+> [!NOTE]
+> It is not possible to add multiple examples of the same type.
 
 ### Other extensions
 
