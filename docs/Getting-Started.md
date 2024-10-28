@@ -124,6 +124,16 @@ For Minimal APIs, you can add descriptions with the `ResponseDescription` extens
 
 ### Other extensions
 
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    // Adds the request body parameter name to the OpenAPI operation
+    options.AddRequestBodyParameterName();
+});
+```
+
+### Build-time document generation
+
 If you use the `Microsoft.Extensions.ApiDescription.Server` package with build-time document generation, you may want to use the static `BuildHelper` class, which provides a property that indicates whether the current execution context is the document generator. You can use it as follows:
 ```csharp
 using static APIWeaver.BuildHelper;
