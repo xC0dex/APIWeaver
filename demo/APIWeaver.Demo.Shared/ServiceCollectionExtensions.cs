@@ -23,9 +23,10 @@ public static class ServiceCollectionExtensions
 
         services.AddOpenApi(options =>
         {
-            options.AddResponseDescriptions();
-            options.AddOperationTransformer<AdditionalDescriptionTransformer>();
-            options.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
+            options
+                .AddResponseDescriptions()
+                .AddRequestBodyParameterName()
+                .AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
         });
         return services;
     }
