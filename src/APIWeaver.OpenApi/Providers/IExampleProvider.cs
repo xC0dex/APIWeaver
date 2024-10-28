@@ -9,6 +9,6 @@ public interface IExampleProvider<out TExample>
     /// <summary>
     /// Gets an example of the specified type.
     /// </summary>
-    /// <returns>An example of type <typeparamref name="TExample"/>.</returns>
+    /// <returns>An example of type <typeparamref name="TExample" />.</returns>
     static abstract TExample GetExample();
 }
