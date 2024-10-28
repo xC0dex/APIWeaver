@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Any;
 
 namespace APIWeaver.Transformers.Schema;
 
@@ -13,12 +12,21 @@ internal sealed class ExampleSchemaTransformer : IOpenApiSchemaTransformer
         var apiWeaverOptions = context.ApplicationServices.GetRequiredService<IOptionsMonitor<ApiWeaverOptions>>().Get(context.DocumentName);
         if (apiWeaverOptions.Examples.TryGetValue(type, out var example))
         {
+            var schemaExampleCache = context.ApplicationServices.GetRequiredKeyedService<SchemaExampleCache>(context.DocumentName);
+            var openApiExample = schemaExampleCache.Get(type);
+            if (openApiExample is not null)
+            {
+                schema.Example = openApiExample;
+                return Task.CompletedTask;
+            }
+
             var json = JsonSerializer.Serialize(example, context.JsonTypeInfo);
             using var document = JsonDocument.Parse(json);
             var element = document.RootElement;
-            var openApiExample = MapToOpenApiType(element);
+            openApiExample = MapToOpenApiType(element);
             if (openApiExample is not null)
             {
+                schemaExampleCache.Add(type, openApiExample);
                 schema.Example = openApiExample;
             }
         }

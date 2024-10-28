@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Extensions;
 
 namespace APIWeaver;

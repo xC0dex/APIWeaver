@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace APIWeaver;
 
-internal sealed class ExampleOperationTransformer: IOpenApiOperationTransformer
+internal sealed class ExampleOperationTransformer : IOpenApiOperationTransformer
 {
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
@@ -16,8 +16,8 @@ internal sealed class ExampleOperationTransformer: IOpenApiOperationTransformer
                     var type = requestBodyParameter.Type;
                 }
             }
-
         }
+
         return Task.CompletedTask;
     }
 }
