@@ -6,14 +6,11 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+*"
 
 jobs:
-  node-setup:
-    uses: xC0dex/APIWeaver/.github/workflows/node-assets.yml@main
 #  publish-generator:
 #    uses: xC0dex/APIWeaver/.github/workflows/publish-generator.yml@main
   publish:
     runs-on: ubuntu-latest
-    needs:
-      - node-setup
+#    needs:
 #      - publish-generator
     strategy:
       matrix:
@@ -25,12 +22,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Node.js modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
-          path: 'src/APIWeaver.Swagger/node_modules'
 
 #      - name: Download APIWeaver.Generator
 #        if: ${{ matrix.project }} == 'APIWeaver.MsBuild'
