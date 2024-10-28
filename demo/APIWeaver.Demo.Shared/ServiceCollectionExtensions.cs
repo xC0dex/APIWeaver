@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
                     Pages = 187
                 });
         });
-        
+
         services.AddOpenApi(options =>
         {
             options.AddResponseDescriptions();
