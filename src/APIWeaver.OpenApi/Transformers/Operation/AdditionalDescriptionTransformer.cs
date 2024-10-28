@@ -7,7 +7,6 @@ namespace APIWeaver;
 /// </summary>
 internal sealed class AdditionalDescriptionTransformer : IOpenApiOperationTransformer
 {
-    private const string CustomNameKey = "x-name";
 
     /// <inheritdoc />
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
