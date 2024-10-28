@@ -98,7 +98,7 @@ builder.Services.AddOpenApi(options =>
 });
 ```
 
-In Controllers, use the `ResponseDescriptionAttribute` to define descriptions for specific responses:
+In Controllers, use the `[ResponseDescription]` attribute to define descriptions for specific responses:
 
 ```csharp
 [HttpGet("{id:guid}")]
