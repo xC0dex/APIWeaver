@@ -10,7 +10,11 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 app.MapOpenApi();
-app.MapScalarApiReference(o => o.WithTheme(ScalarTheme.Mars));
+app.MapScalarApiReference(o =>
+{
+    o.AddServer("https://example.com");
+    o.WithTheme(ScalarTheme.Mars);
+});
 
 app.MapBookEndpoints();
 
