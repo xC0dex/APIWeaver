@@ -12,6 +12,7 @@ public class BookController(BookStore bookStore) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<Book>>(StatusCodes.Status200OK, "application/json")]
+    [ResponseDescription("An array of books")]
     public IActionResult GetBooks()
     {
         return Ok(bookStore.GetAll());
@@ -20,6 +21,8 @@ public class BookController(BookStore bookStore) : ControllerBase
     [HttpGet("{id:guid}")]
     [ProducesResponseType<Book>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ResponseDescription("A book")]
+    [ResponseDescription("Book not found", StatusCodes.Status404NotFound)]
     public IActionResult GetBook(Guid id)
     {
         var book = bookStore.GetById(id);
