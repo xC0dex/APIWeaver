@@ -86,6 +86,42 @@ builder.Services.AddApiWeaver(options =>
 > [!NOTE]
 > It is not possible to add multiple examples of the same type.
 
+### Response descriptions
+
+You can easily add and customize response descriptions for your OpenAPI operations
+
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    // Registers transformers to enable response descriptions
+    options.AddResponseDescriptions();
+});
+```
+
+In Controllers, use the `ResponseDescriptionAttribute` to define descriptions for specific responses:
+
+```csharp
+[HttpGet("{id:guid}")]
+[ProducesResponseType<Book>(StatusCodes.Status200OK)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+[ResponseDescription("The requested book")]
+[ResponseDescription("The book was not found", StatusCodes.Status404NotFound)]
+public IActionResult GetBook(Guid id)
+```
+
+For Minimal APIs, you can add descriptions with the `ResponseDescription` extension method:
+
+```csharp
+.MapGet("/{bookId:guid}", (Guid bookId) =>
+{
+    // Get the book by ID
+})
+.Produces<Book>()
+.Produces(StatusCodes.Status404NotFound)
+.ResponseDescription("The requested book")
+.ResponseDescription("The book was not found", StatusCodes.Status404NotFound);
+```
+
 ### Other extensions
 
 If you use the `Microsoft.Extensions.ApiDescription.Server` package with build-time document generation, you may want to use the static `BuildHelper` class, which provides a property that indicates whether the current execution context is the document generator. You can use it as follows:
