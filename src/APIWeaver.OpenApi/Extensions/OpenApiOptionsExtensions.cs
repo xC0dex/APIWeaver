@@ -145,4 +145,10 @@ public static class OpenApiOptionsExtensions
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
     public static OpenApiOptions AddResponseDescriptions(this OpenApiOptions options) => options.AddOperationTransformer<ResponseDescriptionTransformer>();
+
+    /// <summary>
+    /// Adds the name of the request body parameter to the <see cref="OpenApiOperation"/> by adding the <c>x-name</c> key to the operation.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    public static OpenApiOptions AddRequestBodyParameterName(this OpenApiOptions options) => options.AddOperationTransformer<RequestBodyParameterNameTransformer>();
 }

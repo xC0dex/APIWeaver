@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.OpenApi.Extensions;
 
 namespace APIWeaver;
 
 /// <summary>
 /// Adds additional description to the operation.
 /// </summary>
-public sealed class AdditionalDescriptionTransformer : IOpenApiOperationTransformer
+internal sealed class AdditionalDescriptionTransformer : IOpenApiOperationTransformer
 {
     private const string CustomNameKey = "x-name";
 
@@ -19,16 +17,6 @@ public sealed class AdditionalDescriptionTransformer : IOpenApiOperationTransfor
         {
             var operationName = $"{controllerActionDescriptor.ControllerName}_{controllerActionDescriptor.ActionName}";
             operation.OperationId = operationName;
-        }
-
-        // Add the name of the request body parameter to the request body
-        if (operation.RequestBody is not null)
-        {
-            var requestBodyParameter = context.Description.ParameterDescriptions.FirstOrDefault(p => p.Source == BindingSource.Body);
-            if (requestBodyParameter is not null)
-            {
-                operation.RequestBody.AddExtension(CustomNameKey, new OpenApiString(requestBodyParameter.Name));
-            }
         }
 
         return Task.CompletedTask;
