@@ -20,6 +20,7 @@ builder.Services.AddApiWeaver("v1", options =>
 });
 builder.Services.AddOpenApi(options =>
 {
+    options.AddResponseDescriptions();
     options.AddOperationTransformer<AdditionalDescriptionTransformer>();
     options.AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");
 });

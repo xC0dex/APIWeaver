@@ -139,4 +139,10 @@ public static class OpenApiOptionsExtensions
         options.AddOperationTransformer<AuthResponseOperationTransformer>();
         return options;
     }
+
+    /// <summary>
+    /// Adds required transformers to support the <see cref="ResponseDescriptionAttribute" />.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    public static OpenApiOptions AddResponseDescriptions(this OpenApiOptions options) => options.AddOperationTransformer<ResponseDescriptionTransformer>();
 }
