@@ -8,5 +8,5 @@ public sealed class ApiWeaverOptions
     /// <summary>
     /// Gets or sets the examples dictionary.
     /// </summary>
-    internal Dictionary<Type, object?> Examples { get; } = [];
+    internal Dictionary<Type, object> Examples { get; } = [];
 }

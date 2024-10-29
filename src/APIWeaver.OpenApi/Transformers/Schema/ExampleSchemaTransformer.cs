@@ -23,7 +23,7 @@ internal sealed class ExampleSchemaTransformer : IOpenApiSchemaTransformer
                     exampleValue = Guid.Parse(exampleValue.ToString() ?? throw new InvalidOperationException($"The example value for type {nameof(Guid)} must be a string."));
                 }
 
-                ApplyExample(type, exampleValue, schema, context);
+                ApplyExample(exampleValue, schema, context);
                 return Task.CompletedTask;
             }
         }
@@ -31,30 +31,28 @@ internal sealed class ExampleSchemaTransformer : IOpenApiSchemaTransformer
         var apiWeaverOptions = context.ApplicationServices.GetRequiredService<IOptionsMonitor<ApiWeaverOptions>>().Get(context.DocumentName);
         if (apiWeaverOptions.Examples.TryGetValue(type, out var example))
         {
-            ApplyExample(type, example, schema, context);
+            ApplyExample(example, schema, context);
         }
 
         return Task.CompletedTask;
     }
 
-    private static void ApplyExample(Type type, object? example, OpenApiSchema schema, OpenApiSchemaTransformerContext context)
+    private static void ApplyExample(object example, OpenApiSchema schema, OpenApiSchemaTransformerContext context)
     {
         var schemaExampleCache = context.ApplicationServices.GetRequiredKeyedService<SchemaExampleCache>(context.DocumentName);
-        var openApiExample = schemaExampleCache.Get(type);
+        var openApiExample = schemaExampleCache.GetOrAdd(example, () => GenerateExample(example, context));
         if (openApiExample is not null)
         {
             schema.Example = openApiExample;
         }
+    }
 
+    private static IOpenApiAny? GenerateExample(object? example, OpenApiSchemaTransformerContext context)
+    {
         var json = JsonSerializer.Serialize(example, context.JsonTypeInfo);
         using var document = JsonDocument.Parse(json);
         var element = document.RootElement;
-        openApiExample = MapToOpenApiType(element);
-        if (openApiExample is not null)
-        {
-            schemaExampleCache.Add(type, openApiExample);
-            schema.Example = openApiExample;
-        }
+        return MapToOpenApiType(element);
     }
 
     private static IOpenApiAny? MapToOpenApiType(JsonElement element)

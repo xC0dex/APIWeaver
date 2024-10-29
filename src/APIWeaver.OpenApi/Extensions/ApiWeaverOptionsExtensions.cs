@@ -12,7 +12,7 @@ public static class ApiWeaverOptionsExtensions
     /// <param name="options"><see cref="ApiWeaverOptions" />.</param>
     /// <param name="example">The example to add.</param>
     /// <exception cref="InvalidOperationException">An example for the type has already been added.</exception>
-    public static ApiWeaverOptions AddExample<TExample>(this ApiWeaverOptions options, TExample example)
+    public static ApiWeaverOptions AddExample<TExample>(this ApiWeaverOptions options, TExample example) where TExample : notnull
     {
         var success = options.Examples.TryAdd(typeof(TExample), example);
         if (!success)
@@ -30,7 +30,7 @@ public static class ApiWeaverOptionsExtensions
     /// <typeparam name="TExample">The type of the example.</typeparam>
     /// <typeparam name="TExampleProvider">The implementation of <see cref="IExampleProvider{TExample}" />.</typeparam>
     /// <exception cref="InvalidOperationException">An example for the type has already been added.</exception>
-    public static ApiWeaverOptions AddExample<TExample, TExampleProvider>(this ApiWeaverOptions options) where TExampleProvider : IExampleProvider<TExample>
+    public static ApiWeaverOptions AddExample<TExample, TExampleProvider>(this ApiWeaverOptions options) where TExampleProvider : IExampleProvider<TExample> where TExample : notnull
     {
         var example = TExampleProvider.GetExample();
         var success = options.Examples.TryAdd(typeof(TExample), example);
