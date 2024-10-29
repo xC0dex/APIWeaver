@@ -21,9 +21,11 @@ public static class ServiceCollectionExtensions
                 });
         });
 
+        services.AddHttpContextAccessor();
         services.AddOpenApi(options =>
         {
             options
+                .AddServerFromRequest()
                 .AddResponseDescriptions()
                 .AddRequestBodyParameterName()
                 .AddDocumentTransformer((document, _) => document.Info.Title = "Book Store API");

@@ -3,10 +3,10 @@ using Microsoft.OpenApi.Extensions;
 
 namespace APIWeaver;
 
-internal sealed class RequestBodyParameterNameTransformer: IOpenApiOperationTransformer
+internal sealed class RequestBodyParameterNameTransformer : IOpenApiOperationTransformer
 {
     private const string NameKey = "x-name";
-    
+
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         if (operation.RequestBody is not null)
