@@ -9,10 +9,12 @@
 
 ## Features
 
-- Authentication: Add security schemes and responses to OpenAPI documents
-- Examples: Add pre-configured examples for specific types in OpenAPI documents
-- Native AOT compatibility
-- Other useful extension methods & transformers for OpenAPI documents, operations and schemes
+- **Authentication**: Add security schemes and responses to your OpenAPI documents
+- **Examples**: Add pre-configured examples for types and parameters
+- **Response Descriptions**: Add descriptions to responses
+- **Servers**: Add and manage custom server URLs in OpenAPI documents
+- **Native AOT compatibility**: Fully compatible with native AOT 
+- **Additional Extensions**: More extension methods and transformers for customizing OpenAPI documents, operations, and schemes
 
 ## 🚀 Getting Started
 
