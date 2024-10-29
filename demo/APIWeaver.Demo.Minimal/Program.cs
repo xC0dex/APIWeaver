@@ -12,7 +12,6 @@ app.UseDeveloperExceptionPage();
 app.MapOpenApi();
 app.MapScalarApiReference(o =>
 {
-    o.AddServer("https://example.com");
     o.WithTheme(ScalarTheme.Mars);
 });
 
