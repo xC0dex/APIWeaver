@@ -129,17 +129,7 @@ You can set the server URL for your OpenAPI document:
 ```csharp
 builder.Services.AddOpenApi(options =>
 {
-    // Adds a server URL to the OpenAPI document
-    options.AddServer(new OpenApiServer
-    {
-        Url = "https://api.example.com",
-        Description = "The production API server."
-    });
-
-    // Replaces all existing server URLs with the specified URL
-    options.AddServer("https://api.example.com", true);
-
-    // Add multiple server URLs
+    // Add server URLs to the OpenAPI document
     options.AddServers("https://api.example.com", "https://api2.example.com");
     // or
     options.AddServers(
@@ -158,7 +148,7 @@ builder.Services.AddOpenApi(options =>
 ```
 
 > [!NOTE]
-> The `AddServers` **always** replaces all existing server URLs with the specified URLs.
+> The `AddServers` replaces all existing servers in the OpenAPI document.
 
 ### Other extensions
 
