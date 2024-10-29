@@ -149,7 +149,7 @@ public static class OpenApiOptionsExtensions
     public static OpenApiOptions AddResponseDescriptions(this OpenApiOptions options) => options.AddOperationTransformer<ResponseDescriptionTransformer>();
 
     /// <summary>
-    /// Adds the name of the request body parameter to the <see cref="OpenApiOperation"/> by adding the <c>x-name</c> key to the operation.
+    /// Adds the name of the request body parameter to the <see cref="OpenApiOperation" /> by adding the <c>x-name</c> key to the operation.
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
     public static OpenApiOptions AddRequestBodyParameterName(this OpenApiOptions options) => options.AddOperationTransformer<RequestBodyParameterNameTransformer>();
@@ -173,14 +173,11 @@ public static class OpenApiOptionsExtensions
     /// Adds a server to the OpenAPI document.
     /// </summary>
     /// <param name="options"><see cref="OpenApiOptions" />.</param>
-    /// <param name="servers">The list of <see cref="OpenApiServer"/> instances to add.</param>
+    /// <param name="servers">The list of <see cref="OpenApiServer" /> instances to add.</param>
     /// <remarks>Existing servers are replaced.</remarks>
     public static OpenApiOptions AddServer(this OpenApiOptions options, params IEnumerable<OpenApiServer> servers)
     {
-        options.AddDocumentTransformer((document, _) =>
-        {
-            document.Servers = [..servers];
-        });
+        options.AddDocumentTransformer((document, _) => { document.Servers = [..servers]; });
         return options;
     }
 
@@ -194,7 +191,6 @@ public static class OpenApiOptionsExtensions
     {
         options.AddDocumentTransformer((document, context) =>
         {
-
             var contextAccessor = context.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
             var httpContext = contextAccessor.HttpContext;
             if (httpContext is not null)

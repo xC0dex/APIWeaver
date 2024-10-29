@@ -7,7 +7,6 @@ namespace APIWeaver;
 /// </summary>
 internal sealed class AdditionalDescriptionTransformer : IOpenApiOperationTransformer
 {
-
     /// <inheritdoc />
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
