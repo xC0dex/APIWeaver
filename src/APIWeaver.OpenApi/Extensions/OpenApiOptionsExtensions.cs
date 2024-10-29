@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace APIWeaver;
 
@@ -178,9 +179,34 @@ public static class OpenApiOptionsExtensions
     {
         options.AddDocumentTransformer((document, _) =>
         {
-            document.Servers ??= [];
+            document.Servers = [..servers];
+        });
+        return options;
+    }
 
-            document.Servers = servers.ToList();
+    /// <summary>
+    /// Adds a server to the OpenAPI document based on the current HTTP request.
+    /// </summary>
+    /// <param name="options"><see cref="OpenApiOptions" />.</param>
+    /// <param name="description">An optional description for the server.</param>
+    /// <remarks>Ensure that the <see cref="IHttpContextAccessor" /> is registered in the service collection.</remarks>
+    public static OpenApiOptions AddServerFromRequest(this OpenApiOptions options, string? description = null)
+    {
+        options.AddDocumentTransformer((document, context) =>
+        {
+
+            var contextAccessor = context.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+            var httpContext = contextAccessor.HttpContext;
+            if (httpContext is not null)
+            {
+                var url = httpContext.Request.GetRequestPath();
+                var server = new OpenApiServer
+                {
+                    Url = url,
+                    Description = description
+                };
+                document.Servers = [server];
+            }
         });
         return options;
     }
