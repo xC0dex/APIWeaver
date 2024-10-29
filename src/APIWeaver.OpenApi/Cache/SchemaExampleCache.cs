@@ -1,10 +1,8 @@
-using System.Collections.Concurrent;
-
 namespace APIWeaver;
 
 internal sealed class SchemaExampleCache
 {
-    private readonly ConcurrentDictionary<object, IOpenApiAny> _cache = new();
+    private readonly Dictionary<object, IOpenApiAny> _cache = new();
 
     private readonly Lock _lock = new();
 
