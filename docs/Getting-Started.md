@@ -46,7 +46,7 @@ The `AddSecurityScheme` method adds a security scheme to the OpenAPI document an
 
 ### Examples
 
-You can also add pre-configured examples for specific types in your OpenAPI document:
+Add pre-configured examples for specific types in your OpenAPI document:
 
 ```csharp
 builder.Services.AddApiWeaver(options =>
@@ -62,7 +62,7 @@ builder.Services.AddApiWeaver(options =>
 });
 ```
 
-It is also possible to implement the `IExampleProvider` interface to generate an example:
+You can also implement the `IExampleProvider` interface to generate examples:
 
 ```csharp
 internal sealed class BookExampleProvider: IExampleProvider<Book>
@@ -84,7 +84,23 @@ builder.Services.AddApiWeaver(options =>
 ```
 
 > [!NOTE]
-> It is not possible to add multiple examples of the same type.
+> Multiple examples of the same type cannot be added
+
+Add examples for specific parameters using the `[Example]` attribute:
+
+```csharp
+books.MapGet("/{bookId:guid}", ([Example("115f3511-812d-4062-a212-5a197d23acdc")] Guid bookId) =>
+{
+    // Get the book by ID
+});
+books.MapGet("/", ([Example(69)] [FromQuery] int pages) =>
+{
+    // Get books by pages
+});
+```
+
+> [!NOTE]
+> The `[Example]` attribute only works for primitive types.
 
 ### Response descriptions
 

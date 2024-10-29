@@ -1,15 +1,27 @@
-using System.Collections.Concurrent;
-
 namespace APIWeaver;
 
 internal sealed class SchemaExampleCache
 {
-    private readonly ConcurrentDictionary<Type, IOpenApiAny> _cache = new();
+    private readonly Dictionary<object, IOpenApiAny> _cache = new();
 
-    public void Add(Type type, IOpenApiAny example)
+    private readonly Lock _lock = new();
+
+    public IOpenApiAny? GetOrAdd(object example, Func<IOpenApiAny?> factory)
     {
-        _cache[type] = example;
-    }
+        lock (_lock)
+        {
+            if (_cache.TryGetValue(example, out var openApiExample))
+            {
+                return openApiExample;
+            }
 
-    public IOpenApiAny? Get(Type type) => _cache.GetValueOrDefault(type);
+            openApiExample = factory();
+            if (openApiExample is not null)
+            {
+                _cache[example] = openApiExample;
+            }
+
+            return openApiExample;
+        }
+    }
 }

@@ -1,6 +1,5 @@
 using APIWeaver.Transformers.Schema;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace APIWeaver;
 
@@ -26,13 +25,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddOptions<ApiWeaverOptions>(documentName).Configure(options);
         services.AddKeyedSingleton<SchemaExampleCache>(documentName);
-        services.AddOptions<OpenApiOptions>(documentName).Configure<IOptionsMonitor<ApiWeaverOptions>>((openApiOptions, apiWeaverOptions) =>
+        services.Configure<OpenApiOptions>(documentName, openApiOptions =>
         {
-            var useExamples = apiWeaverOptions.Get(documentName).Examples.Count > 0;
-            if (useExamples)
-            {
-                openApiOptions.AddSchemaTransformer<ExampleSchemaTransformer>();
-            }
+            openApiOptions.AddSchemaTransformer<ExampleSchemaTransformer>();
         });
         return services;
     }

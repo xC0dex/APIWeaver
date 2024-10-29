@@ -17,7 +17,7 @@ internal static class BookEndpoints
             .WithDescription("Get all books");
 
         books
-            .MapGet("/{bookId:guid}", ([FromServices] BookStore bookStore, Guid bookId) =>
+            .MapGet("/{bookId:guid}", ([FromServices] BookStore bookStore, [Example("115f3511-812d-4062-a212-5a197d23acdc")] Guid bookId) =>
             {
                 var book = bookStore.GetById(bookId);
                 return book is null ? Results.NotFound() : Results.Ok(book);
@@ -39,7 +39,7 @@ internal static class BookEndpoints
             .WithDescription("Create a new book");
 
         books
-            .MapPut("/{bookId:guid}", ([FromServices] BookStore bookStore, Guid bookId, Book book) =>
+            .MapPut("/{bookId:guid}", ([FromServices] BookStore bookStore, Guid bookId, Book book, [Example(69)] [FromQuery] int age) =>
             {
                 var updatedBook = bookStore.UpdateById(bookId, book);
                 return updatedBook is null ? Results.NotFound() : Results.Ok(updatedBook);
