@@ -124,14 +124,15 @@ For Minimal APIs, you can add descriptions with the `ResponseDescription` extens
 
 ### Server URL
 
-You can set the server URL for your OpenAPI document:
+Set server URLs for your OpenAPI document:
 
 ```csharp
 builder.Services.AddOpenApi(options =>
 {
-    // Add server URLs to the OpenAPI document
+    // Add server URLs directly to the OpenAPI document
     options.AddServers("https://api.example.com", "https://api2.example.com");
-    // or
+    
+    // Or add servers using OpenApiServer
     options.AddServers(
     {
         new OpenApiServer
@@ -144,11 +145,17 @@ builder.Services.AddOpenApi(options =>
         }
     });
 
+    // Adds the server URL dynamically using the HttpContext.
+    options.AddServerFromRequest();
+
 });
 ```
 
 > [!NOTE]
-> The `AddServers` replaces all existing servers in the OpenAPI document.
+> Any `AddServers` method replaces all existing server URLs in the OpenAPI document
+
+> [!NOTE]
+> To use `AddServerFromRequest`, ensure `IHttpContextAccessor` is registered in the service collection.
 
 ### Other extensions
 
