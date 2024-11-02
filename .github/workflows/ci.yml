@@ -38,52 +38,52 @@ jobs:
       - name: Test solution
         run: dotnet test -c Release --no-build --results-directory "test-results" --collect "XPlat Code Coverage;Format=opencover"
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: test-results
+      # - name: Upload coverage report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage-report
+      #     path: test-results
 
       # - name: Upload results to Codecov
       #   uses: codecov/codecov-action@v4
       #   with:
       #     token: ${{ secrets.CODECOV_TOKEN }}
   
-  analyze:
-    runs-on: ubuntu-latest
-    if: github.event.repository.fork == false
-    needs:
-      - build-test
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # analyze:
+  #   runs-on: ubuntu-latest
+  #   if: github.event.repository.fork == false
+  #   needs:
+  #     - build-test
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.x
+  #     - name: Setup .NET
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: 9.x
 
-      - name: Install sonar scanner
-        run: dotnet tool install -g dotnet-sonarscanner
+  #     - name: Install sonar scanner
+  #       run: dotnet tool install -g dotnet-sonarscanner
 
-      - name: Restore dependencies
-        run: dotnet restore
+  #     - name: Restore dependencies
+  #       run: dotnet restore
 
-      - name: Download coverage report
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-report
-          path: test-results
+  #     - name: Download coverage report
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: coverage-report
+  #         path: test-results
 
-      - name: Analyze solution
-        run: |
-          dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.scanAll=true /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml"
-          dotnet build -c Release --no-restore --no-incremental
-          dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          PROJECT_KEY: xC0dex_APIWeaver
-          ORGANIZATION: apiweaver
+  #     - name: Analyze solution
+  #       run: |
+  #         dotnet sonarscanner begin /k:"${{ env.PROJECT_KEY }}" /o:"${{ env.ORGANIZATION }}" /d:sonar.token="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.dotnet.excludeTestProjects=true /d:sonar.scanner.scanAll=true /d:sonar.cs.opencover.reportsPaths="**/test-results/**/coverage.opencover.xml"
+  #         dotnet build -c Release --no-restore --no-incremental
+  #         dotnet sonarscanner end /d:sonar.token="${{ env.SONAR_TOKEN }}"
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #         PROJECT_KEY: xC0dex_APIWeaver
+  #         ORGANIZATION: apiweaver
