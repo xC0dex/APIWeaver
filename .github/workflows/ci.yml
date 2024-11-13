@@ -26,8 +26,6 @@ jobs:
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.x
 
       - name: Restore dependencies
         run: dotnet restore
@@ -62,8 +60,6 @@ jobs:
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.x
 
       - name: Install sonar scanner
         run: dotnet tool install -g dotnet-sonarscanner
