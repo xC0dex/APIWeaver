@@ -25,7 +25,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: xC0dex/setup-dotnet@feat/dotnet-runtime-support
+        with:
+          dotnet-version: 10.x
+          dotnet-runtime: |
+            8.x
+            9.x   
 
       - name: Restore dependencies
         run: dotnet restore
