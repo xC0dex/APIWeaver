@@ -1,3 +1,5 @@
+
+
 # APIWeaver
 
 [![Pipeline](https://github.com/xC0dex/APIWeaver/actions/workflows/ci.yml/badge.svg)](https://github.com/xC0dex/APIWeaver/actions/workflows/ci.yml)
@@ -34,7 +36,7 @@ Your feedback is important to make APIWeaver even better! If you have ideas for 
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to open issues or pull requests.
+Contributions are welcome! Feel free to open issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## License
 
